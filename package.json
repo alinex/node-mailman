@@ -1,10 +1,15 @@
 {
   "name": "alinex-mailman",
   "version": "0.0.0",
-  "description": "",
+  "description": "Email based command interface",
   "copyright": "Alexander Schilling 2016",
   "private": false,
-  "keywords": [],
+  "keywords": [
+    "email",
+    "control",
+    "exec",
+    "imap"
+  ],
   "homepage": "http://alinex.github.io/node-mailman/",
   "repository": {
     "type": "git",
@@ -19,11 +24,19 @@
   "contributors": [],
   "license": "Apache-2.0",
   "main": "./lib/index.js",
+  "bin": {
+    "mailman": "./bin/mailman"
+  },
+  "man": "./man/mailman.1",
   "scripts": {
     "prepublish": "node_modules/.bin/builder -c compile --uglify",
-    "test": "node_modules/.bin/builder -c test"
+    "test": "node_modules/.bin/builder -c test",
+    "start": "bin/mailman"
   },
+  "preferGlobal": true,
   "directories": {
+    "bin": "./bin",
+    "man": "./man",
     "lib": "./lib"
   },
   "dependencies": {},

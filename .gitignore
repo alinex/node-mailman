@@ -11,5 +11,5 @@
 /var/lib/
 /var/local/
 npm-debug.log
-man/
-report/
+/man/
+/report/
