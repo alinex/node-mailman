@@ -12,11 +12,11 @@ config = require 'alinex-config'
 Exec = require 'alinex-exec'
 database = require 'alinex-database'
 # include classes and helpers
-logo = require('./logo') 'Monitoring Application'
+logo = require('./logo') 'Email Control Manager'
 monitor = require './index'
 #Controller = require './controller'
 
-process.title = 'Monitor'
+process.title = 'MailMan'
 
 # Start argument parsing
 # -------------------------------------------------
@@ -26,11 +26,8 @@ argv = yargs
   Usage: $0 [-vCclt] <controller...>
   """)
 # examples
-.example('$0', 'to simply check all services once')
-.example('$0 fileserv', 'to call a single service or group')
+.example('$0', 'to simply run the manager once')
 .example('$0 -d -C >/dev/null', 'run continuously as a daemon')
-.example('$0 -tvvv', 'make a try run and show all details')
-.example('$0 -i', 'run in interactive mode')
 # general options
 .alias('C', 'nocolors')
 .describe('C', 'turn of color output')
@@ -40,22 +37,12 @@ argv = yargs
 .count('verbose')
 # controller run
 .alias('t', 'try')
-.describe('t', 'try run which prevent actors to run')
+.describe('t', 'try run which wont change the emails')
 .boolean('t')
 # daemon
 .alias('d', 'daemon')
 .describe('d', 'run as a daemon')
 .boolean('d')
-# exploring with special data
-.alias('c', 'command')
-.describe('c', 'command to execute')
-.array('c')
-.alias('j', 'json')
-.describe('j', 'json data for the command')
-# interactive mode
-.alias('i', 'interactive')
-.describe('i', 'interactive mode')
-.boolean('i')
 
 .describe('ssh', 'info: ssh connection url')
 .describe('key', 'info: ssh private key to connect')
