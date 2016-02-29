@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>cli.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../";
+    var thisFile = "home/alex/github/node-mailman/src/cli.coffee";
+    var defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head
+<body>
+  <nav>
+<div class="logo"><a href="http://alinex.github.io"
+  onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'"
+  onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png"
+    width="150" title="Alinex Universe Homepage" />
+  </a>
+  <img src="http://alinex.github.io/images/Alinex-200.png"
+    style="display:none" alt="preloading" />
+</div>
+<div class="links">
+  <a href="http://alinex.github.io/blog"
+    class="btn btn-primary"><span class="glyphicon-pencil"></span> Blog</a>
+  <a href="http://alinex.github.io/develop"
+    class="btn btn-primary"><span class="glyphicon-book"></span> Develop</a>
+  <a href="http://alinex.github.io/code.html"
+    class="btn btn-warning"><span class="glyphicon-cog"></span> Code</a>
+</div>
+</nav><div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+      <div class="heading h1">
+        <a href="#main-class">Main class</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#node-modules">Node Modules</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#start-argument-parsing">Start argument parsing</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#error-management">Error management</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#main-routine">Main routine</a>
+      </div>
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-mailman" title="Fork me on GitHub"></a>
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="main-class">
+  <h1>
+    <a href="#main-class" name="main-class" class="pilcrow"></a>
+Main class
+  </h1>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="node-modules">
+  <h2>
+    <a href="#node-modules" name="node-modules" class="pilcrow"></a>
+Node Modules
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
+</div>
+<p>include base modules</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">yargs = <span class="hljs-built_in">require</span> <span class="hljs-string">'yargs'</span>
+chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'chalk'</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
+</div>
+<p>include alinex modules</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span>
+Exec = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-exec'</span>
+database = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-database'</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5"></a>
+</div>
+<p>include classes and helpers</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">logo = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./logo'</span>) <span class="hljs-string">'Email Control Manager'</span>
+monitor = <span class="hljs-built_in">require</span> <span class="hljs-string">'./index'</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6"></a>
+</div>
+<p>Controller = require './controller'</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+process.title = <span class="hljs-string">'MailMan'</span>
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="start-argument-parsing">
+  <h2>
+    <a href="#start-argument-parsing" name="start-argument-parsing" class="pilcrow"></a>
+Start argument parsing
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">argv = yargs
+.usage(<span class="hljs-string">"""
+</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8"></a>
+</div>
+<p>{logo}</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-attribute">Usage</span>: $<span class="hljs-number">0</span> [-vCclt] &lt;controller...&gt;
+  <span class="hljs-string">""")
+</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9"></a>
+</div>
+<p>examples</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">.example(<span class="hljs-string">'$0'</span>, <span class="hljs-string">'to simply run the manager once'</span>)
+.example(<span class="hljs-string">'$0 -d -C &gt;/dev/null'</span>, <span class="hljs-string">'run continuously as a daemon'</span>)
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10"></a>
+</div>
+<p>general options</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">.alias(<span class="hljs-string">'C'</span>, <span class="hljs-string">'nocolors'</span>)
+.describe(<span class="hljs-string">'C'</span>, <span class="hljs-string">'turn of color output'</span>)
+.boolean(<span class="hljs-string">'C'</span>)
+.alias(<span class="hljs-string">'v'</span>, <span class="hljs-string">'verbose'</span>)
+.describe(<span class="hljs-string">'v'</span>, <span class="hljs-string">'run in verbose mode (multiple makes more verbose)'</span>)
+.count(<span class="hljs-string">'verbose'</span>)
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11"></a>
+</div>
+<p>controller run</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">.alias(<span class="hljs-string">'t'</span>, <span class="hljs-string">'try'</span>)
+.describe(<span class="hljs-string">'t'</span>, <span class="hljs-string">'try run which wont change the emails'</span>)
+.boolean(<span class="hljs-string">'t'</span>)
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12"></a>
+</div>
+<p>daemon</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">.alias(<span class="hljs-string">'d'</span>, <span class="hljs-string">'daemon'</span>)
+.describe(<span class="hljs-string">'d'</span>, <span class="hljs-string">'run as a daemon'</span>)
+.boolean(<span class="hljs-string">'d'</span>)
+
+.describe(<span class="hljs-string">'ssh'</span>, <span class="hljs-string">'info: ssh connection url'</span>)
+.describe(<span class="hljs-string">'key'</span>, <span class="hljs-string">'info: ssh private key to connect'</span>)
+.describe(<span class="hljs-string">'pass'</span>, <span class="hljs-string">'info: ss password to connect'</span>)
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13"></a>
+</div>
+<p>general help</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">.help(<span class="hljs-string">'h'</span>)
+.alias(<span class="hljs-string">'h'</span>, <span class="hljs-string">'help'</span>)
+.epilogue(<span class="hljs-string">"For more information, look into the man page."</span>)
+.showHelpOnFail(<span class="hljs-literal">false</span>, <span class="hljs-string">"Specify --help for available options"</span>)
+.strict()
+.fail (err) -&gt;
+  <span class="hljs-built_in">console</span>.error <span class="hljs-string">"""
+</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14"></a>
+</div>
+<p>{logo}
+{chalk.red.bold 'CLI Parameter Failure:'} #{chalk.red err}</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+    <span class="hljs-string">"""
+  process.exit 1
+.argv
+</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
+</div>
+<p>parse data</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">argv.json = JSON.parse argv.json <span class="hljs-keyword">if</span> argv.json
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16"></a>
+</div>
+<p>implement some global switches</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">chalk.enabled = <span class="hljs-literal">false</span> <span class="hljs-keyword">if</span> argv.nocolors
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="error-management">
+  <h2>
+    <a href="#error-management" name="error-management" class="pilcrow"></a>
+Error management
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">exit</span> = <span class="hljs-params">(code = <span class="hljs-number">0</span>, err)</span> -&gt;</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
+</div>
+<p>exit without error</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  process.exit code <span class="hljs-keyword">unless</span> err
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-19" id="section-19"></a>
+</div>
+<p>exit with error</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-built_in">console</span>.error chalk.red.bold <span class="hljs-string">"FAILED: <span class="hljs-subst">#{err.message}</span>"</span>
+  <span class="hljs-built_in">console</span>.error err.description <span class="hljs-keyword">if</span> err.description
+  process.exit code <span class="hljs-keyword">unless</span> argv.daemon
+  monitor.stop()
+  setTimeout -&gt;
+    process.exit code
+  , <span class="hljs-number">2000</span>
+
+process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGINT'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">130</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGINT signal"</span>
+process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGTERM'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">143</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGTERM signal"</span>
+process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGHUP'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">129</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGHUP signal"</span>
+process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGQUIT'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">131</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGQUIT signal"</span>
+process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGABRT'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">134</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGABRT signal"</span>
+process.<span class="hljs-literal">on</span> <span class="hljs-string">'exit'</span>, <span class="hljs-function">-&gt;</span>
+  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"Goodbye\n"</span>
+  Exec.close()
+  database.close()
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="main-routine">
+  <h2>
+    <a href="#main-routine" name="main-routine" class="pilcrow"></a>
+Main routine
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-built_in">console</span>.log logo
+monitor.setup argv._
+
+<span class="hljs-built_in">console</span>.log <span class="hljs-string">"Initializing..."</span>
+monitor.init
+  <span class="hljs-attribute">verbose</span>: argv.verbose
+  <span class="hljs-attribute">try</span>: argv.<span class="hljs-keyword">try</span>
+, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+  exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
+  conf = config.get <span class="hljs-string">'monitor'</span>
+  <span class="hljs-keyword">if</span> argv.command
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-21" id="section-21"></a>
+</div>
+<p>direct command given to execute</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    args = argv.command.slice()
+    args = args[<span class="hljs-number">0</span>].trim().split <span class="hljs-regexp">/\s+/</span> <span class="hljs-keyword">if</span> args.length <span class="hljs-keyword">is</span> <span class="hljs-number">1</span>
+    <span class="hljs-built_in">require</span>(<span class="hljs-string">'./prompt'</span>).run args, argv.json, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+      exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
+      exit()
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> argv.interactive
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-22" id="section-22"></a>
+</div>
+<p>interactive console</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-built_in">require</span>(<span class="hljs-string">'./prompt'</span>).interactive conf, argv.json
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> argv.daemon
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-23" id="section-23"></a>
+</div>
+<p>daemon start</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    monitor.start()
+  <span class="hljs-keyword">else</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-24" id="section-24"></a>
+</div>
+<p>run all once</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-built_in">console</span>.log <span class="hljs-string">"Analyzing systems..."</span>
+    monitor.runController <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err, status)</span> -&gt;</span>
+      exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
+      <span class="hljs-built_in">console</span>.log <span class="hljs-string">"Finished.\n"</span>
+      exit() <span class="hljs-keyword">if</span> status <span class="hljs-keyword">is</span> <span class="hljs-string">'ok'</span>
+      exit <span class="hljs-keyword">if</span> status <span class="hljs-keyword">is</span> <span class="hljs-string">'fail'</span> <span class="hljs-keyword">then</span> <span class="hljs-number">2</span> <span class="hljs-keyword">else</span> <span class="hljs-number">3</span>
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

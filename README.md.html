@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "";
+    var thisFile = "home/alex/github/node-mailman/README.md";
+    var defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head
+<body>
+  <nav>
+<div class="logo"><a href="http://alinex.github.io"
+  onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'"
+  onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png"
+    width="150" title="Alinex Universe Homepage" />
+  </a>
+  <img src="http://alinex.github.io/images/Alinex-200.png"
+    style="display:none" alt="preloading" />
+</div>
+<div class="links">
+  <a href="http://alinex.github.io/blog"
+    class="btn btn-primary"><span class="glyphicon-pencil"></span> Blog</a>
+  <a href="http://alinex.github.io/develop"
+    class="btn btn-primary"><span class="glyphicon-book"></span> Develop</a>
+  <a href="http://alinex.github.io/code.html"
+    class="btn btn-warning"><span class="glyphicon-cog"></span> Code</a>
+</div>
+</nav><div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+      <div class="heading h1">
+        <a href="#package-alinex-mailman">Package: alinex-mailman</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#install">Install</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#usage">Usage</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#run-as-a-service">Run as a service</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#license">License</a>
+      </div>
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-mailman" title="Fork me on GitHub"></a>
+    <div class="docs markdown"><div class="pilwrap" id="package-alinex-mailman">
+  <h1>
+    <a href="#package-alinex-mailman" name="package-alinex-mailman" class="pilcrow"></a>
+Package: alinex-mailman
+  </h1>
+</div>
+<p><a href="https://travis-ci.org/alinex/node-mailman"><img src="https://travis-ci.org/alinex/node-mailman.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/r/alinex/node-mailman?branch=master"><img src="https://coveralls.io/repos/alinex/node-mailman/badge.png?branch=master" alt="Coverage Status"></a>
+<a href="https://gemnasium.com/alinex/node-mailman"><img src="https://gemnasium.com/alinex/node-mailman.png" alt="Dependency Status"></a></p>
+<p>Email based interface to control processes. This enables an user to send commands
+through email. The incoming mails will be scanned automatically, checked and if
+valid the command will be processed sending back a reply with the command's log.</p>
+<ul>
+<li>imap mail support</li>
+<li>filter emails to access</li>
+<li>authentication possible</li>
+<li>remote control</li>
+<li>complete logging</li>
+</ul>
+<blockquote>
+<p>It is one of the modules of the <a href="http://alinex.github.io/code.html">Alinex Universe</a>
+following the code standards defined in the <a href="http://alinex.github.io/node-alinex">General Docs</a>.</p>
+</blockquote>
+<div class="pilwrap" id="install">
+  <h2>
+    <a href="#install" name="install" class="pilcrow"></a>
+Install
+  </h2>
+</div>
+<p><a href="https://www.npmjs.com/package/alinex-mailman"><img src="https://nodei.co/npm/alinex-mailman.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM">
+<img src="https://nodei.co/npm-dl/alinex-mailman.png?months=9&amp;height=3" alt="Downloads">
+</a></p>
+<p>Install the package globally using npm on a central server. From there all your
+machines may be checked:</p>
+<pre><code class="sh">sudo npm install -g alinex-mailman --production
+</code></pre>
+<p>After global installation you may directly call <code>mailman</code> from anywhere.</p>
+<pre><code class="sh">mailman --help
+</code></pre>
+<p>Because this application works agentless, you don't have to do something special
+on your clients but often some simple changes can make the reports more powerful.
+If so you will get a hint in the report.</p>
+<p>Always have a look at the latest <a href="Changelog.md.html.html">changes</a>.</p>
+<div class="pilwrap" id="usage">
+  <h2>
+    <a href="#usage" name="usage" class="pilcrow"></a>
+Usage
+  </h2>
+</div>
+<p>After the mailman is configured you can start it once using:</p>
+<pre><code>&gt; mailman
+</code></pre>
+<div class="pilwrap" id="run-as-a-service">
+  <h3>
+    <a href="#run-as-a-service" name="run-as-a-service" class="pilcrow"></a>
+Run as a service
+  </h3>
+</div>
+<p>To run the controller continuously use the <code>daemon</code> option and start it in the
+background.</p>
+<pre><code>&gt; mailman -d -C &gt; /var/log/mailman.log 2&gt;&amp;1 &amp;
+</code></pre>
+<p>This will run the process contineously in daemon mode checking every few minutes
+for mails to be processed.</p>
+<blockquote>
+<p>For production use you may start it using <a href="http://pm2.keymetrics.io/">pm2</a>.</p>
+</blockquote>
+<div class="pilwrap" id="license">
+  <h2>
+    <a href="#license" name="license" class="pilcrow"></a>
+License
+  </h2>
+</div>
+<p>Copyright 2016 Alexander Schilling</p>
+<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+<blockquote>
+<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+</blockquote>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>index.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../";
+    var thisFile = "home/alex/github/node-mailman/src/index.coffee";
+    var defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head
+<body>
+  <nav>
+<div class="logo"><a href="http://alinex.github.io"
+  onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'"
+  onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png"
+    width="150" title="Alinex Universe Homepage" />
+  </a>
+  <img src="http://alinex.github.io/images/Alinex-200.png"
+    style="display:none" alt="preloading" />
+</div>
+<div class="links">
+  <a href="http://alinex.github.io/blog"
+    class="btn btn-primary"><span class="glyphicon-pencil"></span> Blog</a>
+  <a href="http://alinex.github.io/develop"
+    class="btn btn-primary"><span class="glyphicon-book"></span> Develop</a>
+  <a href="http://alinex.github.io/code.html"
+    class="btn btn-warning"><span class="glyphicon-cog"></span> Code</a>
+</div>
+</nav><div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+      <div class="heading h1">
+        <a href="#main-controlling-class">Main controlling class</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#node-modules">Node Modules</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#initialized-data">Initialized Data</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#general-mode">General Mode</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#monitor-class">Monitor class</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#setup">Setup</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#control-daemon-mode">Control daemon mode</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#list-elements">List Elements</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#get-specified-element">Get specified Element</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#show-information-about-specified-element">Show information about specified Element</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#run-specified-element">Run specified Element</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#export-singleton">Export Singleton</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#element-management">Element Management</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#list-elements-1">list elements</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#get-specified-element-module">get specified element module</a>
+      </div>
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-mailman" title="Fork me on GitHub"></a>
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="main-controlling-class">
+  <h1>
+    <a href="#main-controlling-class" name="main-controlling-class" class="pilcrow"></a>
+Main controlling class
+  </h1>
+</div>
+<p>This is the real main class which can be called using it's API. Other modules
+like the cli may be used as bridges to this.</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="node-modules">
+  <h2>
+    <a href="#node-modules" name="node-modules" class="pilcrow"></a>
+Node Modules
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
+</div>
+<p>include base modules</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>)(<span class="hljs-string">'monitor'</span>)
+fspath = <span class="hljs-built_in">require</span> <span class="hljs-string">'path'</span>
+EventEmitter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'events'</span>).EventEmitter
+math = <span class="hljs-built_in">require</span> <span class="hljs-string">'mathjs'</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
+</div>
+<p>include alinex modules</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span>
+async = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-async'</span>
+Exec = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-exec'</span>
+database = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-database'</span>
+{string} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
+fs = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-fs'</span>
+Report = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-report'</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5"></a>
+</div>
+<p>include classes and helpers</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">schema = <span class="hljs-built_in">require</span> <span class="hljs-string">'./configSchema'</span>
+Controller = <span class="hljs-built_in">require</span> <span class="hljs-string">'./controller'</span>
+storage = <span class="hljs-built_in">require</span> <span class="hljs-string">'./storage'</span>
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="initialized-data">
+  <h2>
+    <a href="#initialized-data" name="initialized-data" class="pilcrow"></a>
+Initialized Data
+  </h2>
+</div>
+<p>This will be set on init</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="general-mode">
+  <h3>
+    <a href="#general-mode" name="general-mode" class="pilcrow"></a>
+General Mode
+  </h3>
+</div>
+<p>This is a collection of base settings which may alter the runtime of the system
+without changing anything in the general configuration. This values may also
+be changed at any time.</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">mode =
+  <span class="hljs-attribute">verbose</span>: <span class="hljs-number">0</span> <span class="hljs-comment"># verbosity level</span>
+  <span class="hljs-attribute">try</span>: <span class="hljs-literal">false</span> <span class="hljs-comment"># Is this a try run that won't change anything?</span>
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="monitor-class">
+  <h2>
+    <a href="#monitor-class" name="monitor-class" class="pilcrow"></a>
+Monitor class
+  </h2>
+</div>
+<p>This module is defined as a class exporting a singleton instance to have events
+possible within it.</p>
+<p>T</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Monitor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventEmitter</span></span>
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="setup">
+  <h2>
+    <a href="#setup" name="setup" class="pilcrow"></a>
+Setup
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-attribute">setup</span>: <span class="hljs-function"><span class="hljs-params">(selection = <span class="hljs-literal">null</span>, cb)</span> -&gt;</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10"></a>
+</div>
+<p>setup module configs first</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    async.each [Exec, database], <span class="hljs-function"><span class="hljs-params">(mod, cb)</span> -&gt;</span>
+      mod.setup cb
+    , <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11"></a>
+</div>
+<p>add schema for module's configuration</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      config.setSchema <span class="hljs-string">'/monitor'</span>, schema
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12"></a>
+</div>
+<p>set module search path</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      config.register <span class="hljs-string">'monitor'</span>, fspath.dirname __dirname
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13"></a>
+</div>
+<p>register selected controllers from /etc/monitor-controller</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      <span class="hljs-keyword">if</span> selection?.length
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14"></a>
+</div>
+<p>specific controllers only</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        <span class="hljs-keyword">for</span> ctrl <span class="hljs-keyword">in</span> selection
+          config.register <span class="hljs-string">'monitor'</span>, fspath.dirname(__dirname),
+            <span class="hljs-attribute">uri</span>: <span class="hljs-string">"<span class="hljs-subst">#{ctrl}</span>*"</span>
+            <span class="hljs-attribute">folder</span>: <span class="hljs-string">'controller'</span>
+            <span class="hljs-attribute">path</span>: <span class="hljs-string">'monitor/controller'</span>
+      <span class="hljs-keyword">else</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
+</div>
+<p>read all controllers</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        config.register <span class="hljs-string">'monitor'</span>, fspath.dirname(__dirname),
+          <span class="hljs-attribute">folder</span>: <span class="hljs-string">'controller'</span>
+          <span class="hljs-attribute">path</span>: <span class="hljs-string">'monitor/controller'</span>
+
+  <span class="hljs-attribute">init</span>: <span class="hljs-function"><span class="hljs-params">(<span class="hljs-property">@mode</span>, cb)</span> -&gt;</span>
+    mode = <span class="hljs-property">@mode</span>
+    debug <span class="hljs-string">"Loading configuration..."</span>
+    async.series [
+      (cb) -&gt; config.init cb
+      (cb) =&gt; <span class="hljs-property">@initPlugins</span> cb
+      (cb) -&gt; storage.init mode, cb
+      (cb) =&gt; <span class="hljs-property">@initController</span> cb
+    ], cb
+
+  <span class="hljs-attribute">initPlugins</span>: <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16"></a>
+</div>
+<p>find sensor plugins</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    debug <span class="hljs-string">"Loading plugins..."</span>
+    debug <span class="hljs-string">"load base plugin into system"</span>
+    async.each [<span class="hljs-string">'sensor'</span>, <span class="hljs-string">'actor'</span>], <span class="hljs-function"><span class="hljs-params">(type, cb)</span> -&gt;</span>
+      fs.find <span class="hljs-string">"<span class="hljs-subst">#{__dirname}</span>/<span class="hljs-subst">#{type}</span>"</span>,
+        <span class="hljs-attribute">type</span>: <span class="hljs-string">'f'</span>
+        <span class="hljs-attribute">maxdepth</span>: <span class="hljs-number">1</span>
+      , <span class="hljs-function"><span class="hljs-params">(err, list)</span> -&gt;</span>
+        cache[type] = {}
+        <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> list
+          name = fspath.basename e, fspath.extname e
+          cache[type][name] = <span class="hljs-string">"./<span class="hljs-subst">#{type}</span>/<span class="hljs-subst">#{name}</span>"</span>
+        cb()
+    , <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-17" id="section-17"></a>
+</div>
+<p>try to load from plugins</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      plugins = config.get <span class="hljs-string">"/monitor/plugins"</span>
+      <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> plugins
+      async.each plugins, <span class="hljs-function"><span class="hljs-params">(plugin, cb)</span> -&gt;</span>
+        debug <span class="hljs-string">"load <span class="hljs-subst">#{plugin}</span> into system"</span>
+        <span class="hljs-keyword">try</span>
+          lib = <span class="hljs-built_in">require</span> plugin
+        <span class="hljs-keyword">catch</span> error
+          <span class="hljs-keyword">return</span> cb <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Could not load plugin <span class="hljs-subst">#{plugin}</span>: <span class="hljs-subst">#{error.message}</span>"</span>
+        async.parallel [
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
+</div>
+<p>sensors</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">          (cb) -&gt;
+            <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> lib.listSensor?
+            lib.listSensor (err, list) -&gt;
+              <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+              <span class="hljs-keyword">for</span> name, path <span class="hljs-keyword">of</span> list
+                <span class="hljs-keyword">for</span> type <span class="hljs-keyword">in</span> [<span class="hljs-string">'sensor'</span>, <span class="hljs-string">'actor'</span>]
+                  cache[type][name] = <span class="hljs-string">"<span class="hljs-subst">#{plugin}</span>/<span class="hljs-subst">#{path}</span>"</span>
+        ], cb
+      , cb
+
+  <span class="hljs-attribute">initController</span>: <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span>
+    debug <span class="hljs-string">"Instantiate controllers..."</span>
+    Controller.init mode, <span class="hljs-function"><span class="hljs-params">(err)</span> =&gt;</span>
+      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+      <span class="hljs-property">@controller</span> = {}
+      <span class="hljs-keyword">for</span> name, def <span class="hljs-keyword">of</span> config.get <span class="hljs-string">"/monitor/controller"</span>
+        <span class="hljs-property">@controller</span>[name] = <span class="hljs-keyword">new</span> Controller name, def
+        <span class="hljs-property">@controller</span>[name].<span class="hljs-literal">on</span> <span class="hljs-string">'result'</span>, <span class="hljs-function"><span class="hljs-params">(ctrl)</span> =&gt;</span> <span class="hljs-property">@emit</span> <span class="hljs-string">'result'</span>, ctrl
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-19" id="section-19"></a>
+</div>
+<p>parallel instantiation</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      async.each <span class="hljs-property">@controller</span>, <span class="hljs-function"><span class="hljs-params">(ctrl, cb)</span> -&gt;</span>
+        ctrl.init cb
+      , cb
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="control-daemon-mode">
+  <h2>
+    <a href="#control-daemon-mode" name="control-daemon-mode" class="pilcrow"></a>
+Control daemon mode
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+  <span class="hljs-attribute">start</span>: <span class="hljs-function">-&gt;</span>
+    <span class="hljs-property">@instantiate</span>() <span class="hljs-keyword">unless</span> <span class="hljs-property">@controller</span>
+    debug <span class="hljs-string">"start daemon"</span>
+    <span class="hljs-keyword">for</span> name, ctrl <span class="hljs-keyword">of</span> <span class="hljs-property">@controller</span>
+      ctrl.start()
+    <span class="hljs-keyword">this</span>
+
+  <span class="hljs-attribute">stop</span>: <span class="hljs-function">-&gt;</span>
+    debug <span class="hljs-string">"stop daemon"</span>
+
+
+    <span class="hljs-keyword">this</span>
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="list-elements">
+  <h2>
+    <a href="#list-elements" name="list-elements" class="pilcrow"></a>
+List Elements
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-attribute">listController</span>: <span class="hljs-function">-&gt;</span> Object.keys <span class="hljs-property">@controller</span>
+  <span class="hljs-attribute">listSensor</span>: <span class="hljs-function">-&gt;</span> list <span class="hljs-string">'sensor'</span>
+  <span class="hljs-attribute">listActor</span>: <span class="hljs-function">-&gt;</span> list <span class="hljs-string">'actor'</span>
+  <span class="hljs-attribute">listExplorer</span>: <span class="hljs-function">-&gt;</span> list <span class="hljs-string">'explorer'</span>
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="get-specified-element">
+  <h2>
+    <a href="#get-specified-element" name="get-specified-element" class="pilcrow"></a>
+Get specified Element
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-attribute">getController</span>: <span class="hljs-function"><span class="hljs-params">(name, cb)</span> -&gt;</span> cb <span class="hljs-literal">null</span>, <span class="hljs-property">@controller</span>[name]
+  <span class="hljs-attribute">getSensor</span>: <span class="hljs-function"><span class="hljs-params">(name, cb)</span> -&gt;</span> get <span class="hljs-string">'sensor'</span>, name, cb
+  <span class="hljs-attribute">getActor</span>: <span class="hljs-function"><span class="hljs-params">(name, cb)</span> -&gt;</span> get <span class="hljs-string">'actor'</span>, name, cb
+  <span class="hljs-attribute">getExplorer</span>: <span class="hljs-function"><span class="hljs-params">(name, cb)</span> -&gt;</span> get <span class="hljs-string">'explorer'</span>, name, cb
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="show-information-about-specified-element">
+  <h2>
+    <a href="#show-information-about-specified-element" name="show-information-about-specified-element" class="pilcrow"></a>
+Show information about specified Element
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-attribute">showController</span>: <span class="hljs-function"><span class="hljs-params">(name, cb)</span> -&gt;</span>
+    ctrl = <span class="hljs-property">@controller</span>[name]
+    conf = ctrl.conf
+    context =
+      <span class="hljs-attribute">name</span>: name
+      <span class="hljs-attribute">config</span>: conf
+    report = <span class="hljs-keyword">new</span> Report()
+    report.h1 <span class="hljs-string">"<span class="hljs-subst">#{name}</span>: <span class="hljs-subst">#{conf.name}</span>"</span>
+    report.p conf.description
+    report.p conf.info <span class="hljs-keyword">if</span> conf.info
+    report.quote conf.hint context <span class="hljs-keyword">if</span> conf.hint
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-24" id="section-24"></a>
+</div>
+<p>checks</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    interval = math.unit conf.interval, <span class="hljs-string">'seconds'</span>
+    interval = interval.to <span class="hljs-keyword">switch</span>
+      <span class="hljs-keyword">when</span> conf.interval &gt;= <span class="hljs-number">14400</span> <span class="hljs-keyword">then</span> <span class="hljs-string">'hours'</span>
+      <span class="hljs-keyword">when</span> conf.interval &gt;= <span class="hljs-number">300</span> <span class="hljs-keyword">then</span> <span class="hljs-string">'minutes'</span>
+      <span class="hljs-keyword">else</span> <span class="hljs-string">'seconds'</span>
+    report.p <span class="hljs-string">"The following checks will run every <span class="hljs-subst">#{interval.format()}</span>:"</span>
+    report.ul ctrl.check.map (e) -&gt; <span class="hljs-string">"<span class="hljs-subst">#{e.type}</span> - <span class="hljs-subst">#{e.name}</span>"</span>
+    report.p <span class="hljs-string">"Attention: This controller is <span class="hljs-subst">#{Report.mark <span class="hljs-string">'disabled'</span>}</span> at the moment."</span>
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-25" id="section-25"></a>
+</div>
+<p>actor rules</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-26" id="section-26"></a>
+</div>
+<p>contact</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-keyword">if</span> conf.contact
+      report.p Report.b <span class="hljs-string">"Contact Persons:"</span>
+<span class="hljs-function">      <span class="hljs-title">formatContact</span> = <span class="hljs-params">(name)</span> -&gt;</span>
+        contact = config.get <span class="hljs-string">"/monitor/contact/<span class="hljs-subst">#{name}</span>"</span>
+        <span class="hljs-keyword">if</span> Array.isArray contact
+          <span class="hljs-keyword">return</span> contact.map (e) -&gt; formatContact(e)
+        text = <span class="hljs-string">''</span>
+        text += <span class="hljs-string">" <span class="hljs-subst">#{contact.name}</span>"</span> <span class="hljs-keyword">if</span> contact.name
+        text += <span class="hljs-string">" &lt;<span class="hljs-subst">#{contact.email}</span>&gt;"</span> <span class="hljs-keyword">if</span> contact.email
+        [text.trim()]
+      ul = []
+      <span class="hljs-keyword">for</span> group, glist <span class="hljs-keyword">of</span> conf.contact
+        ul.push <span class="hljs-string">"__<span class="hljs-subst">#{string.ucFirst group}</span>__"</span>
+        <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> glist
+          ul = ul.concat formatContact e
+      report.ul ul
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-27" id="section-27"></a>
+</div>
+<p>references</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-keyword">if</span> conf.ref
+      report.p Report.b <span class="hljs-string">"For further assistance check the following links:"</span>
+      ul = []
+      <span class="hljs-keyword">for</span> name, list <span class="hljs-keyword">of</span> conf.ref
+        ul.push <span class="hljs-string">"<span class="hljs-subst">#{string.rpad name, <span class="hljs-number">15</span>}</span> "</span> + list.join <span class="hljs-string">', '</span>
+      report.ul ul
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-28" id="section-28"></a>
+</div>
+<p>last reports</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+    cb <span class="hljs-literal">null</span>, report
+
+  <span class="hljs-attribute">showSensor</span>: <span class="hljs-function"><span class="hljs-params">(name)</span> -&gt;</span>
+    <span class="hljs-string">"xxxxx"</span>
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="run-specified-element">
+  <h2>
+    <a href="#run-specified-element" name="run-specified-element" class="pilcrow"></a>
+Run specified Element
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-attribute">runController</span>: <span class="hljs-function"><span class="hljs-params">(name, cb)</span> -&gt;</span>
+    <span class="hljs-keyword">if</span> name
+      list = {}
+      list[name] = <span class="hljs-property">@controller</span>[name]
+    list ?= <span class="hljs-property">@controller</span>
+    async.mapOf list, <span class="hljs-function"><span class="hljs-params">(ctrl, name, cb)</span> -&gt;</span>
+      ctrl.run cb
+    , <span class="hljs-function"><span class="hljs-params">(err, results)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+      status = <span class="hljs-string">'ok'</span>
+      <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> results
+        status = s <span class="hljs-keyword">if</span> s <span class="hljs-keyword">is</span> <span class="hljs-string">'fail'</span> <span class="hljs-keyword">or</span> status <span class="hljs-keyword">is</span> <span class="hljs-string">'ok'</span>
+      cb <span class="hljs-literal">null</span>, status
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="export-singleton">
+  <h2>
+    <a href="#export-singleton" name="export-singleton" class="pilcrow"></a>
+Export Singleton
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+<span class="hljs-built_in">module</span>.exports = <span class="hljs-keyword">new</span> Monitor()
+
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="element-management">
+  <h2>
+    <a href="#element-management" name="element-management" class="pilcrow"></a>
+Element Management
+  </h2>
+</div>
+<p>This methods are used to work with the cached elements which are setup on
+initialization phase by initPlugin().</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+cache = {} <span class="hljs-comment"># object of sensors, actors and explorers with require path</span>
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="list-elements-1">
+  <h3>
+    <a href="#list-elements-1" name="list-elements-1" class="pilcrow"></a>
+list elements
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">list</span> = <span class="hljs-params">(element)</span> -&gt;</span>
+  Object.keys cache[element]
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="get-specified-element-module">
+  <h3>
+    <a href="#get-specified-element-module" name="get-specified-element-module" class="pilcrow"></a>
+get specified element module
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">get</span> = <span class="hljs-params">(element, name, cb)</span> -&gt;</span>
+  <span class="hljs-keyword">return</span> cb <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Could not find <span class="hljs-subst">#{element}</span> <span class="hljs-subst">#{name}</span>"</span> <span class="hljs-keyword">unless</span> cache[element][name]?
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-34" id="section-34"></a>
+</div>
+<p>try to load sensor from plugins</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-keyword">try</span>
+    elem = <span class="hljs-built_in">require</span> cache[element][name]
+  <span class="hljs-keyword">catch</span> err
+    <span class="hljs-keyword">return</span> cb err
+  cb <span class="hljs-literal">null</span>, elem
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>
