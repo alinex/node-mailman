@@ -89,6 +89,8 @@ command =
       type: 'string'
     filter:
       type: 'object'
+    exec:
+      type: 'object'
       #############################
     email:
       type: 'object'
@@ -110,7 +112,30 @@ module.exports =
       title: "IMAP Setup"
       description: "the mailserver on which to check for new commands"
       type: 'object'
-
+      allowedKeys: true
+      keys:
+        user:
+          title: "Username"
+          description: "the username to log into server"
+          type: 'string'
+        password:
+          title: "Password"
+          description: "the password for login"
+          type: 'string'
+        host:
+          title: "Hostname or IP"
+          description: "the imap host"
+          type: 'hostname'
+        port:
+          title: "Port"
+          description: "the port number to use for connection"
+          type: 'port'
+          optional: true
+        tls:
+          title: "Secure Login"
+          description: "a flag to use secure login over TLS"
+          type: 'boolean'
+          default: false
     command:
       title: "Command Setup"
       description: "the configuration for the calling command"

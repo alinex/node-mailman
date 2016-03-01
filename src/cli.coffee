@@ -97,9 +97,10 @@ config.setSchema '/mailman', schema
 config.register 'mailman', fspath.dirname __dirname
 
 mailman.init
-  verbose: argv.verbose
+  try: argv.try
 config.init (err) ->
   exit 1, err if err
-  # show List
-#  if argv.list
-  console.log '--------', config.get '/'
+  console.log '--------> SETUP', config.get '/'
+  # check mails
+  mailman.run (err) ->
+    exit 1, err if err
