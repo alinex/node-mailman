@@ -7,12 +7,13 @@
 # include base modules
 yargs = require 'yargs'
 chalk = require 'chalk'
+fspath = require 'path'
 # include alinex modules
 config = require 'alinex-config'
-Exec = require 'alinex-exec'
 # include classes and helpers
 logo = require('alinex-core').logo 'Email Control Manager'
 mailman = require './index'
+schema = require './configSchema'
 
 process.title = 'MailMan'
 
@@ -60,7 +61,6 @@ argv.json = JSON.parse argv.json if argv.json
 # implement some global switches
 chalk.enabled = false if argv.nocolors
 
-process.exit 1
 
 # Error management
 # -------------------------------------------------
@@ -83,39 +83,23 @@ process.on 'SIGQUIT', -> exit 131, new Error "Got SIGQUIT signal"
 process.on 'SIGABRT', -> exit 134, new Error "Got SIGABRT signal"
 process.on 'exit', ->
   console.log "Goodbye\n"
-  Exec.close()
-  database.close()
 
 # Main routine
 # -------------------------------------------------
 console.log logo
-monitor.setup argv._
-
 console.log "Initializing..."
-monitor.init
-  verbose: argv.verbose
+# init
+mailman.init
   try: argv.try
-, (err) ->
+# add schema for module's configuration
+config.setSchema '/mailman', schema
+# set module search path
+config.register 'mailman', fspath.dirname __dirname
+
+mailman.init
+  verbose: argv.verbose
+config.init (err) ->
   exit 1, err if err
-  conf = config.get 'monitor'
-  if argv.command
-    # direct command given to execute
-    args = argv.command.slice()
-    args = args[0].trim().split /\s+/ if args.length is 1
-    require('./prompt').run args, argv.json, (err) ->
-      exit 1, err if err
-      exit()
-  else if argv.interactive
-    # interactive console
-    require('./prompt').interactive conf, argv.json
-  else if argv.daemon
-    # daemon start
-    monitor.start()
-  else
-    # run all once
-    console.log "Analyzing systems..."
-    monitor.runController null, (err, status) ->
-      exit 1, err if err
-      console.log "Finished.\n"
-      exit() if status is 'ok'
-      exit if status is 'fail' then 2 else 3
+  # show List
+#  if argv.list
+  console.log '--------', config.get '/'
