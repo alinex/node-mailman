@@ -13,7 +13,6 @@ Imap = require 'imap'
 # include alinex modules
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
-{string} = require 'alinex-util'
 Report = require 'alinex-report'
 async = require 'alinex-async'
 # include classes and helpers
