@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>configSchema.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../";
+    var thisFile = "home/alex/github/node-mailman/src/configSchema.coffee";
+    var defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>
+<body>
+  <nav>
+<div class="logo"><a href="http://alinex.github.io"
+  onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'"
+  onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png"
+    width="150" title="Alinex Universe Homepage" />
+  </a>
+  <img src="http://alinex.github.io/images/Alinex-200.png"
+    style="display:none" alt="preloading" />
+</div>
+<div class="links">
+  <a href="http://alinex.github.io/blog"
+    class="btn btn-primary"><span class="glyphicon-pencil"></span> Blog</a>
+  <a href="http://alinex.github.io/develop"
+    class="btn btn-primary"><span class="glyphicon-book"></span> Develop</a>
+  <a href="http://alinex.github.io/code.html"
+    class="btn btn-warning"><span class="glyphicon-cog"></span> Code</a>
+</div>
+</nav><div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+      <div class="heading h1">
+        <a href="#configuration-schema">Configuration Schema</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#email-action">Email Action</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#complete-schema-definition">Complete Schema Definition</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#complete-schema-definition-1">Complete Schema Definition</a>
+      </div>
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-mailman" title="Fork me on GitHub"></a>
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="configuration-schema">
+  <h1>
+    <a href="#configuration-schema" name="configuration-schema" class="pilcrow"></a>
+Configuration Schema
+  </h1>
+</div>
+
+        </td>
+        <td class="code highlight">
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="email-action">
+  <h2>
+    <a href="#email-action" name="email-action" class="pilcrow"></a>
+Email Action
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">email =
+  <span class="hljs-attribute">title</span>: <span class="hljs-string">"Email Action"</span>
+  <span class="hljs-attribute">description</span>: <span class="hljs-string">"the setup for an individual email action"</span>
+  <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+  <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
+  <span class="hljs-attribute">keys</span>:
+    <span class="hljs-attribute">base</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Base Template"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the template used as base for this"</span>
+      <span class="hljs-attribute">list</span>: <span class="hljs-string">'&lt;&lt;&lt;context:///email&gt;&gt;&gt;'</span>
+    <span class="hljs-attribute">transport</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Service Connection"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the service connection to send mails through"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'or'</span>
+      <span class="hljs-attribute">or</span>: [
+        <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+      ,
+        <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+      ]
+    <span class="hljs-attribute">from</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"From"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the address emails are send from"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+    <span class="hljs-attribute">replyTo</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Reply To"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the address to send answers to"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+      <span class="hljs-attribute">optional</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-attribute">to</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"To"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the address emails are send to"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'array'</span>
+      <span class="hljs-attribute">toArray</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">entries</span>:
+        <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+    <span class="hljs-attribute">cc</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Cc"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the carbon copy addresses"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'array'</span>
+      <span class="hljs-attribute">toArray</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">entries</span>:
+        <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+    <span class="hljs-attribute">bcc</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Bcc"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the blind carbon copy addresses"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'array'</span>
+      <span class="hljs-attribute">toArray</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">entries</span>:
+        <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+    <span class="hljs-attribute">locale</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Locale Setting"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the locale setting for subject and body dates"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+      <span class="hljs-attribute">minLength</span>: <span class="hljs-number">2</span>
+      <span class="hljs-attribute">maxLength</span>: <span class="hljs-number">5</span>
+      <span class="hljs-attribute">lowerCase</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">match</span>: <span class="hljs-regexp">/^[a-z]{2}(-[a-z]{2})?$/</span>
+    <span class="hljs-attribute">subject</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Subject"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the subject line of the generated email"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'handlebars'</span>
+    <span class="hljs-attribute">body</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Content"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the body content of the generated email"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'handlebars'</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="complete-schema-definition">
+  <h2>
+    <a href="#complete-schema-definition" name="complete-schema-definition" class="pilcrow"></a>
+Complete Schema Definition
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">command =
+  <span class="hljs-attribute">title</span>: <span class="hljs-string">"Command"</span>
+  <span class="hljs-attribute">description</span>: <span class="hljs-string">"the definition of a single command to execute"</span>
+  <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+  <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
+  <span class="hljs-attribute">keys</span>:
+    <span class="hljs-attribute">title</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Title"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the short title of the job to be used in display"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+    <span class="hljs-attribute">description</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Description"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"a short abstract of what this job will retrieve"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+    <span class="hljs-attribute">filter</span>:
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+    <span class="hljs-attribute">exec</span>:
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
+</div>
+<p>############################</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-attribute">email</span>:
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">keys</span>:
+        <span class="hljs-attribute">success</span>: email
+        <span class="hljs-attribute">fail</span>: email</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="complete-schema-definition-1">
+  <h2>
+    <a href="#complete-schema-definition-1" name="complete-schema-definition-1" class="pilcrow"></a>
+Complete Schema Definition
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+<span class="hljs-built_in">module</span>.exports =
+  <span class="hljs-attribute">title</span>: <span class="hljs-string">"Mailman Setup"</span>
+  <span class="hljs-attribute">description</span>: <span class="hljs-string">"the configuration for the mail manager system"</span>
+  <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+  <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
+  <span class="hljs-attribute">keys</span>:
+    <span class="hljs-attribute">mailcheck</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"IMAP Setup"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the mailserver on which to check for new commands"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">keys</span>:
+        <span class="hljs-attribute">user</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Username"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the username to log into server"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+        <span class="hljs-attribute">password</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Password"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the password for login"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+        <span class="hljs-attribute">host</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Hostname or IP"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the imap host"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'hostname'</span>
+        <span class="hljs-attribute">port</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Port"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the port number to use for connection"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'port'</span>
+          <span class="hljs-attribute">optional</span>: <span class="hljs-literal">true</span>
+        <span class="hljs-attribute">tls</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Secure Login"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"a flag to use secure login over TLS"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'boolean'</span>
+          <span class="hljs-attribute">default</span>: <span class="hljs-literal">false</span>
+    <span class="hljs-attribute">command</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Command Setup"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the configuration for the calling command"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">entries</span>: [command]
+    <span class="hljs-attribute">email</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Email Templates"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the possible templates used for sending emails"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+      <span class="hljs-attribute">entries</span>: [email]</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>
