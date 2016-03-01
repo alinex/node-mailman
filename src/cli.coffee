@@ -10,11 +10,9 @@ chalk = require 'chalk'
 # include alinex modules
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
-database = require 'alinex-database'
 # include classes and helpers
-logo = require('./logo') 'Email Control Manager'
-monitor = require './index'
-#Controller = require './controller'
+logo = require('alinex-core').logo 'Email Control Manager'
+mailman = require './index'
 
 process.title = 'MailMan'
 
@@ -23,7 +21,7 @@ process.title = 'MailMan'
 argv = yargs
 .usage("""
   #{logo}
-  Usage: $0 [-vCclt] <controller...>
+  Usage: $0 [-vCcltd]
   """)
 # examples
 .example('$0', 'to simply run the manager once')
@@ -43,10 +41,6 @@ argv = yargs
 .alias('d', 'daemon')
 .describe('d', 'run as a daemon')
 .boolean('d')
-
-.describe('ssh', 'info: ssh connection url')
-.describe('key', 'info: ssh private key to connect')
-.describe('pass', 'info: ss password to connect')
 # general help
 .help('h')
 .alias('h', 'help')
@@ -66,6 +60,7 @@ argv.json = JSON.parse argv.json if argv.json
 # implement some global switches
 chalk.enabled = false if argv.nocolors
 
+process.exit 1
 
 # Error management
 # -------------------------------------------------
@@ -76,7 +71,7 @@ exit = (code = 0, err) ->
   console.error chalk.red.bold "FAILED: #{err.message}"
   console.error err.description if err.description
   process.exit code unless argv.daemon
-  monitor.stop()
+  mailman.stop()
   setTimeout ->
     process.exit code
   , 2000

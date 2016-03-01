@@ -8,7 +8,7 @@
 # -------------------------------------------------
 
 # include base modules
-debug = require('debug')('monitor')
+debug = require('debug')('mailman')
 fspath = require 'path'
 EventEmitter = require('events').EventEmitter
 math = require 'mathjs'
@@ -16,7 +16,6 @@ math = require 'mathjs'
 config = require 'alinex-config'
 async = require 'alinex-async'
 Exec = require 'alinex-exec'
-database = require 'alinex-database'
 {string} = require 'alinex-util'
 fs = require 'alinex-fs'
 Report = require 'alinex-report'
