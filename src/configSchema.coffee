@@ -89,6 +89,8 @@ command =
       type: 'string'
     filter:
       type: 'object'
+    data:
+      type: 'object'
     exec:
       type: 'object'
       #############################
@@ -136,6 +138,24 @@ module.exports =
           description: "a flag to use secure login over TLS"
           type: 'boolean'
           default: false
+        autotls:
+          title: "TLS Upgrade"
+          description: "the value decides when to upgrade to a secure session"
+          type: 'string'
+          values: ['always', 'required', 'never']
+          default: 'never'
+        connTimeout:
+          title: "Connection Timeout"
+          description: "the time in milliseconds to wait to establish connection"
+          type: 'interval'
+          min: 100
+          default: 10000
+        authTimeout:
+          title: "Authentication Timeout"
+          description: "the time in milliseconds to wait to authenticate user"
+          type: 'interval'
+          min: 100
+          default: 5000
     command:
       title: "Command Setup"
       description: "the configuration for the calling command"

@@ -9,11 +9,13 @@
 
 # include base modules
 debug = require('debug')('mailman')
+chalk = require 'chalk'
+util = require 'util'
 Imap = require 'imap'
 # include alinex modules
 config = require 'alinex-config'
-Exec = require 'alinex-exec'
-Report = require 'alinex-report'
+#Exec = require 'alinex-exec'
+#Report = require 'alinex-report'
 async = require 'alinex-async'
 # include classes and helpers
 
@@ -40,9 +42,11 @@ exports.run = (cb) ->
   debug "connect to mailserver..."
   setup = config.get '/mailman/mailcheck'
   imap = new Imap setup
-  imap.once 'ready', -> openBox -> processMails ->
-    imap.end()
-    cb()
+  imap.once 'ready', -> openBox (err, box) ->
+    return cb err if err
+    processMails box, ->
+      imap.end()
+      cb()
   imap.once 'error', cb
   imap.once 'end', ->
     debug 'mailserver connection ended'
@@ -54,14 +58,58 @@ openBox = (cb) ->
   debug "open INBOX..."
   imap.status 'INBOX', (err, box) ->
     debug "found #{box.messages.total} messages (#{box.messages.unseen} unread)"
-  console.log mode
   imap.openBox 'INBOX', mode.try, cb
 
-processMails = (cb) ->
-  commands = config.get '/mailman/commands'
+processMails = (box, cb) ->
+  commands = config.get '/mailman/command'
   async.eachOf commands, (setup, command, cb) ->
-    debug "search mails for #{command}..."
-
-
-    cb()
+    debug "#{chalk.grey command} search mails for..."
+    criteria = ['UNSEEN']
+    if setup.filter?.subject
+      criteria.push ['SUBJECT', setup.filter.subject]
+    console.log criteria
+    error = null
+    imap.search criteria, (err, results) ->
+      return cb err if err
+      count = results.length
+      debug "#{chalk.grey command} found #{count} messages"
+      return cb() unless count
+      f = imap.fetch results,
+        bodies: ['HEADER.FIELDS (FROM SUBJECT)', 'TEXT']
+      f.on 'message', (msg, seqno) ->
+        debug "#{chalk.grey command} read message ##{seqno}"
+        header = ''
+        buffer = ''
+        msg.on 'body', (stream, info) ->
+          stream.on 'data', (chunk) ->
+            if info.which is 'TEXT'
+              buffer += chunk.toString 'utf8'
+            else
+              header += chunk.toString 'utf8'
+#        msg.once 'attributes', (attrs) ->
+#          debug "#{chalk.grey command + ' #' + seqno} attributes: #{util.inspect attrs}"
+        msg.once 'end', ->
+          debug "end #{seqno}"
+          execute
+            header: Imap.parseHeader header
+            body: buffer
+          , command, setup, (err) ->
+            return cb err if err
+            count--
+      f.once 'error', ->
+        error = new Error "IMAP Fetch error: #{err.message}"
+      f.once 'end', ->
+        debug "#{chalk.grey command} no more messages"
+        return cb error if error
+        # wait for finishing execution
+        done = ->
+          return cb() unless count
+          setTimeout done, 1000
+        done()
   , cb
+
+execute = (mail, command, setup, cb) ->
+  console.log "EXECUTE #{command}"
+  console.log mail.header
+  console.log Imap
+  cb()
