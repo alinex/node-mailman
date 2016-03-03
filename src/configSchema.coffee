@@ -162,3 +162,8 @@ module.exports =
       description: "the possible templates used for sending emails"
       type: 'object'
       entries: [email]
+    interval:
+      title: "Check Interval"
+      description: "the time to recheck for new emails in daemon mode"
+      type: 'interval'
+      default: 300000

@@ -62,7 +62,7 @@ background.
 
     > mailman -d -C > /var/log/mailman.log 2>&1 &
 
-This will run the process contineously in daemon mode checking every few minutes
+This will run the process continuously in daemon mode checking every few minutes
 for mails to be processed.
 
 > For production use you may start it using [pm2](http://pm2.keymetrics.io/).
