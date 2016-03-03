@@ -141,6 +141,9 @@ execute = (mail, command, conf, cb) ->
 #    priority: 'immediately'
   console.log setup
   Exec.run setup, (err, exec) ->
+    # check if email should be send
+    return cb() unless conf.email
+    return cb() unless conf.email.onlyOnError and exec.result.code
     # configure email
     email = object.clone conf.email
     debug chalk.grey "#{chalk.grey command}: building email"
@@ -172,9 +175,6 @@ execute = (mail, command, conf, cb) ->
       # send email
       mails = email.to?.map (e) -> e.replace /".*?" <(.*?)>/g, '$1'
       debug chalk.grey "#{command}: sending email to #{mails?.join ', '}..."
-      console.log email.text
-#      return cb()
-
       # email transporter
       transporter = nodemailer.createTransport email.transport ? 'direct:?name=hostname'
       transporter.use 'compile', inlineBase64

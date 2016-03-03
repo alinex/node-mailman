@@ -70,6 +70,13 @@ email =
       title: "Content"
       description: "the body content of the generated email"
       type: 'handlebars'
+    onlyOnError:
+      title: "Send Only on Error"
+      description: "the response mail will only be send on error of the executed
+      command"
+      type: 'boolean'
+      default: false
+  optional: true
 
 # Complete Schema Definition
 # -------------------------------------------------
