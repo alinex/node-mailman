@@ -94,12 +94,7 @@ command =
     exec:
       type: 'object'
       #############################
-    email:
-      type: 'object'
-      allowedKeys: true
-      keys:
-        success: email
-        fail: email
+    email: email
 
 # Complete Schema Definition
 # -------------------------------------------------
