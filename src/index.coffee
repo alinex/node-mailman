@@ -73,6 +73,10 @@ processMails = (box, cb) ->
     criteria = ['UNSEEN', ['!HEADER', 'INREPLYTO', '']]
     if setup.filter?.subject
       criteria.push ['SUBJECT', setup.filter.subject]
+    if setup.filter?.from
+      list = ['OR']
+      list.push ['FROM', addr] for addr in setup.filter?.from
+      criteria.push list
     debug chalk.grey "#{command} use filter #{util.inspect(criteria).replace /\s+/g, ' '}"
     error = null
     imap.search criteria, (err, results) ->

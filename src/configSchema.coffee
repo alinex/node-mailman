@@ -96,6 +96,15 @@ command =
       type: 'string'
     filter:
       type: 'object'
+      allowedKeys: true
+      keys:
+        subject:
+          type: 'string'
+        from:
+          type: 'array'
+          toArray: true
+          entries:
+            type: 'string'
     data:
       type: 'object'
     exec:
