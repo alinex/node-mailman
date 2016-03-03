@@ -187,6 +187,8 @@ Complete Schema Definition
       <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
     <span class="hljs-attribute">filter</span>:
       <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+    <span class="hljs-attribute">data</span>:
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
     <span class="hljs-attribute">exec</span>:
       <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span></pre>
         </td>
@@ -201,12 +203,7 @@ Complete Schema Definition
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">    <span class="hljs-attribute">email</span>:
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">keys</span>:
-        <span class="hljs-attribute">success</span>: email
-        <span class="hljs-attribute">fail</span>: email</pre>
+          <pre class="coffeescript">    <span class="hljs-attribute">email</span>: email</pre>
         </td>
       </tr>
     
@@ -256,6 +253,24 @@ Complete Schema Definition
           <span class="hljs-attribute">description</span>: <span class="hljs-string">"a flag to use secure login over TLS"</span>
           <span class="hljs-attribute">type</span>: <span class="hljs-string">'boolean'</span>
           <span class="hljs-attribute">default</span>: <span class="hljs-literal">false</span>
+        <span class="hljs-attribute">autotls</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"TLS Upgrade"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the value decides when to upgrade to a secure session"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+          <span class="hljs-attribute">values</span>: [<span class="hljs-string">'always'</span>, <span class="hljs-string">'required'</span>, <span class="hljs-string">'never'</span>]
+          <span class="hljs-attribute">default</span>: <span class="hljs-string">'never'</span>
+        <span class="hljs-attribute">connTimeout</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Connection Timeout"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the time in milliseconds to wait to establish connection"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'interval'</span>
+          <span class="hljs-attribute">min</span>: <span class="hljs-number">100</span>
+          <span class="hljs-attribute">default</span>: <span class="hljs-number">10000</span>
+        <span class="hljs-attribute">authTimeout</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Authentication Timeout"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the time in milliseconds to wait to authenticate user"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'interval'</span>
+          <span class="hljs-attribute">min</span>: <span class="hljs-number">100</span>
+          <span class="hljs-attribute">default</span>: <span class="hljs-number">5000</span>
     <span class="hljs-attribute">command</span>:
       <span class="hljs-attribute">title</span>: <span class="hljs-string">"Command Setup"</span>
       <span class="hljs-attribute">description</span>: <span class="hljs-string">"the configuration for the calling command"</span>
@@ -266,7 +281,12 @@ Complete Schema Definition
       <span class="hljs-attribute">title</span>: <span class="hljs-string">"Email Templates"</span>
       <span class="hljs-attribute">description</span>: <span class="hljs-string">"the possible templates used for sending emails"</span>
       <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">entries</span>: [email]</pre>
+      <span class="hljs-attribute">entries</span>: [email]
+    <span class="hljs-attribute">interval</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Check Interval"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the time to recheck for new emails in daemon mode"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'interval'</span>
+      <span class="hljs-attribute">default</span>: <span class="hljs-number">300000</span></pre>
         </td>
       </tr>
     

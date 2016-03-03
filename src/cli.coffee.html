@@ -123,7 +123,8 @@ fspath = <span class="hljs-built_in">require</span> <span class="hljs-string">'p
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span></pre>
+          <pre class="coffeescript">config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span>
+Exec = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-exec'</span></pre>
         </td>
       </tr>
     
@@ -342,7 +343,7 @@ Error management
           <pre class="coffeescript">  <span class="hljs-built_in">console</span>.error chalk.red.bold <span class="hljs-string">"FAILED: <span class="hljs-subst">#{err.message}</span>"</span>
   <span class="hljs-built_in">console</span>.error err.description <span class="hljs-keyword">if</span> err.description
   process.exit code <span class="hljs-keyword">unless</span> argv.daemon
-  mailman.stop()
+  argv.daemon = <span class="hljs-literal">false</span>
   setTimeout -&gt;
     process.exit code
   , <span class="hljs-number">2000</span>
@@ -383,7 +384,9 @@ Main routine
         </td>
         <td class="code highlight">
           <pre class="coffeescript">mailman.init
-  <span class="hljs-attribute">try</span>: argv.<span class="hljs-keyword">try</span></pre>
+  <span class="hljs-attribute">try</span>: argv.<span class="hljs-keyword">try</span>
+Exec.setup (err) -&gt;
+  exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>
     
@@ -396,7 +399,7 @@ Main routine
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">config.setSchema <span class="hljs-string">'/mailman'</span>, schema</pre>
+          <pre class="coffeescript">  config.setSchema <span class="hljs-string">'/mailman'</span>, schema</pre>
         </td>
       </tr>
     
@@ -409,13 +412,11 @@ Main routine
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">config.register <span class="hljs-string">'mailman'</span>, fspath.dirname __dirname
-
-mailman.init
-  <span class="hljs-attribute">try</span>: argv.<span class="hljs-keyword">try</span>
-config.init (err) -&gt;
-  exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
-  <span class="hljs-built_in">console</span>.log <span class="hljs-string">'--------&gt; SETUP'</span>, config.get <span class="hljs-string">'/'</span></pre>
+          <pre class="coffeescript">  config.register <span class="hljs-string">'mailman'</span>, fspath.dirname __dirname
+  mailman.init
+    <span class="hljs-attribute">try</span>: argv.<span class="hljs-keyword">try</span>
+  config.init (err) -&gt;
+    exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>
     
@@ -428,7 +429,15 @@ config.init (err) -&gt;
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  mailman.run (err) -&gt;
+          <pre class="coffeescript">    <span class="hljs-keyword">if</span> argv.daemon
+      daemon()
+    <span class="hljs-keyword">else</span>
+      mailman.run (err) -&gt;
+        exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
+<span class="hljs-function">
+<span class="hljs-title">daemon</span> = -&gt;</span>
+  setTimeout daemon, config.get <span class="hljs-string">'/mailman/interval'</span>
+  mailman.run (err) -&gt;
     exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>

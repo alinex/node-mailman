@@ -64,6 +64,10 @@
         <a href="#helper-methods">Helper Methods</a>
       </div>
 
+      <div class="heading h3">
+        <a href="#add-body-to-mail-setup-from-report">Add body to mail setup from report</a>
+      </div>
+
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -115,7 +119,12 @@ Node Modules
         </td>
         <td class="code highlight">
           <pre class="coffeescript">debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>)(<span class="hljs-string">'mailman'</span>)
-Imap = <span class="hljs-built_in">require</span> <span class="hljs-string">'imap'</span></pre>
+chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'chalk'</span>
+util = <span class="hljs-built_in">require</span> <span class="hljs-string">'util'</span>
+Imap = <span class="hljs-built_in">require</span> <span class="hljs-string">'imap'</span>
+nodemailer = <span class="hljs-built_in">require</span> <span class="hljs-string">'nodemailer'</span>
+inlineBase64 = <span class="hljs-built_in">require</span> <span class="hljs-string">'nodemailer-plugin-inline-base64'</span>
+moment = <span class="hljs-built_in">require</span> <span class="hljs-string">'moment'</span></pre>
         </td>
       </tr>
     
@@ -130,6 +139,7 @@ Imap = <span class="hljs-built_in">require</span> <span class="hljs-string">'ima
         <td class="code highlight">
           <pre class="coffeescript">config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span>
 Exec = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-exec'</span>
+{object} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
 Report = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-report'</span>
 async = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-async'</span></pre>
         </td>
@@ -203,9 +213,11 @@ Run Mailman
   debug <span class="hljs-string">"connect to mailserver..."</span>
   setup = config.get <span class="hljs-string">'/mailman/mailcheck'</span>
   imap = <span class="hljs-keyword">new</span> Imap setup
-  imap.once <span class="hljs-string">'ready'</span>, <span class="hljs-function">-&gt;</span> openBox -&gt; processMails -&gt;
-    imap.end()
-    cb()
+  imap.once <span class="hljs-string">'ready'</span>, <span class="hljs-function">-&gt;</span> openBox (err, box) -&gt;
+    <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+    processMails box, <span class="hljs-function">-&gt;</span>
+      imap.end()
+      cb()
   imap.once <span class="hljs-string">'error'</span>, cb
   imap.once <span class="hljs-string">'end'</span>, <span class="hljs-function">-&gt;</span>
     debug <span class="hljs-string">'mailserver connection ended'</span>
@@ -228,17 +240,281 @@ Helper Methods
   debug <span class="hljs-string">"open INBOX..."</span>
   imap.status <span class="hljs-string">'INBOX'</span>, <span class="hljs-function"><span class="hljs-params">(err, box)</span> -&gt;</span>
     debug <span class="hljs-string">"found <span class="hljs-subst">#{box.messages.total}</span> messages (<span class="hljs-subst">#{box.messages.unseen}</span> unread)"</span>
-  <span class="hljs-built_in">console</span>.log mode
   imap.openBox <span class="hljs-string">'INBOX'</span>, mode.<span class="hljs-keyword">try</span>, cb
 <span class="hljs-function">
-<span class="hljs-title">processMails</span> = <span class="hljs-params">(cb)</span> -&gt;</span>
-  commands = config.get <span class="hljs-string">'/mailman/commands'</span>
+<span class="hljs-title">processMails</span> = <span class="hljs-params">(box, cb)</span> -&gt;</span>
+  commands = config.get <span class="hljs-string">'/mailman/command'</span>
   async.eachOf commands, <span class="hljs-function"><span class="hljs-params">(setup, command, cb)</span> -&gt;</span>
-    debug <span class="hljs-string">"search mails for <span class="hljs-subst">#{command}</span>..."</span>
+    debug <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span> search mails..."</span>
+    criteria = [<span class="hljs-string">'UNSEEN'</span>, [<span class="hljs-string">'!HEADER'</span>, <span class="hljs-string">'INREPLYTO'</span>, <span class="hljs-string">''</span>]]
+    <span class="hljs-keyword">if</span> setup.filter?.subject
+      criteria.push [<span class="hljs-string">'SUBJECT'</span>, setup.filter.subject]
+    debug chalk.grey <span class="hljs-string">"<span class="hljs-subst">#{command}</span> use filter <span class="hljs-subst">#{util.inspect(criteria).replace <span class="hljs-regexp">/\s+/g</span>, <span class="hljs-string">' '</span>}</span>"</span>
+    error = <span class="hljs-literal">null</span>
+    imap.search criteria, <span class="hljs-function"><span class="hljs-params">(err, results)</span> -&gt;</span>
+      <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+      count = results.length
+      debug <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span> found <span class="hljs-subst">#{count}</span> messages"</span>
+      <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> count
+      f = imap.fetch results,
+        <span class="hljs-attribute">bodies</span>: [<span class="hljs-string">'HEADER.FIELDS (FROM SUBJECT MESSAGE-ID)'</span>, <span class="hljs-string">'TEXT'</span>]
+        <span class="hljs-attribute">markSeen</span>: <span class="hljs-literal">true</span>
+      f.<span class="hljs-literal">on</span> <span class="hljs-string">'message'</span>, <span class="hljs-function"><span class="hljs-params">(msg, seqno)</span> -&gt;</span>
+        debug <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span> read message #<span class="hljs-subst">#{seqno}</span>"</span>
+        header = <span class="hljs-string">''</span>
+        buffer = <span class="hljs-string">''</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10"></a>
+</div>
+<pre><code>   attrs = null
+</code></pre>
 
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        msg.<span class="hljs-literal">on</span> <span class="hljs-string">'body'</span>, <span class="hljs-function"><span class="hljs-params">(stream, info)</span> -&gt;</span>
+          stream.<span class="hljs-literal">on</span> <span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-params">(chunk)</span> -&gt;</span>
+            <span class="hljs-keyword">if</span> info.which <span class="hljs-keyword">is</span> <span class="hljs-string">'TEXT'</span>
+              buffer += chunk.toString <span class="hljs-string">'utf8'</span>
+            <span class="hljs-keyword">else</span>
+              header += chunk.toString <span class="hljs-string">'utf8'</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11"></a>
+</div>
+<pre><code>   msg.once 'attributes', (data) -&gt;
+     attrs = data
+     debug &quot;#{chalk.grey command + ' #' + seqno} attributes: #{util.inspect attrs}&quot;
+</code></pre>
 
-    cb()
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        msg.once <span class="hljs-string">'end'</span>, <span class="hljs-function">-&gt;</span>
+          debug <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span> end reading <span class="hljs-subst">#{seqno}</span>"</span>
+          <span class="hljs-built_in">console</span>.log Imap.parseHeader header
+          execute
+            <span class="hljs-attribute">header</span>: Imap.parseHeader header
+            <span class="hljs-attribute">body</span>: buffer
+          , command, setup, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+            <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
+            count--
+      f.once <span class="hljs-string">'error'</span>, <span class="hljs-function">-&gt;</span>
+        error = <span class="hljs-keyword">new</span> Error <span class="hljs-string">"IMAP Fetch error: <span class="hljs-subst">#{err.message}</span>"</span>
+      f.once <span class="hljs-string">'end'</span>, <span class="hljs-function">-&gt;</span>
+        debug <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span> no more messages"</span>
+        <span class="hljs-keyword">return</span> cb error <span class="hljs-keyword">if</span> error</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12"></a>
+</div>
+<p>wait for finishing execution</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function">        <span class="hljs-title">done</span> = -&gt;</span>
+          <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> count
+          setTimeout done, <span class="hljs-number">1000</span>
+        done()
   , cb</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="add-body-to-mail-setup-from-report">
+  <h3>
+    <a href="#add-body-to-mail-setup-from-report" name="add-body-to-mail-setup-from-report" class="pilcrow"></a>
+Add body to mail setup from report
+  </h3>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">addBody</span>= <span class="hljs-params">(setup, context, cb)</span> -&gt;</span>
+  <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> setup.body
+  report = <span class="hljs-keyword">new</span> Report
+    <span class="hljs-attribute">source</span>: setup.body context
+  report.toHtml
+    <span class="hljs-attribute">inlineCss</span>: <span class="hljs-literal">true</span>
+    <span class="hljs-attribute">locale</span>: setup.locale
+  , <span class="hljs-function"><span class="hljs-params">(err, html)</span> -&gt;</span>
+    setup.text = report.toText()
+    setup.html = html
+    <span class="hljs-keyword">delete</span> setup.body
+    cb err
+<span class="hljs-function">
+<span class="hljs-title">execute</span> = <span class="hljs-params">(mail, command, conf, cb)</span> -&gt;</span>
+  debug <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span> execute for <span class="hljs-subst">#{mail.header.from[<span class="hljs-number">0</span>]}</span>"</span>
+  <span class="hljs-built_in">console</span>.log mail.header
+  setup =
+    <span class="hljs-attribute">remote</span>: conf.exec.remote
+    <span class="hljs-attribute">cmd</span>: conf.exec.cmd</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14"></a>
+</div>
+<p>args: ['-c', &quot;sleep #{@conf.time} &amp;&amp; grep cpu /proc/stat&quot;]
+priority: 'immediately'</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-built_in">console</span>.log setup
+  Exec.run setup, <span class="hljs-function"><span class="hljs-params">(err, exec)</span> -&gt;</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
+</div>
+<p>configure email</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    email = object.clone conf.email
+    debug chalk.grey <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span>: building email"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16"></a>
+</div>
+<p>use base settings</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-keyword">while</span> email.base
+      base = config.get <span class="hljs-string">"/mailman/email/<span class="hljs-subst">#{email.base}</span>"</span>
+      <span class="hljs-keyword">delete</span> email.base
+      email = object.extend {}, base, email</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-17" id="section-17"></a>
+</div>
+<p>conf reply</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    email.to = mail.header.from
+    email.subject = <span class="hljs-string">"Re: <span class="hljs-subst">#{mail.header.subject[<span class="hljs-number">0</span>]}</span>"</span>
+    email.inReplyTo = mail.header[<span class="hljs-string">'message-id'</span>][<span class="hljs-number">0</span>]
+    email.references = mail.header[<span class="hljs-string">'message-id'</span>]</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
+</div>
+<p>support handlebars</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-keyword">if</span> email.locale <span class="hljs-comment"># change locale</span>
+      oldLocale = moment.locale()
+      moment.locale email.locale
+    context =
+      <span class="hljs-attribute">name</span>: command
+      <span class="hljs-attribute">conf</span>: conf
+      <span class="hljs-attribute">date</span>: <span class="hljs-keyword">new</span> Date()
+      <span class="hljs-attribute">process</span>: exec.process
+      <span class="hljs-attribute">result</span>: exec.result
+    context.result.stdout = exec.stdout()
+    context.result.stderr = exec.stderr()
+    addBody email, context, <span class="hljs-function">-&gt;</span>
+      <span class="hljs-keyword">if</span> email.locale <span class="hljs-comment"># change locale back</span>
+        moment.locale oldLocale</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-19" id="section-19"></a>
+</div>
+<p>send email</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      mails = email.to?.map (e) -&gt; e.replace <span class="hljs-regexp">/".*?" &lt;(.*?)&gt;/g</span>, <span class="hljs-string">'$1'</span>
+      debug chalk.grey <span class="hljs-string">"<span class="hljs-subst">#{command}</span>: sending email to <span class="hljs-subst">#{mails?.join <span class="hljs-string">', '</span>}</span>..."</span>
+      <span class="hljs-built_in">console</span>.log email.text</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-20" id="section-20"></a>
+</div>
+<pre><code> return cb()
+</code></pre>
+
+        </td>
+        <td class="code highlight">
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-21" id="section-21"></a>
+</div>
+<p>email transporter</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      transporter = nodemailer.createTransport email.transport ? <span class="hljs-string">'direct:?name=hostname'</span>
+      transporter.use <span class="hljs-string">'compile'</span>, inlineBase64
+      debug chalk.grey <span class="hljs-string">"<span class="hljs-subst">#{command}</span>: send email using <span class="hljs-subst">#{transporter.transporter.name}</span>"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-22" id="section-22"></a>
+</div>
+<p>try to send email</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      transporter.sendMail email, <span class="hljs-function"><span class="hljs-params">(err, info)</span> -&gt;</span>
+        <span class="hljs-keyword">if</span> err
+          <span class="hljs-keyword">if</span> err.errors
+            debug chalk.red e.message <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> err.errors
+          <span class="hljs-keyword">else</span>
+            debug chalk.red err.message
+        <span class="hljs-keyword">if</span> info
+          debug <span class="hljs-string">"<span class="hljs-subst">#{command}</span>: message send: "</span> + chalk.grey util.inspect(info).replace <span class="hljs-regexp">/\s+/</span>, <span class="hljs-string">''</span>
+          <span class="hljs-keyword">if</span> info.rejected?.length
+            <span class="hljs-keyword">return</span> cb <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Some messages were rejected: <span class="hljs-subst">#{info.response}</span>"</span>
+        cb err?.errors?[<span class="hljs-number">0</span>] ? err ? <span class="hljs-literal">null</span></pre>
         </td>
       </tr>
     
