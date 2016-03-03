@@ -393,7 +393,8 @@ priority: 'immediately'</p>
         </td>
         <td class="code highlight">
           <pre class="coffeescript">    <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> conf.email
-    <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> conf.email.onlyOnError <span class="hljs-keyword">and</span> exec.result.code</pre>
+    <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> conf.email.onlyOnError <span class="hljs-keyword">and</span> exec.result.code
+    <span class="hljs-built_in">console</span>.log chalk.grey <span class="hljs-string">'   sending mail response'</span></pre>
         </td>
       </tr>
     
