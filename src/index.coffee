@@ -142,6 +142,7 @@ execute = (mail, command, conf, cb) ->
   setup =
     remote: conf.exec.remote
     cmd: conf.exec.cmd
+    args: conf.exec.args
 #    args: ['-c', "sleep #{@conf.time} && grep cpu /proc/stat"]
 #    priority: 'immediately'
   Exec.run setup, (err, exec) ->
