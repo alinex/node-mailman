@@ -147,7 +147,8 @@ execute = (mail, command, conf, cb) ->
   Exec.run setup, (err, exec) ->
     # check if email should be send
     return cb() unless conf.email
-    return cb() unless conf.email.onlyOnError and exec.result.code
+    return cb() if not conf.email.onlyOnError and exec.result.code
+    console.log chalk.grey '   sending mail response'
     # configure email
     email = object.clone conf.email
     debug chalk.grey "#{chalk.grey command}: building email"
