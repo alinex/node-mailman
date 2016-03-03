@@ -74,8 +74,10 @@ processMails = (box, cb) ->
     if setup.filter?.subject
       criteria.push ['SUBJECT', setup.filter.subject]
     if setup.filter?.from
-      list = ['OR']
-      list.push ['FROM', addr] for addr in setup.filter?.from
+      list = ['FROM', setup.filter.from[0]]
+      if setup.filter.from.length > 1
+        for addr in setup.filter?.from[1..]
+          list = ['OR', ['FROM', addr], list]
       criteria.push list
     debug chalk.grey "#{command} use filter #{util.inspect(criteria).replace /\s+/g, ' '}"
     error = null
