@@ -44,6 +44,7 @@ exports.init = (setup) ->
 # Run Mailman
 # -------------------------------------------------
 exports.run = (cb) ->
+  console.log "check for commands on mailbox"
   debug "connect to mailserver..."
   setup = config.get '/mailman/mailcheck'
   imap = new Imap setup
@@ -98,7 +99,6 @@ processMails = (box, cb) ->
 #          debug "#{chalk.grey command + ' #' + seqno} attributes: #{util.inspect attrs}"
         msg.once 'end', ->
           debug "#{chalk.grey command} end reading #{seqno}"
-          console.log Imap.parseHeader header
           execute
             header: Imap.parseHeader header
             body: buffer
@@ -132,14 +132,12 @@ addBody= (setup, context, cb) ->
     cb err
 
 execute = (mail, command, conf, cb) ->
-  debug "#{chalk.grey command} execute for #{mail.header.from[0]}"
-  console.log mail.header
+  console.log "-> execute #{command} for #{mail.header.from[0]}"
   setup =
     remote: conf.exec.remote
     cmd: conf.exec.cmd
 #    args: ['-c', "sleep #{@conf.time} && grep cpu /proc/stat"]
 #    priority: 'immediately'
-  console.log setup
   Exec.run setup, (err, exec) ->
     # check if email should be send
     return cb() unless conf.email
