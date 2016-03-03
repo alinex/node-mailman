@@ -4,6 +4,14 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 0.1.1 (2016-03-03)
+-------------------------------------------------
+- Upgrade nodemailer package.
+- Fix list from filter.
+- Add support to filter on from address.
+- Optimize console output.
+- Make email optional and support onlyOnError setting.
+
 Version 0.1.0 (2016-03-03)
 -------------------------------------------------
 - Upgraded chai to new version.
