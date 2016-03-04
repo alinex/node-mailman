@@ -52,7 +52,8 @@ After the mailman is configured you can start it once using:
 
     > mailman
 
-
+This will run the manager one time, check the emails run all required commands,
+send the replies like configured and finish.
 
 
 ### Run as a service
@@ -66,6 +67,13 @@ This will run the process continuously in daemon mode checking every few minutes
 for mails to be processed.
 
 > For production use you may start it using [pm2](http://pm2.keymetrics.io/).
+> `pm2 start mailman -- --daemon`
+
+
+Configuration
+-------------------------------------------------
+
+
 
 
 
