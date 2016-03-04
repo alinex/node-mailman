@@ -81,7 +81,7 @@ email =
 # Complete Schema Definition
 # -------------------------------------------------
 command =
-  title: "Command"
+  title: "Command Setup"
   description: "the definition of a single command to execute"
   type: 'object'
   allowedKeys: true
@@ -95,21 +95,43 @@ command =
       description: "a short abstract of what this job will retrieve"
       type: 'string'
     filter:
+      title: "Filter Conditions"
+      description: "the conditions to filter mails which are seen as linked to
+      this command"
       type: 'object'
       allowedKeys: true
       keys:
         subject:
+          title: "Subject"
+          description: "the case insenitive part of the subject which must be there"
           type: 'string'
         from:
+          title: "Allowed Sender"
+          description: "the list of allowed users by name part of the email address"
           type: 'array'
           toArray: true
           entries:
             type: 'string'
-    data:
-      type: 'object'
+#    data:
+#      type: 'object'
     exec:
+      title: "Commandline"
+      description: "the real call on commandline"
       type: 'object'
-      #############################
+      allowedKeys: true
+      mandatoryKeys: ['cmd']
+      keys:
+        cmd:
+          title: "Executable"
+          description: "the executable to run"
+          type: 'string'
+        args:
+          title: "Parameters"
+          description: "the parameters to send"
+          type: 'array'
+          toArray: true
+          entries:
+            type: 'string'
     email: email
 
 # Complete Schema Definition
