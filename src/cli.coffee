@@ -10,6 +10,7 @@ chalk = require 'chalk'
 fspath = require 'path'
 # include alinex modules
 config = require 'alinex-config'
+Exec = require 'alinex-exec'
 # include classes and helpers
 logo = require('alinex-core').logo 'Email Control Manager'
 mailman = require './index'
@@ -71,7 +72,7 @@ exit = (code = 0, err) ->
   console.error chalk.red.bold "FAILED: #{err.message}"
   console.error err.description if err.description
   process.exit code unless argv.daemon
-  mailman.stop()
+  argv.daemon = false
   setTimeout ->
     process.exit code
   , 2000
@@ -91,16 +92,24 @@ console.log "Initializing..."
 # init
 mailman.init
   try: argv.try
-# add schema for module's configuration
-config.setSchema '/mailman', schema
-# set module search path
-config.register 'mailman', fspath.dirname __dirname
-
-mailman.init
-  try: argv.try
-config.init (err) ->
+Exec.setup (err) ->
   exit 1, err if err
-  console.log '--------> SETUP', config.get '/'
-  # check mails
+  # add schema for module's configuration
+  config.setSchema '/mailman', schema
+  # set module search path
+  config.register 'mailman', fspath.dirname __dirname
+  mailman.init
+    try: argv.try
+  config.init (err) ->
+    exit 1, err if err
+    # check mails
+    if argv.daemon
+      daemon()
+    else
+      mailman.run (err) ->
+        exit 1, err if err
+
+daemon = ->
+  setTimeout daemon, config.get '/mailman/interval'
   mailman.run (err) ->
     exit 1, err if err

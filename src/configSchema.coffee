@@ -70,11 +70,18 @@ email =
       title: "Content"
       description: "the body content of the generated email"
       type: 'handlebars'
+    onlyOnError:
+      title: "Send Only on Error"
+      description: "the response mail will only be send on error of the executed
+      command"
+      type: 'boolean'
+      default: false
+  optional: true
 
 # Complete Schema Definition
 # -------------------------------------------------
 command =
-  title: "Command"
+  title: "Command Setup"
   description: "the definition of a single command to execute"
   type: 'object'
   allowedKeys: true
@@ -88,18 +95,44 @@ command =
       description: "a short abstract of what this job will retrieve"
       type: 'string'
     filter:
-      type: 'object'
-    data:
-      type: 'object'
-    exec:
-      type: 'object'
-      #############################
-    email:
+      title: "Filter Conditions"
+      description: "the conditions to filter mails which are seen as linked to
+      this command"
       type: 'object'
       allowedKeys: true
       keys:
-        success: email
-        fail: email
+        subject:
+          title: "Subject"
+          description: "the case insenitive part of the subject which must be there"
+          type: 'string'
+        from:
+          title: "Allowed Sender"
+          description: "the list of allowed users by name part of the email address"
+          type: 'array'
+          toArray: true
+          entries:
+            type: 'string'
+#    data:
+#      type: 'object'
+    exec:
+      title: "Commandline"
+      description: "the real call on commandline"
+      type: 'object'
+      allowedKeys: true
+      mandatoryKeys: ['cmd']
+      keys:
+        cmd:
+          title: "Executable"
+          description: "the executable to run"
+          type: 'string'
+        args:
+          title: "Parameters"
+          description: "the parameters to send"
+          type: 'array'
+          toArray: true
+          entries:
+            type: 'string'
+    email: email
 
 # Complete Schema Definition
 # -------------------------------------------------
@@ -167,3 +200,8 @@ module.exports =
       description: "the possible templates used for sending emails"
       type: 'object'
       entries: [email]
+    interval:
+      title: "Check Interval"
+      description: "the time to recheck for new emails in daemon mode"
+      type: 'interval'
+      default: 300000
