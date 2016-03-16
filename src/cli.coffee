@@ -11,6 +11,7 @@ fspath = require 'path'
 # include alinex modules
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
+mail = require 'alinex-mail'
 # include classes and helpers
 logo = require('alinex-core').logo 'Email Control Manager'
 mailman = require './index'
@@ -92,22 +93,24 @@ console.log "Initializing..."
 # init
 mailman.init
   try: argv.try
-Exec.setup (err) ->
+mail.setup (err) ->
   exit 1, err if err
-  # add schema for module's configuration
-  config.setSchema '/mailman', schema
-  # set module search path
-  config.register 'mailman', fspath.dirname __dirname
-  mailman.init
-    try: argv.try
-  config.init (err) ->
+  Exec.setup (err) ->
     exit 1, err if err
-    # check mails
-    if argv.daemon
-      daemon()
-    else
-      mailman.run (err) ->
-        exit 1, err if err
+    # add schema for module's configuration
+    config.setSchema '/mailman', schema
+    # set module search path
+    config.register 'mailman', fspath.dirname __dirname
+    mailman.init
+      try: argv.try
+    config.init (err) ->
+      exit 1, err if err
+      # check mails
+      if argv.daemon
+        daemon()
+      else
+        mailman.run (err) ->
+          exit 1, err if err
 
 daemon = ->
   setTimeout daemon, config.get '/mailman/interval'

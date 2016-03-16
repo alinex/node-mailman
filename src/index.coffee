@@ -12,15 +12,12 @@ debug = require('debug')('mailman')
 chalk = require 'chalk'
 util = require 'util'
 Imap = require 'imap'
-nodemailer = require 'nodemailer'
-inlineBase64 = require 'nodemailer-plugin-inline-base64'
-moment = require 'moment'
 # include alinex modules
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
 {object} = require 'alinex-util'
-Report = require 'alinex-report'
 async = require 'alinex-async'
+mail = require 'alinex-mail'
 # include classes and helpers
 
 
@@ -123,27 +120,12 @@ processMails = (box, cb) ->
         done()
   , cb
 
-# ### Add body to mail setup from report
-addBody= (setup, context, cb) ->
-  return cb() unless setup.body
-  report = new Report
-    source: setup.body context
-  report.toHtml
-    inlineCss: true
-    locale: setup.locale
-  , (err, html) ->
-    setup.text = report.toText()
-    setup.html = html
-    delete setup.body
-    cb err
-
-execute = (mail, command, conf, cb) ->
-  console.log "-> execute #{command} for #{mail.header.from[0]}"
+execute = (meta, command, conf, cb) ->
+  console.log "-> execute #{command} for #{meta.header.from[0]}"
   setup =
     remote: conf.exec.remote
     cmd: conf.exec.cmd
     args: conf.exec.args
-#    args: ['-c', "sleep #{@conf.time} && grep cpu /proc/stat"]
 #    priority: 'immediately'
   Exec.run setup, (err, exec) ->
     # check if email should be send
@@ -151,22 +133,12 @@ execute = (mail, command, conf, cb) ->
     return cb() if not conf.email.onlyOnError and exec.result.code
     console.log chalk.grey '   sending mail response'
     # configure email
-    email = object.clone conf.email
     debug chalk.grey "#{chalk.grey command}: building email"
-    # use base settings
-    while email.base
-      base = config.get "/mailman/email/#{email.base}"
-      delete email.base
-      email = object.extend {}, base, email
-    # conf reply
-    email.to = mail.header.from
-    email.subject = "Re: #{mail.header.subject[0]}"
-    email.inReplyTo = mail.header['message-id'][0]
-    email.references = mail.header['message-id']
-    # support handlebars
-    if email.locale # change locale
-      oldLocale = moment.locale()
-      moment.locale email.locale
+    email = object.clone conf.email
+    email.to = meta.header.from
+    email.subject = "Re: #{meta.header.subject[0]}"
+    email.inReplyTo = meta.header['message-id'][0]
+    email.references = meta.header['message-id']
     context =
       name: command
       conf: conf
@@ -175,25 +147,4 @@ execute = (mail, command, conf, cb) ->
       result: exec.result
     context.result.stdout = exec.stdout()
     context.result.stderr = exec.stderr()
-    addBody email, context, ->
-      if email.locale # change locale back
-        moment.locale oldLocale
-      # send email
-      mails = email.to?.map (e) -> e.replace /".*?" <(.*?)>/g, '$1'
-      debug chalk.grey "#{command}: sending email to #{mails?.join ', '}..."
-      # email transporter
-      transporter = nodemailer.createTransport email.transport ? 'direct:?name=hostname'
-      transporter.use 'compile', inlineBase64
-      debug chalk.grey "#{command}: send email using #{transporter.transporter.name}"
-      # try to send email
-      transporter.sendMail email, (err, info) ->
-        if err
-          if err.errors
-            debug chalk.red e.message for e in err.errors
-          else
-            debug chalk.red err.message
-        if info
-          debug "#{command}: message send: " + chalk.grey util.inspect(info).replace /\s+/, ''
-          if info.rejected?.length
-            return cb new Error "Some messages were rejected: #{info.response}"
-        cb err?.errors?[0] ? err ? null
+    mail.send email, context, cb

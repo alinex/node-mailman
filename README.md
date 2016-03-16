@@ -73,7 +73,7 @@ for mails to be processed.
 Configuration
 -------------------------------------------------
 
-The base configuration looks like:
+The base configuration for `/mailman` looks like:
 
 ``` yaml
 # Configuration for mailman
@@ -172,6 +172,51 @@ command:
     email:
       # use the template
       base: default
+```
+
+The email templates are stored under `/email` will look like:
+
+``` yaml
+# Email Templates
+# -------------------------------------------------------------------
+default:
+  # specify how to connect to the server
+  transport: smtp://alexander.schilling%40mycompany.de:<<<env://PW_ALEX_COM>>>@mail.mycompany.de
+  # sender address
+  from: alexander.schilling@mycompany.de
+  replyTo: alexander.schilling@mycompany.de
+
+  # content
+  locale: de
+  subject: >
+    Re: {{conf.title}}
+  body: |+
+    {{conf.title}}
+    ==========================================================================
+
+    {{conf.description}}
+
+    Started on {{dateFormat date "LL"}} from {{dateFormat process.start "LTS"}} to {{dateFormat process.end "LTS"}}
+
+    PID {{process.host}}#{{process.pid}}
+
+    {{#if result.code}}
+    ::: alert
+    Code {{result.code}} {{result.error}}
+    :::
+    {{/if}}
+
+    {{#if result.stdout}}
+    ``` text
+    {{result.stdout}}
+    ```
+    {{/if}}
+
+    {{#if result.stderr}}
+    ``` text
+    {{result.stderr}}
+    ```
+    {{/if}}
 ```
 
 
