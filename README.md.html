@@ -57,6 +57,10 @@
       </div>
 
       <div class="heading h2">
+        <a href="#configuration">Configuration</a>
+      </div>
+
+      <div class="heading h2">
         <a href="#license">License</a>
       </div>
 
@@ -85,7 +89,7 @@ valid the command will be processed sending back a reply with the command's log.
 </ul>
 <blockquote>
 <p>It is one of the modules of the <a href="http://alinex.github.io/code.html">Alinex Universe</a>
-following the code standards defined in the <a href="http://alinex.github.io/node-alinex">General Docs</a>.</p>
+following the code standards defined in the <a href="http://alinex.github.io/develop">General Docs</a>.</p>
 </blockquote>
 <div class="pilwrap" id="install">
   <h2>
@@ -116,6 +120,8 @@ Usage
 <p>After the mailman is configured you can start it once using:</p>
 <pre><code>&gt; mailman
 </code></pre>
+<p>This will run the manager one time, check the emails run all required commands,
+send the replies like configured and finish.</p>
 <div class="pilwrap" id="run-as-a-service">
   <h3>
     <a href="#run-as-a-service" name="run-as-a-service" class="pilcrow"></a>
@@ -129,8 +135,158 @@ background.</p>
 <p>This will run the process continuously in daemon mode checking every few minutes
 for mails to be processed.</p>
 <blockquote>
-<p>For production use you may start it using <a href="http://pm2.keymetrics.io/">pm2</a>.</p>
+<p>For production use you may start it using <a href="http://pm2.keymetrics.io/">pm2</a>.
+<code>pm2 start mailman -- --daemon</code></p>
 </blockquote>
+<div class="pilwrap" id="configuration">
+  <h2>
+    <a href="#configuration" name="configuration" class="pilcrow"></a>
+Configuration
+  </h2>
+</div>
+<p>The base configuration for <code>/mailman</code> looks like:</p>
+<pre><code class="yaml"># Configuration for mailman
+# =================================================================
+
+# IMAP Server to check for mails
+mailcheck:
+  # Username for login
+  user: alexander.schilling@mycompany.de
+  # Password for login
+  password: mypass
+  # Host or IP address to connect to
+  host: mail.mycompany.de
+  # Connection port
+  port: 143
+  # Secure login, set to true to login through TLS
+  tls: false
+  # TLS Upgrade decides when to upgrade to a secure session:
+  # one of 'always', 'required', 'never'
+  autotls: never
+  # Connection timeout in milliseconds to wait to establish connection&quot;
+  connTimeout: 10s
+  # Authentication timeout in milliseconds to wait to authenticate user&quot;
+  authTimeout: 5s
+
+# Check interval to recheck for new emails in daemon mode
+interval: 5m
+
+# Email Templates
+# -------------------------------------------------------------------
+email:
+  default:
+    # specify how to connect to the server
+    transport: smtp://alexander.schilling%40mycompany.de:&lt;&lt;&lt;env://PW_ALEX_DIVIBIB_COM&gt;&gt;&gt;@mail.mycompany.de
+    # sender address
+    from: alexander.schilling@mycompany.de
+    replyTo: alexander.schilling@mycompany.de
+
+    # content
+    locale: de
+    subject: &gt;
+      Re: {{conf.title}}
+    body: |+
+      {{conf.title}}
+      ==========================================================================
+
+      {{conf.description}}
+
+      Started on {{dateFormat date &quot;LL&quot;}} from {{dateFormat process.start &quot;LTS&quot;}} to {{dateFormat process.end &quot;LTS&quot;}}
+
+      PID {{process.host}}#{{process.pid}}
+
+      {{#if result.code}}
+      ::: alert
+      Code {{result.code}} {{result.error}}
+      :::
+      {{/if}}
+
+      {{#if result.stdout}}
+      ``` text
+      {{result.stdout}}
+      ```
+      {{/if}}
+
+      {{#if result.stderr}}
+      ``` text
+      {{result.stderr}}
+      ```
+      {{/if}}
+</code></pre>
+<p>And then the commands under <code>/mailman/comand/</code> will look like:</p>
+<pre><code class="yaml"># Commands
+# -------------------------------------------------------------------
+command:
+  # Object of possible commands to use
+  date:
+    # Title and description used for the mail response
+    title: &quot;Get the Date&quot;
+    description: &quot;Get the date from the server.&quot;
+    # Filter rules which define the emails to react on
+    filter:
+      # case-insensitive part of the subject
+      subject: 'what time is it'
+      # address or list of addresses, also as case-insensitive parts
+      from: '@mycompany.de'
+    # Command to execute
+    exec:
+      # executional on command line
+      cmd: 'date'
+      # list of arguments
+      args: []
+    # response mail settings
+    email:
+      # use the template
+      base: default
+</code></pre>
+<p>Within the <code>args</code> you may use specific parameters given in mail body. Also the
+following general variables are present:</p>
+<ul>
+<li>'_mail' - the mail address of the requester</li>
+<li>'_json' - complete parameters</li>
+</ul>
+<p>The email templates are stored under <code>/email</code> will look like:</p>
+<pre><code class="yaml"># Email Templates
+# -------------------------------------------------------------------
+default:
+  # specify how to connect to the server
+  transport: smtp://alexander.schilling%40mycompany.de:&lt;&lt;&lt;env://PW_ALEX_COM&gt;&gt;&gt;@mail.mycompany.de
+  # sender address
+  from: alexander.schilling@mycompany.de
+  replyTo: alexander.schilling@mycompany.de
+
+  # content
+  locale: de
+  subject: &gt;
+    Re: {{conf.title}}
+  body: |+
+    {{conf.title}}
+    ==========================================================================
+
+    {{conf.description}}
+
+    Started on {{dateFormat date &quot;LL&quot;}} from {{dateFormat process.start &quot;LTS&quot;}} to {{dateFormat process.end &quot;LTS&quot;}}
+
+    PID {{process.host}}#{{process.pid}}
+
+    {{#if result.code}}
+    ::: alert
+    Code {{result.code}} {{result.error}}
+    :::
+    {{/if}}
+
+    {{#if result.stdout}}
+    ``` text
+    {{result.stdout}}
+    ```
+    {{/if}}
+
+    {{#if result.stderr}}
+    ``` text
+    {{result.stderr}}
+    ```
+    {{/if}}
+</code></pre>
 <div class="pilwrap" id="license">
   <h2>
     <a href="#license" name="license" class="pilcrow"></a>
