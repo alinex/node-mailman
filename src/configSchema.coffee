@@ -57,7 +57,7 @@ command =
           type: 'array'
           toArray: true
           entries:
-            type: 'string'
+            type: 'handlebars'
     email: email
 
 # Complete Schema Definition

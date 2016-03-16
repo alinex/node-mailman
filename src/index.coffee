@@ -12,6 +12,7 @@ debug = require('debug')('mailman')
 chalk = require 'chalk'
 util = require 'util'
 Imap = require 'imap'
+MailParser = require('mailparser').MailParser
 # include alinex modules
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
@@ -84,30 +85,30 @@ processMails = (box, cb) ->
       debug "#{chalk.grey command} found #{count} messages"
       return cb() unless count
       f = imap.fetch results,
-        bodies: ['HEADER.FIELDS (FROM SUBJECT MESSAGE-ID)', 'TEXT']
+        bodies: ['HEADER', 'TEXT']
         markSeen: true
       f.on 'message', (msg, seqno) ->
         debug "#{chalk.grey command} read message ##{seqno}"
-        header = ''
-        buffer = ''
+        mailparser = new MailParser()
+        mailparser.on 'end', (obj) ->
+          execute
+            header: obj.headers
+            body:
+              html: obj.html
+              text: obj.text
+          , command, setup, (err) ->
+            return cb err if err
+            count--
 #        attrs = null
-        msg.on 'body', (stream, info) ->
+        msg.on 'body', (stream) ->
           stream.on 'data', (chunk) ->
-            if info.which is 'TEXT'
-              buffer += chunk.toString 'utf8'
-            else
-              header += chunk.toString 'utf8'
+            mailparser.write chunk.toString 'utf8'
 #        msg.once 'attributes', (data) ->
 #          attrs = data
 #          debug "#{chalk.grey command + ' #' + seqno} attributes: #{util.inspect attrs}"
         msg.once 'end', ->
           debug "#{chalk.grey command} end reading #{seqno}"
-          execute
-            header: Imap.parseHeader header
-            body: buffer
-          , command, setup, (err) ->
-            return cb err if err
-            count--
+          mailparser.end()
       f.once 'error', ->
         error = new Error "IMAP Fetch error: #{err.message}"
       f.once 'end', ->
@@ -120,31 +121,68 @@ processMails = (box, cb) ->
         done()
   , cb
 
+bodyVariables = (body, cb) ->
+  body = unless body.html
+    body.text.trim()
+  else
+    require('html2plaintext') body.html
+  return cb() unless body
+  # parse ini format
+  ini = require 'ini'
+  try
+    obj = ini.decode body
+  catch error
+    return cb new Error "ini parser: #{error.message}"
+  # detect failed parsing
+  if not obj?
+    return cb new Error "ini parser: could not parse any result"
+  if obj['{']
+    return cb new Error "ini parser: Unexpected token { at start"
+  for k, v of obj
+    if v is true and k.match /:/
+      return cb new Error "ini parser: Unexpected key name containing
+      ':' with value true"
+  cb null, obj
+
 execute = (meta, command, conf, cb) ->
-  console.log "-> execute #{command} for #{meta.header.from[0]}"
-  setup =
-    remote: conf.exec.remote
-    cmd: conf.exec.cmd
-    args: conf.exec.args
-#    priority: 'immediately'
-  Exec.run setup, (err, exec) ->
-    # check if email should be send
-    return cb() unless conf.email
-    return cb() if not conf.email.onlyOnError and exec.result.code
-    console.log chalk.grey '   sending mail response'
+  console.log "-> execute #{command} for #{meta.header.from}"
+  # parse Options
+  bodyVariables meta.body, (err, variables) ->
     # configure email
-    debug chalk.grey "#{chalk.grey command}: building email"
     email = object.clone conf.email
-    email.to = meta.header.from
-    email.subject = "Re: #{meta.header.subject[0]}"
-    email.inReplyTo = meta.header['message-id'][0]
-    email.references = meta.header['message-id']
-    context =
-      name: command
-      conf: conf
-      date: new Date()
-      process: exec.process
-      result: exec.result
-    context.result.stdout = exec.stdout()
-    context.result.stderr = exec.stderr()
-    mail.send email, context, cb
+    email.to = [meta.header.from]
+    email.subject = "Re: #{meta.header.subject}"
+    email.inReplyTo = meta.header['message-id']
+    email.references = [meta.header['message-id']]
+    # send error email
+    if err
+      return mail.send email,
+        name: command
+        conf: conf
+        date: new Date()
+        result:
+          code: 1
+          error: err.message
+      , cb
+    console.log "   with", variables
+    # add variables to command
+    setup =
+      remote: conf.exec.remote
+      cmd: conf.exec.cmd
+      args: conf.exec.args.map (e) -> e variables
+  #    priority: 'immediately'
+    Exec.run setup, (err, exec) ->
+      # check if email should be send
+      return cb() unless conf.email
+      return cb() if not conf.email.onlyOnError and exec.result.code
+      # send email
+      console.log chalk.grey '   sending mail response'
+      context =
+        name: command
+        conf: conf
+        date: new Date()
+        process: exec.process
+        result: exec.result
+      context.result.stdout = exec.stdout()
+      context.result.stderr = exec.stderr()
+      mail.send email, context, cb

@@ -174,6 +174,8 @@ command:
       base: default
 ```
 
+Within the `args` you may use specific parameters given in mail body.
+
 The email templates are stored under `/email` will look like:
 
 ``` yaml
