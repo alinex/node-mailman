@@ -166,6 +166,9 @@ execute = (meta, command, conf, cb) ->
       , cb
     console.log "   with", variables
     # add variables to command
+    variables ?= {}
+    variables._from = meta.header.from
+    variables._json = JSON.stringify variables
     setup =
       remote: conf.exec.remote
       cmd: conf.exec.cmd

@@ -174,7 +174,11 @@ command:
       base: default
 ```
 
-Within the `args` you may use specific parameters given in mail body.
+Within the `args` you may use specific parameters given in mail body. Also the
+following general variables are present:
+
+- '_mail' - the mail address of the requester
+- '_json' - complete parameters
 
 The email templates are stored under `/email` will look like:
 
