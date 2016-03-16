@@ -4,6 +4,18 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.0.0 (2016-03-16)
+-------------------------------------------------
+- Removed unneccessary packages.
+- Added _json and _mail automatic variables.
+- Allow handlebars in command arguments.
+- Move mail sending into extra package.
+- Merge branch 'master' of http://github.com/alinex/node-mailman
+- Changed general link.
+- Add config example to documentation.
+- Add config example.
+- Set schema check more detailed.
+
 Version 0.1.3 (2016-03-03)
 -------------------------------------------------
 - Also give args to executing command.
