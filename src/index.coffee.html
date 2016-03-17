@@ -392,10 +392,7 @@ Helper Methods
       <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
       <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
       <span class="hljs-attribute">mandatoryKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">keys</span>: object.extend
-        <span class="hljs-attribute">_mail</span>:
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      , conf.variables
+      <span class="hljs-attribute">keys</span>: conf.variables
   , cb
 <span class="hljs-function">
 <span class="hljs-title">execute</span> = <span class="hljs-params">(meta, command, conf, cb)</span> -&gt;</span>
@@ -425,7 +422,7 @@ Helper Methods
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">    email = object.clone conf.email
+          <pre class="coffeescript">    email = object.clone conf.email ? {<span class="hljs-attribute">base</span>: <span class="hljs-string">'default'</span>}
     email.to = [meta.header.from]
     email.subject = <span class="hljs-string">"Re: <span class="hljs-subst">#{meta.header.subject}</span>"</span>
     email.inReplyTo = meta.header[<span class="hljs-string">'message-id'</span>]
@@ -465,7 +462,9 @@ Helper Methods
         </td>
         <td class="code highlight">
           <pre class="coffeescript">    variables ?= {}
-    variables._mail = meta
+    variables._mail =
+      <span class="hljs-attribute">header</span>:
+        <span class="hljs-attribute">from</span>: meta.header.from
     variables._json = JSON.stringify variables
     setup =
       <span class="hljs-attribute">remote</span>: conf.exec.remote
