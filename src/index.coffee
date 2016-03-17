@@ -131,7 +131,7 @@ bodyVariables = (conf, body, cb) ->
   return cb() unless body
   # use only the code till the first empty line
   lines = []
-  for l in string.body.toList()
+  for l in string.toList body
     break unless l.trim()
     lines.push l
   # parse ini format
@@ -182,7 +182,7 @@ execute = (meta, command, conf, cb) ->
           code: 1
           error: err.message
       , cb
-    console.log "   with", variables
+    console.log "   with", variables if variables
     # add variables to command
     variables ?= {}
     variables._mail =
