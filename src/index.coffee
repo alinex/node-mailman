@@ -151,10 +151,7 @@ bodyVariables = (conf, body, cb) ->
       type: 'object'
       allowedKeys: true
       mandatoryKeys: true
-      keys: object.extend
-        _mail:
-          type: 'object'
-      , conf.variables
+      keys: conf.variables
   , cb
 
 execute = (meta, command, conf, cb) ->
@@ -162,7 +159,7 @@ execute = (meta, command, conf, cb) ->
   # parse Options
   bodyVariables conf, meta.body, (err, variables) ->
     # configure email
-    email = object.clone conf.email
+    email = object.clone conf.email ? {base: 'default'}
     email.to = [meta.header.from]
     email.subject = "Re: #{meta.header.subject}"
     email.inReplyTo = meta.header['message-id']
