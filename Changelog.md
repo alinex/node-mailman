@@ -4,6 +4,10 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.0.5 (2016-03-17)
+-------------------------------------------------
+- 
+
 Version 1.0.4 (2016-03-17)
 -------------------------------------------------
 - Give only selected mail header fields to executing program.
