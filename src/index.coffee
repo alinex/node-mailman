@@ -151,7 +151,10 @@ bodyVariables = (conf, body, cb) ->
       type: 'object'
       allowedKeys: true
       mandatoryKeys: true
-      keys: conf.variables
+      keys: object.extend
+        _mail:
+          type: 'object'
+      , conf.variables
   , cb
 
 execute = (meta, command, conf, cb) ->
