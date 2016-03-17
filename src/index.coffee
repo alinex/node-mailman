@@ -123,6 +123,7 @@ processMails = (box, cb) ->
   , cb
 
 bodyVariables = (conf, body, cb) ->
+  return cb null, {} unless conf.variables
   body = unless body.html
     body.text.trim()
   else
@@ -144,9 +145,11 @@ bodyVariables = (conf, body, cb) ->
       return cb new Error "ini parser: Unexpected key name containing
       ':' with value true"
   # validate variables
+  obj = object.lcKeys obj
+  delete obj[key] unless conf.variables[key] for key of obj
   validator.check
     name: 'emailBody'
-    value: object.lcKeys obj
+    value: obj
     schema:
       type: 'object'
       allowedKeys: true
