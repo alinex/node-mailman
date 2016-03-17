@@ -150,6 +150,7 @@ bodyVariables = (conf, body, cb) ->
     schema:
       type: 'object'
       allowedKeys: true
+      mandatoryKeys: true
       keys: conf.variables
   , cb
 
