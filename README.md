@@ -101,48 +101,6 @@ mailcheck:
 
 # Check interval to recheck for new emails in daemon mode
 interval: 5m
-
-# Email Templates
-# -------------------------------------------------------------------
-email:
-  default:
-    # specify how to connect to the server
-    transport: smtp://alexander.schilling%40mycompany.de:<<<env://PW_ALEX_DIVIBIB_COM>>>@mail.mycompany.de
-    # sender address
-    from: alexander.schilling@mycompany.de
-    replyTo: alexander.schilling@mycompany.de
-
-    # content
-    locale: de
-    subject: >
-      Re: {{conf.title}}
-    body: |+
-      {{conf.title}}
-      ==========================================================================
-
-      {{conf.description}}
-
-      Started on {{dateFormat date "LL"}} from {{dateFormat process.start "LTS"}} to {{dateFormat process.end "LTS"}}
-
-      PID {{process.host}}#{{process.pid}}
-
-      {{#if result.code}}
-      ::: alert
-      Code {{result.code}} {{result.error}}
-      :::
-      {{/if}}
-
-      {{#if result.stdout}}
-      ``` text
-      {{result.stdout}}
-      ```
-      {{/if}}
-
-      {{#if result.stderr}}
-      ``` text
-      {{result.stderr}}
-      ```
-      {{/if}}
 ```
 
 And then the commands under `/mailman/comand/` will look like:
@@ -162,6 +120,10 @@ command:
       subject: 'what time is it'
       # address or list of addresses, also as case-insensitive parts
       from: '@mycompany.de'
+    # Variables to support from body
+    variables:      
+      format:
+        type: 'string'
     # Command to execute
     exec:
       # executional on command line
@@ -177,8 +139,13 @@ command:
 Within the `args` you may use specific parameters given in mail body (but use them
 all in lowercase). Also the following general variables are present:
 
-- '_mail' - the mail address of the requester
-- '_json' - complete parameters
+- `_mail` - the mail object
+  - `header` - all the mail header fields
+  - `body` - text and html body if available
+- `_json` - complete parameters
+
+So you may use the email address of the sender as `_mail.header.from` to give it
+to your command.
 
 The email templates are stored under `/email` will look like:
 
