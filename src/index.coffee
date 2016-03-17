@@ -142,7 +142,7 @@ bodyVariables = (body, cb) ->
     if v is true and k.match /:/
       return cb new Error "ini parser: Unexpected key name containing
       ':' with value true"
-  cb null, obj
+  cb null, object.lcKeys obj
 
 execute = (meta, command, conf, cb) ->
   console.log "-> execute #{command} for #{meta.header.from}"
