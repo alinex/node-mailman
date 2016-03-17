@@ -4,6 +4,10 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.0.3 (2016-03-17)
+-------------------------------------------------
+- Allow _mail as object in variables.
+
 Version 1.0.2 (2016-03-17)
 -------------------------------------------------
 - Added util package.
