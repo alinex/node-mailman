@@ -177,7 +177,9 @@ execute = (meta, command, conf, cb) ->
     console.log "   with", variables
     # add variables to command
     variables ?= {}
-    variables._mail = meta
+    variables._mail =
+      header:
+        from: meta.header.from
     variables._json = JSON.stringify variables
     setup =
       remote: conf.exec.remote
