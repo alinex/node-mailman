@@ -392,7 +392,10 @@ Helper Methods
       <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
       <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
       <span class="hljs-attribute">mandatoryKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">keys</span>: conf.variables
+      <span class="hljs-attribute">keys</span>: object.extend
+        <span class="hljs-attribute">_mail</span>:
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+      , conf.variables
   , cb
 <span class="hljs-function">
 <span class="hljs-title">execute</span> = <span class="hljs-params">(meta, command, conf, cb)</span> -&gt;</span>
