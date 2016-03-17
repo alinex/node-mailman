@@ -19,6 +19,7 @@ Exec = require 'alinex-exec'
 {object} = require 'alinex-util'
 async = require 'alinex-async'
 mail = require 'alinex-mail'
+validator = require 'alinex-validator'
 # include classes and helpers
 
 
@@ -121,7 +122,7 @@ processMails = (box, cb) ->
         done()
   , cb
 
-bodyVariables = (body, cb) ->
+bodyVariables = (conf, body, cb) ->
   body = unless body.html
     body.text.trim()
   else
@@ -142,12 +143,20 @@ bodyVariables = (body, cb) ->
     if v is true and k.match /:/
       return cb new Error "ini parser: Unexpected key name containing
       ':' with value true"
-  cb null, object.lcKeys obj
+  # validate variables
+  validator.check
+    name: 'emailBody'
+    value: object.lcKeys obj
+    schema:
+      type: 'object'
+      allowedKeys: true
+      keys: conf.variables
+  , cb
 
 execute = (meta, command, conf, cb) ->
   console.log "-> execute #{command} for #{meta.header.from}"
   # parse Options
-  bodyVariables meta.body, (err, variables) ->
+  bodyVariables conf, meta.body, (err, variables) ->
     # configure email
     email = object.clone conf.email
     email.to = [meta.header.from]

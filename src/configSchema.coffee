@@ -38,8 +38,15 @@ command =
           toArray: true
           entries:
             type: 'string'
-#    data:
-#      type: 'object'
+    variables:
+      type: 'object'
+      entries: [
+        type: 'object'
+        mandatoryKeys: ['type']
+        keys:
+          type:
+            type: 'string'
+      ]
     exec:
       title: "Commandline"
       description: "the real call on commandline"
