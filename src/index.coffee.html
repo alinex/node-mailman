@@ -135,7 +135,8 @@ MailParser = <span class="hljs-built_in">require</span>(<span class="hljs-string
 Exec = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-exec'</span>
 {object} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
 async = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-async'</span>
-mail = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-mail'</span></pre>
+mail = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-mail'</span>
+validator = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-validator'</span></pre>
         </td>
       </tr>
     
@@ -329,7 +330,7 @@ Helper Methods
         done()
   , cb
 <span class="hljs-function">
-<span class="hljs-title">bodyVariables</span> = <span class="hljs-params">(body, cb)</span> -&gt;</span>
+<span class="hljs-title">bodyVariables</span> = <span class="hljs-params">(conf, body, cb)</span> -&gt;</span>
   body = <span class="hljs-keyword">unless</span> body.html
     body.text.trim()
   <span class="hljs-keyword">else</span>
@@ -371,8 +372,27 @@ Helper Methods
   <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">of</span> obj
     <span class="hljs-keyword">if</span> v <span class="hljs-keyword">is</span> <span class="hljs-literal">true</span> <span class="hljs-keyword">and</span> k.match <span class="hljs-regexp">/:/</span>
       <span class="hljs-keyword">return</span> cb <span class="hljs-keyword">new</span> Error <span class="hljs-string">"ini parser: Unexpected key name containing
-      ':' with value true"</span>
-  cb <span class="hljs-literal">null</span>, obj
+      ':' with value true"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
+</div>
+<p>validate variables</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  validator.check
+    <span class="hljs-attribute">name</span>: <span class="hljs-string">'emailBody'</span>
+    <span class="hljs-attribute">value</span>: object.lcKeys obj
+    <span class="hljs-attribute">schema</span>:
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">keys</span>: conf.variables
+  , cb
 <span class="hljs-function">
 <span class="hljs-title">execute</span> = <span class="hljs-params">(meta, command, conf, cb)</span> -&gt;</span>
   <span class="hljs-built_in">console</span>.log <span class="hljs-string">"-&gt; execute <span class="hljs-subst">#{command}</span> for <span class="hljs-subst">#{meta.header.from}</span>"</span></pre>
@@ -382,20 +402,20 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15"></a>
+  <a class="pilcrow" href="#section-16" id="section-16"></a>
 </div>
 <p>parse Options</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  bodyVariables meta.body, <span class="hljs-function"><span class="hljs-params">(err, variables)</span> -&gt;</span></pre>
+          <pre class="coffeescript">  bodyVariables conf, meta.body, <span class="hljs-function"><span class="hljs-params">(err, variables)</span> -&gt;</span></pre>
         </td>
       </tr>
     
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16"></a>
+  <a class="pilcrow" href="#section-17" id="section-17"></a>
 </div>
 <p>configure email</p>
 
@@ -412,7 +432,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17"></a>
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
 </div>
 <p>send error email</p>
 
@@ -434,14 +454,14 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18"></a>
+  <a class="pilcrow" href="#section-19" id="section-19"></a>
 </div>
 <p>add variables to command</p>
 
         </td>
         <td class="code highlight">
           <pre class="coffeescript">    variables ?= {}
-    variables._from = meta.header.from
+    variables._mail = meta
     variables._json = JSON.stringify variables
     setup =
       <span class="hljs-attribute">remote</span>: conf.exec.remote
@@ -453,7 +473,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-19" id="section-19"></a>
+  <a class="pilcrow" href="#section-20" id="section-20"></a>
 </div>
 <p>priority: 'immediately'</p>
 
@@ -466,7 +486,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20"></a>
+  <a class="pilcrow" href="#section-21" id="section-21"></a>
 </div>
 <p>check if email should be send</p>
 
@@ -480,7 +500,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21"></a>
+  <a class="pilcrow" href="#section-22" id="section-22"></a>
 </div>
 <p>send email</p>
 

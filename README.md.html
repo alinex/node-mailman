@@ -170,48 +170,6 @@ mailcheck:
 
 # Check interval to recheck for new emails in daemon mode
 interval: 5m
-
-# Email Templates
-# -------------------------------------------------------------------
-email:
-  default:
-    # specify how to connect to the server
-    transport: smtp://alexander.schilling%40mycompany.de:&lt;&lt;&lt;env://PW_ALEX_DIVIBIB_COM&gt;&gt;&gt;@mail.mycompany.de
-    # sender address
-    from: alexander.schilling@mycompany.de
-    replyTo: alexander.schilling@mycompany.de
-
-    # content
-    locale: de
-    subject: &gt;
-      Re: {{conf.title}}
-    body: |+
-      {{conf.title}}
-      ==========================================================================
-
-      {{conf.description}}
-
-      Started on {{dateFormat date &quot;LL&quot;}} from {{dateFormat process.start &quot;LTS&quot;}} to {{dateFormat process.end &quot;LTS&quot;}}
-
-      PID {{process.host}}#{{process.pid}}
-
-      {{#if result.code}}
-      ::: alert
-      Code {{result.code}} {{result.error}}
-      :::
-      {{/if}}
-
-      {{#if result.stdout}}
-      ``` text
-      {{result.stdout}}
-      ```
-      {{/if}}
-
-      {{#if result.stderr}}
-      ``` text
-      {{result.stderr}}
-      ```
-      {{/if}}
 </code></pre>
 <p>And then the commands under <code>/mailman/comand/</code> will look like:</p>
 <pre><code class="yaml"># Commands
@@ -228,6 +186,10 @@ command:
       subject: 'what time is it'
       # address or list of addresses, also as case-insensitive parts
       from: '@mycompany.de'
+    # Variables to support from body
+    variables:      
+      format:
+        type: 'string'
     # Command to execute
     exec:
       # executional on command line
@@ -239,12 +201,19 @@ command:
       # use the template
       base: default
 </code></pre>
-<p>Within the <code>args</code> you may use specific parameters given in mail body. Also the
-following general variables are present:</p>
+<p>Within the <code>args</code> you may use specific parameters given in mail body (but use them
+all in lowercase). Also the following general variables are present:</p>
 <ul>
-<li>'_mail' - the mail address of the requester</li>
-<li>'_json' - complete parameters</li>
+<li><code>_mail</code> - the mail object
+<ul>
+<li><code>header</code> - all the mail header fields</li>
+<li><code>body</code> - text and html body if available</li>
 </ul>
+</li>
+<li><code>_json</code> - complete parameters</li>
+</ul>
+<p>So you may use the email address of the sender as <code>_mail.header.from</code> to give it
+to your command.</p>
 <p>The email templates are stored under <code>/email</code> will look like:</p>
 <pre><code class="yaml"># Email Templates
 # -------------------------------------------------------------------
