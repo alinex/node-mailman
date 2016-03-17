@@ -16,7 +16,7 @@ MailParser = require('mailparser').MailParser
 # include alinex modules
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
-{object} = require 'alinex-util'
+{object, string} = require 'alinex-util'
 async = require 'alinex-async'
 mail = require 'alinex-mail'
 validator = require 'alinex-validator'
@@ -123,16 +123,21 @@ processMails = (box, cb) ->
   , cb
 
 bodyVariables = (conf, body, cb) ->
-  return cb null, {} unless conf.variables
+  return cb() unless conf.variables
   body = unless body.html
     body.text.trim()
   else
     require('html2plaintext') body.html
   return cb() unless body
+  # use only the code till the first empty line
+  lines = []
+  for l in string.body.toList()
+    break unless l.trim()
+    lines.push l
   # parse ini format
   ini = require 'ini'
   try
-    obj = ini.decode body
+    obj = ini.decode lines.join '\n'
   catch error
     return cb new Error "ini parser: #{error.message}"
   # detect failed parsing
