@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.0.1 (2016-03-17)
+-------------------------------------------------
+- Optimize documentation of configuration.
+- Added validation for email body variables.
+- Use all variables in lower case.
+
 Version 1.0.0 (2016-03-16)
 -------------------------------------------------
 - Removed unneccessary packages.
