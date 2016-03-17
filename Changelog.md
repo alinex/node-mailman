@@ -4,6 +4,10 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.0.2 (2016-03-17)
+-------------------------------------------------
+- Added util package.
+
 Version 1.0.1 (2016-03-17)
 -------------------------------------------------
 - Optimize documentation of configuration.
