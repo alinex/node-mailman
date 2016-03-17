@@ -4,6 +4,11 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.0.4 (2016-03-17)
+-------------------------------------------------
+- Give only selected mail header fields to executing program.
+- Added checking for _mail parameter in variables.
+
 Version 1.0.3 (2016-03-17)
 -------------------------------------------------
 - Allow _mail as object in variables.
