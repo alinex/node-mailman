@@ -56,12 +56,12 @@
         <a href="#run-as-a-service">Run as a service</a>
       </div>
 
-      <div class="heading h2">
-        <a href="#configuration">Configuration</a>
+      <div class="heading h3">
+        <a href="#try-mode">Try mode</a>
       </div>
 
       <div class="heading h2">
-        <a href="#license">License</a>
+        <a href="#configuration">Configuration</a>
       </div>
 
     </div>
@@ -138,6 +138,17 @@ for mails to be processed.</p>
 <p>For production use you may start it using <a href="http://pm2.keymetrics.io/">pm2</a>.
 <code>pm2 start mailman -- --daemon</code></p>
 </blockquote>
+<div class="pilwrap" id="try-mode">
+  <h3>
+    <a href="#try-mode" name="try-mode" class="pilcrow"></a>
+Try mode
+  </h3>
+</div>
+<p>Mostly for testing you may use the try mode:</p>
+<pre><code>&gt; mailman -t
+</code></pre>
+<p>That will run mailman normally but won't change the email so it can be used over
+and over again. Alternatively you may mark the email as 'unread' to reenable it.</p>
 <div class="pilwrap" id="configuration">
   <h2>
     <a href="#configuration" name="configuration" class="pilcrow"></a>
@@ -229,51 +240,52 @@ default:
   subject: &gt;
     Re: {{conf.title}}
   body: |+
-    {{conf.title}}
-    ==========================================================================
+  {{conf.title}}
+  ==========================================================================
 
-    {{conf.description}}
+  {{conf.description}}
 
-    Started on {{dateFormat date &quot;LL&quot;}} from {{dateFormat process.start &quot;LTS&quot;}} to {{dateFormat process.end &quot;LTS&quot;}}
+  Started on {{dateFormat date &quot;LL&quot;}} from {{dateFormat process.start &quot;LTS&quot;}} to {{dateFormat process.end &quot;LTS&quot;}}
 
-    PID {{process.host}}#{{process.pid}}
+  PID {{process.host}}#{{process.pid}}
 
-    {{#if result.code}}
-    ::: alert
-    Code {{result.code}} {{result.error}}
-    :::
-    {{/if}}
+  {{#if result.code}}
+  ::: alert
+  **{{{result.error}}}** (Code {{result.code}})
+  :::
+  {{/if}}
 
-    {{#if result.stdout}}
-    ``` text
-    {{result.stdout}}
-    ```
-    {{/if}}
+  {{#if result.stdout}}
+  Output of command was:
 
-    {{#if result.stderr}}
-    ``` text
-    {{result.stderr}}
-    ```
-    {{/if}}
+  ``` text
+  {{{result.stdout}}}
 </code></pre>
-<div class="pilwrap" id="license">
-  <h2>
-    <a href="#license" name="license" class="pilcrow"></a>
+<p>{{/if}}</p>
+<p>{{#if result.stderr}}
+Error output from command was:</p>
+<pre><code class="text">{{{result.stderr}}}
+</code></pre>
+<p>{{/if}}</p>
+<pre><code>
+
 License
-  </h2>
-</div>
-<p>Copyright 2016 Alexander Schilling</p>
-<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+-------------------------------------------------
+
+Copyright 2016 Alexander Schilling
+
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
 you may not use this file except in compliance with the License.
-You may obtain a copy of the License at</p>
-<blockquote>
-<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
-</blockquote>
-<p>Unless required by applicable law or agreed to in writing, software
+You may obtain a copy of the License at
+
+&gt;  &lt;http://www.apache.org/licenses/LICENSE-2.0&gt;
+
+Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License.</p>
+limitations under the License.
+</code></pre>
 </div>
   </div>
 </body>
