@@ -4,6 +4,16 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.0.6 (2016-03-18)
+-------------------------------------------------
+- Optimize error response mails.
+- Fixed man page.
+- Fix hang of system if mailserver login failed.
+- Move sender check from IMAP to code.
+- Fixed parsing of variables.
+- Read only the part till the first empty line.
+- Don't parse body if not needed.
+
 Version 1.0.5 (2016-03-17)
 -------------------------------------------------
 - 
