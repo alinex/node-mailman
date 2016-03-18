@@ -49,9 +49,9 @@ exports.run = (cb) ->
   imap = new Imap setup
   imap.once 'ready', -> openBox (err, box) ->
     return cb err if err
-    processMails box, ->
+    processMails box, (err) ->
       imap.end()
-      cb()
+      cb err
   imap.once 'error', cb
   imap.once 'end', ->
     debug 'mailserver connection ended'
@@ -72,12 +72,6 @@ processMails = (box, cb) ->
     criteria = ['UNSEEN', ['!HEADER', 'INREPLYTO', '']]
     if setup.filter?.subject
       criteria.push ['SUBJECT', setup.filter.subject]
-#    if setup.filter?.from
-#      list = ['FROM', setup.filter.from[0]]
-#      if setup.filter.from.length > 1
-#        for addr in setup.filter?.from[1..]
-#          list = ['OR', ['FROM', addr], list]
-#      criteria.push list
     debug chalk.grey "#{command} use filter #{util.inspect(criteria).replace /\s+/g, ' '}"
     error = null
     imap.search criteria, (err, results) ->
