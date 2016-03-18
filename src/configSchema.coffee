@@ -38,6 +38,7 @@ command =
           toArray: true
           entries:
             type: 'string'
+            lowerCase: true
     variables:
       type: 'object'
       entries: [

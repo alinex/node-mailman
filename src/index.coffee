@@ -72,12 +72,12 @@ processMails = (box, cb) ->
     criteria = ['UNSEEN', ['!HEADER', 'INREPLYTO', '']]
     if setup.filter?.subject
       criteria.push ['SUBJECT', setup.filter.subject]
-    if setup.filter?.from
-      list = ['FROM', setup.filter.from[0]]
-      if setup.filter.from.length > 1
-        for addr in setup.filter?.from[1..]
-          list = ['OR', ['FROM', addr], list]
-      criteria.push list
+#    if setup.filter?.from
+#      list = ['FROM', setup.filter.from[0]]
+#      if setup.filter.from.length > 1
+#        for addr in setup.filter?.from[1..]
+#          list = ['OR', ['FROM', addr], list]
+#      criteria.push list
     debug chalk.grey "#{command} use filter #{util.inspect(criteria).replace /\s+/g, ' '}"
     error = null
     imap.search criteria, (err, results) ->
@@ -163,8 +163,18 @@ bodyVariables = (conf, body, cb) ->
   , cb
 
 execute = (meta, command, conf, cb) ->
-  console.log "-> execute #{command} for #{meta.header.from}"
+  # check authentications
+  if conf.filter?.from
+    from = meta.header.from.toLowerCase()
+    valid = false
+    for test in conf.filter?.from
+      valid = ~from.indexOf test
+      break if valid
+    unless valid
+      console.error "skipping invalid sender #{from}"
+      return cb()
   # parse Options
+  console.log "-> execute #{command} for #{meta.header.from}"
   bodyVariables conf, meta.body, (err, variables) ->
     # configure email
     email = object.clone conf.email ? {base: 'default'}
