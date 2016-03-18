@@ -70,6 +70,16 @@ for mails to be processed.
 > `pm2 start mailman -- --daemon`
 
 
+### Try mode
+
+Mostly for testing you may use the try mode:
+
+    > mailman -t
+
+That will run mailman normally but won't change the email so it can be used over
+and over again. Alternatively you may mark the email as 'unread' to reenable it.
+
+
 Configuration
 -------------------------------------------------
 
@@ -164,32 +174,36 @@ default:
   subject: >
     Re: {{conf.title}}
   body: |+
-    {{conf.title}}
-    ==========================================================================
+  {{conf.title}}
+  ==========================================================================
 
-    {{conf.description}}
+  {{conf.description}}
 
-    Started on {{dateFormat date "LL"}} from {{dateFormat process.start "LTS"}} to {{dateFormat process.end "LTS"}}
+  Started on {{dateFormat date "LL"}} from {{dateFormat process.start "LTS"}} to {{dateFormat process.end "LTS"}}
 
-    PID {{process.host}}#{{process.pid}}
+  PID {{process.host}}#{{process.pid}}
 
-    {{#if result.code}}
-    ::: alert
-    Code {{result.code}} {{result.error}}
-    :::
-    {{/if}}
+  {{#if result.code}}
+  ::: alert
+  **{{{result.error}}}** (Code {{result.code}})
+  :::
+  {{/if}}
 
-    {{#if result.stdout}}
-    ``` text
-    {{result.stdout}}
-    ```
-    {{/if}}
+  {{#if result.stdout}}
+  Output of command was:
 
-    {{#if result.stderr}}
-    ``` text
-    {{result.stderr}}
-    ```
-    {{/if}}
+  ``` text
+  {{{result.stdout}}}
+  ```
+  {{/if}}
+
+  {{#if result.stderr}}
+  Error output from command was:
+
+  ``` text
+  {{{result.stderr}}}
+  ```
+  {{/if}}
 ```
 
 
