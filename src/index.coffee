@@ -128,7 +128,8 @@ bodyVariables = (conf, body, cb) ->
   return cb() unless body
   # use only the code till the first empty line
   lines = []
-  for l in string.toList body
+#  for l in string.toList body
+  for l in body.split /\n/
     break unless l.trim()
     lines.push l
   # parse ini format
@@ -147,7 +148,7 @@ bodyVariables = (conf, body, cb) ->
       return cb new Error "ini parser: Unexpected key name containing
       ':' with value true"
   # validate variables
-  obj = object.lcKeys obj
+#  obj = object.lcKeys obj
   delete obj[key] unless conf.variables[key] for key of obj
   validator.check
     name: 'emailBody'
