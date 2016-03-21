@@ -227,11 +227,23 @@ Complete Schema Definition
       <span class="hljs-attribute">description</span>: <span class="hljs-string">"the possible templates used for sending emails"</span>
       <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
       <span class="hljs-attribute">entries</span>: [email]
-    <span class="hljs-attribute">interval</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Check Interval"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the time to recheck for new emails in daemon mode"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'interval'</span>
-      <span class="hljs-attribute">default</span>: <span class="hljs-number">300000</span></pre>
+    <span class="hljs-attribute">daemon</span>:
+      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Setup Daemon"</span>
+      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the setup of the daemon mode"</span>
+      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
+      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
+      <span class="hljs-attribute">keys</span>:
+        <span class="hljs-attribute">maxJobs</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Number of Jobs"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the maximum number of jobs to run"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'integer'</span>
+          <span class="hljs-attribute">min</span>: <span class="hljs-number">1</span>
+          <span class="hljs-attribute">default</span>: <span class="hljs-number">5</span>
+        <span class="hljs-attribute">interval</span>:
+          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Check Interval"</span>
+          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the time to recheck for new emails in daemon mode"</span>
+          <span class="hljs-attribute">type</span>: <span class="hljs-string">'interval'</span>
+          <span class="hljs-attribute">default</span>: <span class="hljs-number">300000</span></pre>
         </td>
       </tr>
     

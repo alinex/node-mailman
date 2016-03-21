@@ -386,6 +386,7 @@ Main routine
         <td class="code highlight">
           <pre class="coffeescript">mailman.init
   <span class="hljs-attribute">try</span>: argv.<span class="hljs-keyword">try</span>
+  <span class="hljs-attribute">daemon</span>: argv.daemon
 mail.setup (err) -&gt;
   exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
   Exec.setup (err) -&gt;
@@ -439,7 +440,7 @@ mail.setup (err) -&gt;
           exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
 <span class="hljs-function">
 <span class="hljs-title">daemon</span> = -&gt;</span>
-  setTimeout daemon, config.get <span class="hljs-string">'/mailman/interval'</span>
+  setTimeout daemon, config.get <span class="hljs-string">'/mailman/daemon/interval'</span>
   mailman.run (err) -&gt;
     exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err</pre>
         </td>

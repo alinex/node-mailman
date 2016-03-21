@@ -185,8 +185,10 @@ be changed at any time.</p>
         <td class="code highlight">
           <pre class="coffeescript">mode =
   <span class="hljs-attribute">try</span>: <span class="hljs-literal">false</span> <span class="hljs-comment"># work in try mode</span>
+  <span class="hljs-attribute">daemon</span>: <span class="hljs-literal">false</span> <span class="hljs-comment"># runs in daemon mode?</span>
 
-imap = <span class="hljs-literal">null</span>
+imap = <span class="hljs-literal">null</span> <span class="hljs-comment"># imap connection</span>
+numJobs = <span class="hljs-number">0</span> <span class="hljs-comment"># number of jobs in progress</span>
 
 exports.init = <span class="hljs-function"><span class="hljs-params">(setup)</span> -&gt;</span>
   mode = setup</pre>
@@ -205,6 +207,7 @@ Run Mailman
         </td>
         <td class="code highlight">
           <pre class="coffeescript">exports.run = <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span>
+  numJobs = <span class="hljs-number">0</span>
   <span class="hljs-built_in">console</span>.log <span class="hljs-string">"check for commands on mailbox"</span>
   debug <span class="hljs-string">"connect to mailserver..."</span>
   setup = config.get <span class="hljs-string">'/mailman/mailcheck'</span>
@@ -343,8 +346,20 @@ Helper Methods
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  lines = []
-  <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> string.toList body
+          <pre class="coffeescript">  lines = []</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14"></a>
+</div>
+<p>for l in string.toList body</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> body.split <span class="hljs-regexp">/\n/</span>
     <span class="hljs-keyword">break</span> <span class="hljs-keyword">unless</span> l.trim()
     lines.push l</pre>
         </td>
@@ -353,7 +368,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14"></a>
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
 </div>
 <p>parse ini format</p>
 
@@ -370,7 +385,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15"></a>
+  <a class="pilcrow" href="#section-16" id="section-16"></a>
 </div>
 <p>detect failed parsing</p>
 
@@ -390,14 +405,14 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16"></a>
+  <a class="pilcrow" href="#section-17" id="section-17"></a>
 </div>
-<p>validate variables</p>
+<p>validate variables
+obj = object.lcKeys obj</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  obj = object.lcKeys obj
-  <span class="hljs-keyword">delete</span> obj[key] <span class="hljs-keyword">unless</span> conf.variables[key] <span class="hljs-keyword">for</span> key <span class="hljs-keyword">of</span> obj
+          <pre class="coffeescript">  <span class="hljs-keyword">delete</span> obj[key] <span class="hljs-keyword">unless</span> conf.variables[key] <span class="hljs-keyword">for</span> key <span class="hljs-keyword">of</span> obj
   validator.check
     <span class="hljs-attribute">name</span>: <span class="hljs-string">'emailBody'</span>
     <span class="hljs-attribute">value</span>: obj
@@ -415,7 +430,23 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17"></a>
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
+</div>
+<p>check for max execution</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  max = <span class="hljs-keyword">if</span> meta.daemon <span class="hljs-keyword">then</span> config.get <span class="hljs-string">'/mailman/daemon/maxJobs'</span> <span class="hljs-keyword">else</span> <span class="hljs-number">20</span>
+  <span class="hljs-keyword">unless</span> numJobs &lt; max
+    <span class="hljs-built_in">console</span>.error <span class="hljs-string">"skipping for this round (max <span class="hljs-subst">#{max}</span> jobs per round)"</span>
+    <span class="hljs-keyword">return</span> cb()</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-19" id="section-19"></a>
 </div>
 <p>check authentications</p>
 
@@ -436,7 +467,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18"></a>
+  <a class="pilcrow" href="#section-20" id="section-20"></a>
 </div>
 <p>parse Options</p>
 
@@ -450,7 +481,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-19" id="section-19"></a>
+  <a class="pilcrow" href="#section-21" id="section-21"></a>
 </div>
 <p>configure email</p>
 
@@ -467,7 +498,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20"></a>
+  <a class="pilcrow" href="#section-22" id="section-22"></a>
 </div>
 <p>send error email</p>
 
@@ -489,7 +520,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21"></a>
+  <a class="pilcrow" href="#section-23" id="section-23"></a>
 </div>
 <p>add variables to command</p>
 
@@ -510,7 +541,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-22" id="section-22"></a>
+  <a class="pilcrow" href="#section-24" id="section-24"></a>
 </div>
 <p>priority: 'immediately'</p>
 
@@ -523,7 +554,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23"></a>
+  <a class="pilcrow" href="#section-25" id="section-25"></a>
 </div>
 <p>check if email should be send</p>
 
@@ -537,7 +568,7 @@ Helper Methods
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-24" id="section-24"></a>
+  <a class="pilcrow" href="#section-26" id="section-26"></a>
 </div>
 <p>send email</p>
 
