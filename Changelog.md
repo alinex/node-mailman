@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.0.7 (2016-03-21)
+-------------------------------------------------
+- Allow array variables with custom delimiter.
+- Limit jobs per round for deamon.
+- Upgrade yargs, validator and config packages.
+
 Version 1.0.6 (2016-03-18)
 -------------------------------------------------
 - Optimize error response mails.
