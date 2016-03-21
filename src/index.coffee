@@ -33,8 +33,10 @@ validator = require 'alinex-validator'
 # be changed at any time.
 mode =
   try: false # work in try mode
+  daemon: false # runs in daemon mode?
 
-imap = null
+imap = null # imap connection
+numJobs = 0 # number of jobs in progress
 
 exports.init = (setup) ->
   mode = setup
@@ -43,6 +45,7 @@ exports.init = (setup) ->
 # Run Mailman
 # -------------------------------------------------
 exports.run = (cb) ->
+  numJobs = 0
   console.log "check for commands on mailbox"
   debug "connect to mailserver..."
   setup = config.get '/mailman/mailcheck'
@@ -157,6 +160,11 @@ bodyVariables = (conf, body, cb) ->
   , cb
 
 execute = (meta, command, conf, cb) ->
+  # check for max execution
+  max = if meta.daemon then config.get '/mailman/daemon/maxJobs' else 20
+  unless numJobs < max
+    console.error "skipping for this round (max #{max} jobs per round)"
+    return cb()
   # check authentications
   if conf.filter?.from
     from = meta.header.from.toLowerCase()

@@ -93,6 +93,7 @@ console.log "Initializing..."
 # init
 mailman.init
   try: argv.try
+  daemon: argv.daemon
 mail.setup (err) ->
   exit 1, err if err
   Exec.setup (err) ->
@@ -113,6 +114,6 @@ mail.setup (err) ->
           exit 1, err if err
 
 daemon = ->
-  setTimeout daemon, config.get '/mailman/interval'
+  setTimeout daemon, config.get '/mailman/daemon/interval'
   mailman.run (err) ->
     exit 1, err if err
