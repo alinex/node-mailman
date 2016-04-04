@@ -227,60 +227,109 @@ execute = (meta, command, conf, cb) ->
       mail.send email, context, cb
 
 help = (meta, conf, cb) ->
-  report = new Report()
-  report.h2 "General Use"
-  report.p "To run one of the possible commands from Mailman you have to send an
-  simple email to it's address under #{meta.header.to}."
-  report.h3 "Authentification"
-  report.p "This is done based on your email address. So you can only request what
-  is available for xour mail address. See the following list of possibilities for
-  you."
-  report.h3 "Selection of Report"
-  report.h3 "Variables"
-  report.h3 "Response"
-  report.h3 "Examples"
-  # search for allowed commands
-  report.h2 "Available Commands"
-  for name, cmd of config.get '/mailman/command'
-    # check for valid command
-    valid = cmd.filter?.from?.filter (e) -> ~meta.header.from.toLowerCase().indexOf e
-    continue if cmd.filter?.from and not valid.length
-    # create report entry
-    report.h3 cmd.title
-    report.p cmd.description
-    report.code "Subject: #{cmd.filter.subject}"
-    if cmd.variables
-      report.p "This reports supports/needs some variables to be set within the contents:"
-      report.ul Object.keys(cmd.variables).map (key) ->
-        v = cmd.variables[key]
-        msg = "`#{key}`"
-        msg += " - **#{v.title}**" if v.title
-        msg += " (optional)" if v.optional and not v.default
-        msg += " (default: #{v.default})" if v.default
-        msg += "\\\n#{v.description}" if v.description
-        msg += "\\\nType: " + switch v.type
-          when 'array'
-            "List of #{v.entries?.type ? 'entries'}"
-          else
-            v.type
-        if v.delimiter
-          del = v.delimiter.toString()
-          if match = del.match /^\/(.*)\/([gim]+)?$/
-            del = match[1].replace /\\[srt ]\*/g, ''
-            .replace /\\s\+?/g, ' '
-            .replace /\\t\+?/g, 'TAB'
-            .split /|/
-            .join "', '"
-          msg += " (use '#{del}' as delimiter)"
-        msg
-# list delimiter format optimized
-
   # configure email
   email = object.clone conf.email ? {base: 'default'}
   email.to = [meta.header.from]
   email.subject = "Re: #{meta.header.subject}"
   email.inReplyTo = meta.header['message-id']
   email.references = [meta.header['message-id']]
+  email = mail.resolve email
+  # create report
+  report = new Report()
+  switch email.locale ? 'en'
+    when 'de'
+      report.h2 "Allgemeine Bedienung"
+      report.p "Um einen der Befehle auszuführen, muss eine einfache Email an die Adresse
+      #{meta.header.to} gesendet werden."
+      report.h3 "Zugriffskontrolle"
+
+      report.p "This is done based on your email address. So you can only request what
+      is available for your mail address. See the following list of possibilities for
+      you."
+      report.h3 "Selection of Report"
+      report.h3 "Variables"
+      report.h3 "Response"
+      report.h3 "Examples"
+      # search for allowed commands
+      report.h2 "Available Commands"
+      for name, cmd of config.get '/mailman/command'
+        # check for valid command
+        valid = cmd.filter?.from?.filter (e) -> ~meta.header.from.toLowerCase().indexOf e
+        continue if cmd.filter?.from and not valid.length
+        # create report entry
+        report.h3 cmd.title
+        report.p cmd.description
+        report.code "Subject: #{cmd.filter.subject}"
+        if cmd.variables
+          report.p "This report supports/needs some variables to be set within the contents:"
+          report.ul Object.keys(cmd.variables).map (key) ->
+            v = cmd.variables[key]
+            msg = "`#{key}`"
+            msg += " - **#{v.title}**" if v.title
+            msg += " (optional)" if v.optional and not v.default
+            msg += " (default: #{v.default})" if v.default
+            msg += "\\\n#{v.description}" if v.description
+            msg += "\\\nType: " + switch v.type
+              when 'array'
+                "List of #{v.entries?.type ? 'entries'}"
+              else
+                v.type
+            if v.delimiter
+              del = v.delimiter.toString()
+              if match = del.match /^\/(.*)\/([gim]+)?$/
+                del = match[1].replace /\\[srt ]\*/g, ''
+                .replace /\\s\+?/g, ' '
+                .replace /\\t\+?/g, 'TAB'
+                .split /|/
+                .join "', '"
+              msg += " (use '#{del}' as delimiter)"
+            msg
+    else
+      report.h2 "General Use"
+      report.p "To run one of the possible commands from Mailman you have to send an
+      simple email to it's address under #{meta.header.to}."
+      report.h3 "Authentification"
+      report.p "This is done based on your email address. So you can only request what
+      is available for your mail address. See the following list of possibilities for
+      you."
+      report.h3 "Selection of Report"
+      report.h3 "Variables"
+      report.h3 "Response"
+      report.h3 "Examples"
+      # search for allowed commands
+      report.h2 "Available Commands"
+      for name, cmd of config.get '/mailman/command'
+        # check for valid command
+        valid = cmd.filter?.from?.filter (e) -> ~meta.header.from.toLowerCase().indexOf e
+        continue if cmd.filter?.from and not valid.length
+        # create report entry
+        report.h3 cmd.title
+        report.p cmd.description
+        report.code "Subject: #{cmd.filter.subject}"
+        if cmd.variables
+          report.p "This report supports/needs some variables to be set within the contents:"
+          report.ul Object.keys(cmd.variables).map (key) ->
+            v = cmd.variables[key]
+            msg = "`#{key}`"
+            msg += " - **#{v.title}**" if v.title
+            msg += " (optional)" if v.optional and not v.default
+            msg += " (default: #{v.default})" if v.default
+            msg += "\\\n#{v.description}" if v.description
+            msg += "\\\nType: " + switch v.type
+              when 'array'
+                "List of #{v.entries?.type ? 'entries'}"
+              else
+                v.type
+            if v.delimiter
+              del = v.delimiter.toString()
+              if match = del.match /^\/(.*)\/([gim]+)?$/
+                del = match[1].replace /\\[srt ]\*/g, ''
+                .replace /\\s\+?/g, ' '
+                .replace /\\t\+?/g, 'TAB'
+                .split /|/
+                .join "', '"
+              msg += " (use '#{del}' as delimiter)"
+            msg
   # send help email
   mail.send email,
     name: 'help'
