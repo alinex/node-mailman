@@ -263,7 +263,15 @@ help = (meta, conf, cb) ->
             "List of #{v.entries?.type ? 'entries'}"
           else
             v.type
-        msg += " (use '#{v.delimiter.toString()}' as delimiter)" if v.delimiter
+        if v.delimiter
+          del = v.delimiter.toString()
+          if match = del.match /^\/(.*)\/([gim]+)?$/
+            del = match[1].replace /\\[srt ]\*/g, ''
+            .replace /\\s\+?/g, ' '
+            .replace /\\t\+?/g, 'TAB'
+            .split /|/
+            .join "', '"
+          msg += " (use '#{del}' as delimiter)"
         msg
 # list delimiter format optimized
 
