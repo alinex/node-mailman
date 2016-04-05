@@ -311,7 +311,7 @@ help = (meta, conf, cb) ->
             del = match[1].replace /\\[srt ]\*/g, ''
             .replace /\\s\+?/g, ' '
             .replace /\\t\+?/g, 'TAB'
-            .split /|/
+            .split /\|/
             .join "', '"
           msg += " (" + i18n.__("use '%s' as delimiter", del) + ")"
         msg
