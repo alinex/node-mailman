@@ -309,10 +309,14 @@ help = (meta, conf, cb) ->
           del = v.delimiter.toString()
           if match = del.match /^\/(.*)\/([gim]+)?$/
             del = match[1].replace /\\[srt ]\*/g, ''
+            .replace /\\t/g, '\t'
             .replace /\\s\+?/g, ' '
-            .replace /\\t\+?/g, 'TAB'
-            .split /\|/
-            .join "', '"
+            .replace /^\[(.*?)\]$/g, (_, r) ->
+              "#{r.split('').join '\', \''}"
+            .replace /^\((.*?)\)$/g, (_, r) ->
+              "#{r.split('|').join '\', \''}"
+            .replace /\t\+?/g, 'TAB'
+            .replace /\s\+?/g, 'SPACE'
           msg += " (" + i18n.__("use '%s' as delimiter", del) + ")"
         msg
   report.h2 i18n.__ "final.head:Further Help"
