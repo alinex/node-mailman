@@ -750,7 +750,7 @@ obj = object.lcKeys obj</p>
             del = match[<span class="hljs-number">1</span>].replace <span class="hljs-regexp">/\\[srt ]\*/g</span>, <span class="hljs-string">''</span>
             .replace <span class="hljs-regexp">/\\s\+?/g</span>, <span class="hljs-string">' '</span>
             .replace <span class="hljs-regexp">/\\t\+?/g</span>, <span class="hljs-string">'TAB'</span>
-            .split <span class="hljs-regexp">/|/</span>
+            .split <span class="hljs-regexp">/\|/</span>
             .join <span class="hljs-string">"', '"</span>
           msg += <span class="hljs-string">" ("</span> + i18n.__(<span class="hljs-string">"use '%s' as delimiter"</span>, del) + <span class="hljs-string">")"</span>
         msg
