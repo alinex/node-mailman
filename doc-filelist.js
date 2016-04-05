@@ -1,1 +1,1 @@
-var tree={"files":["Changelog.md","README.md","coffeelint.json","package.json"],"dirs":{"src":{"files":["cli.coffee","configSchema.coffee","index.coffee"],"dirs":{"man":{"files":["mailman.1.md"]}}}}};
+var tree={"files":["Changelog.md","README.md","coffeelint.json","package.json"],"dirs":{"src":{"files":["cli.coffee","configSchema.coffee","index.coffee"],"dirs":{"man":{"files":["mailman.1.md"]}}},"var":{"dirs":{"locales":{"files":["de.json","en.json"]}}}}};

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>en.json</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../";
+    var thisFile = "home/alex/github/node-mailman/var/locales/en.json";
+    var defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>
+<body>
+  <nav>
+<div class="logo"><a href="http://alinex.github.io"
+  onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'"
+  onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png"
+    width="150" title="Alinex Universe Homepage" />
+  </a>
+  <img src="http://alinex.github.io/images/Alinex-200.png"
+    style="display:none" alt="preloading" />
+</div>
+<div class="links">
+  <a href="http://alinex.github.io/blog"
+    class="btn btn-primary"><span class="glyphicon-pencil"></span> Blog</a>
+  <a href="http://alinex.github.io/develop"
+    class="btn btn-primary"><span class="glyphicon-book"></span> Develop</a>
+  <a href="http://alinex.github.io/code.html"
+    class="btn btn-warning"><span class="glyphicon-cog"></span> Code</a>
+</div>
+</nav><div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-mailman" title="Fork me on GitHub"></a>
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>en.json</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="json">{
+	"<span class="hljs-attribute">general</span>": <span class="hljs-value">{
+		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"General Use"</span></span>,
+		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"To run one of the possible commands from Mailman you have to send a simple email to it's address under %s."</span>
+	</span>}</span>,
+	"<span class="hljs-attribute">auth</span>": <span class="hljs-value">{
+		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Authentification"</span></span>,
+		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"This is done based on your email address. So you can only request what is available for your mail address. See the following list of possibilities for you."</span>
+	</span>}</span>,
+	"<span class="hljs-attribute">select</span>": <span class="hljs-value">{
+		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Selection of Command"</span></span>,
+		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"You may select from the below listed commands by to execute by using different subject lines in your email. The subject is case insensitive but have to be correctly spelled."</span>
+	</span>}</span>,
+	"<span class="hljs-attribute">var</span>": <span class="hljs-value">{
+		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Variables"</span></span>,
+		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"Some of the commands need or allow variables to be used. They have to be given in the body of your email in ini format. This means that you have to write the name of the variable, an equal sign and it's value in one line. The first empty line marks the end of the variables, all information below will be ignored. See the Examples below."</span>
+	</span>}</span>,
+	"<span class="hljs-attribute">response</span>": <span class="hljs-value">{
+		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Response"</span></span>,
+		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"The concrete response may vary for each command. It can send you an email with the result, the problems or just be quiet. Sometimes the called command will interact with you directly like DBReports will do."</span>
+	</span>}</span>,
+	"<span class="hljs-attribute">example</span>": <span class="hljs-value">{
+		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Examples"</span></span>,
+		"<span class="hljs-attribute">simple</span>": <span class="hljs-value"><span class="hljs-string">"A question to DBReports for an database analyzation may look like:"</span></span>,
+		"<span class="hljs-attribute">list</span>": <span class="hljs-value"><span class="hljs-string">"Or if you want to call it with multiple IDs (if possible):"</span></span>,
+		"<span class="hljs-attribute">footer</span>": <span class="hljs-value"><span class="hljs-string">"What your command allows will be described in the command help below."</span>
+	</span>}</span>,
+	"<span class="hljs-attribute">command</span>": <span class="hljs-value">{
+		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Available Commands"</span></span>,
+		"<span class="hljs-attribute">var</span>": <span class="hljs-value"><span class="hljs-string">"This command supports/needs some variables to be set within the contents:"</span></span>,
+		"<span class="hljs-attribute">list</span>": <span class="hljs-value"><span class="hljs-string">"List of %s"</span>
+	</span>}</span>,
+	"<span class="hljs-attribute">default</span>": <span class="hljs-value"><span class="hljs-string">"default"</span></span>,
+	"<span class="hljs-attribute">optional</span>": <span class="hljs-value"><span class="hljs-string">"optional"</span></span>,
+	"<span class="hljs-attribute">Type</span>": <span class="hljs-value"><span class="hljs-string">"Type"</span></span>,
+	"<span class="hljs-attribute">entries</span>": <span class="hljs-value"><span class="hljs-string">"entries"</span></span>,
+	"<span class="hljs-attribute">use '%s' as delimiter</span>": <span class="hljs-value"><span class="hljs-string">"use '%s' as delimiter"</span></span>,
+	"<span class="hljs-attribute">final</span>": <span class="hljs-value">{
+		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Further Help"</span></span>,
+		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"If something goes wrong or you need further help send an email as reply to this."</span>
+	</span>}
+</span>}</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

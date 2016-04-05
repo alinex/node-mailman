@@ -133,10 +133,11 @@ MailParser = <span class="hljs-built_in">require</span>(<span class="hljs-string
         <td class="code highlight">
           <pre class="coffeescript">config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span>
 Exec = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-exec'</span>
-{object, string} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
+{object} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
 async = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-async'</span>
 mail = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-mail'</span>
-validator = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-validator'</span></pre>
+validator = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-validator'</span>
+Report = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-report'</span></pre>
         </td>
       </tr>
     
@@ -423,7 +424,9 @@ obj = object.lcKeys obj</p>
       <span class="hljs-attribute">keys</span>: conf.variables
   , cb
 <span class="hljs-function">
-<span class="hljs-title">execute</span> = <span class="hljs-params">(meta, command, conf, cb)</span> -&gt;</span></pre>
+<span class="hljs-title">execute</span> = <span class="hljs-params">(meta, command, conf, cb)</span> -&gt;</span>
+  <span class="hljs-keyword">if</span> command <span class="hljs-keyword">is</span> <span class="hljs-string">'help'</span>
+    <span class="hljs-keyword">return</span> help meta, conf, cb</pre>
         </td>
       </tr>
     
@@ -583,7 +586,195 @@ obj = object.lcKeys obj</p>
         <span class="hljs-attribute">result</span>: exec.result
       context.result.stdout = exec.stdout()
       context.result.stderr = exec.stderr()
-      mail.send email, context, cb</pre>
+      mail.send email, context, cb
+<span class="hljs-function">
+<span class="hljs-title">help</span> = <span class="hljs-params">(meta, conf, cb)</span> -&gt;</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-27" id="section-27"></a>
+</div>
+<p>configure email</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  email = object.clone conf.email ? {<span class="hljs-attribute">base</span>: <span class="hljs-string">'default'</span>}
+  email.to = [meta.header.from]
+  email.subject = <span class="hljs-string">"Re: <span class="hljs-subst">#{meta.header.subject}</span>"</span>
+  email.inReplyTo = meta.header[<span class="hljs-string">'message-id'</span>]
+  email.references = [meta.header[<span class="hljs-string">'message-id'</span>]]
+  email = mail.resolve email</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-28" id="section-28"></a>
+</div>
+<p>setup internationalization</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  i18n = <span class="hljs-built_in">require</span> <span class="hljs-string">'i18n'</span>
+  i18n.configure</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-29" id="section-29"></a>
+</div>
+<p>locales: ['en', 'de'] # not needed since v0.7 will be autodetected</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-attribute">defaultLocale</span>: <span class="hljs-string">'en'</span>
+    <span class="hljs-attribute">directory</span>: __dirname + <span class="hljs-string">'/../var/locales'</span>
+    <span class="hljs-attribute">objectNotation</span>: <span class="hljs-literal">true</span>
+  i18n.setLocale email.locale</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-30" id="section-30"></a>
+</div>
+<p>create report</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  report = <span class="hljs-keyword">new</span> Report()
+  report.toc()
+  report.h2 i18n.__ <span class="hljs-string">"general.head:General Use"</span>
+  report.p i18n.__ <span class="hljs-string">"general.text:To run one of the possible commands from Mailman
+  you have to send a simple email to it's address under %s."</span>, meta.header.to
+  report.h3 i18n.__ <span class="hljs-string">"auth.head:Authentification"</span>
+  report.p i18n.__ <span class="hljs-string">"auth.text:This is done based on your email address. So you can
+  only request what is available for your mail address. See the following list of
+  possibilities for you."</span>
+  report.h3 i18n.__ <span class="hljs-string">"select.head:Selection of Command"</span>
+  report.p i18n.__ <span class="hljs-string">"select.text:You may select from the below listed commands by
+  to execute by using different subject lines in your email. The subject is case
+  insensitive but have to be correctly spelled."</span>
+  report.h3 i18n.__ <span class="hljs-string">"var.head:Variables"</span>
+  report.p i18n.__ <span class="hljs-string">"var.text:Some of the commands need or allow variables to be used.
+  They have to be given in the body of your email in ini format. This means that
+  you have to write the name of the variable, an equal sign and it's value in one
+  line. The first empty line marks the end of the variables, all information below
+  will be ignored. See the Examples below."</span>
+  report.h3 i18n.__ <span class="hljs-string">"response.head:Response"</span>
+  report.p i18n.__ <span class="hljs-string">"response.text:The concrete response may vary for each command.
+  It can send you an email with the result, the problems or just be quiet. Sometimes
+  the called command will interact with you directly like DBReports will do."</span>
+  report.h3 i18n.__ <span class="hljs-string">"example.head:Examples"</span>
+  report.p i18n.__ <span class="hljs-string">"example.simple:A question to DBReports for an database analyzation
+  may look like:"</span>
+  report.code <span class="hljs-string">"subject: last login\nbody: user_id = 52643"</span>
+  report.p i18n.__ <span class="hljs-string">"example.list:Or if you want to call it with multiple IDs (if possible):"</span>
+  report.code <span class="hljs-string">"subject: last login\nbody: user_id = 52643, 1285, 8854"</span>
+  report.code <span class="hljs-string">"""
+    subject: last login
+    body: user_id[] = 52643
+          user_id[] = 1285
+          user_id[] = 8854
+    """</span>
+  report.p i18n.__ <span class="hljs-string">"example.footer:What your command allows will be described in
+  the command help below."</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-31" id="section-31"></a>
+</div>
+<p>search for allowed commands</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  report.h2 i18n.__ <span class="hljs-string">"command.head:Available Commands"</span>
+  <span class="hljs-keyword">for</span> name, cmd <span class="hljs-keyword">of</span> config.get <span class="hljs-string">'/mailman/command'</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-32" id="section-32"></a>
+</div>
+<p>check for valid command</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    valid = cmd.filter?.from?.filter (e) -&gt; ~meta.header.from.toLowerCase().indexOf e
+    <span class="hljs-keyword">continue</span> <span class="hljs-keyword">if</span> cmd.filter?.from <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> valid.length</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-33" id="section-33"></a>
+</div>
+<p>create report entry</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    report.h3 cmd.title
+    report.p cmd.description
+    report.code <span class="hljs-string">"Subject: <span class="hljs-subst">#{cmd.filter.subject}</span>"</span>
+    <span class="hljs-keyword">if</span> cmd.variables
+      report.p i18n.__ <span class="hljs-string">"command.var:This command supports/needs some variables to be
+      set within the contents:"</span>
+      report.ul Object.keys(cmd.variables).map (key) -&gt;
+        v = cmd.variables[key]
+        msg = <span class="hljs-string">"`<span class="hljs-subst">#{key}</span>`"</span>
+        msg += <span class="hljs-string">" - **<span class="hljs-subst">#{v.title}</span>**"</span> <span class="hljs-keyword">if</span> v.title
+        msg += <span class="hljs-string">" (<span class="hljs-subst">#{i18n.__ <span class="hljs-string">'optional'</span>}</span>)"</span> <span class="hljs-keyword">if</span> v.optional <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> v.default
+        msg += <span class="hljs-string">" (<span class="hljs-subst">#{i18n.__ <span class="hljs-string">'default'</span>}</span>: <span class="hljs-subst">#{v.default}</span>)"</span> <span class="hljs-keyword">if</span> v.default
+        msg += <span class="hljs-string">"\\\n<span class="hljs-subst">#{v.description}</span>"</span> <span class="hljs-keyword">if</span> v.description
+        msg += <span class="hljs-string">"\\\n<span class="hljs-subst">#{i18n.__ <span class="hljs-string">'Type'</span>}</span>: "</span> + <span class="hljs-keyword">switch</span> v.type
+          <span class="hljs-keyword">when</span> <span class="hljs-string">'array'</span>
+            i18n.__ <span class="hljs-string">"command.list:List of %s"</span>, v.entries?.type ? i18n.__ <span class="hljs-string">'entries'</span>
+          <span class="hljs-keyword">else</span>
+            v.type
+        <span class="hljs-keyword">if</span> v.delimiter
+          del = v.delimiter.toString()
+          <span class="hljs-keyword">if</span> match = del.match <span class="hljs-regexp">/^\/(.*)\/([gim]+)?$/</span>
+            del = match[<span class="hljs-number">1</span>].replace <span class="hljs-regexp">/\\[srt ]\*/g</span>, <span class="hljs-string">''</span>
+            .replace <span class="hljs-regexp">/\\s\+?/g</span>, <span class="hljs-string">' '</span>
+            .replace <span class="hljs-regexp">/\\t\+?/g</span>, <span class="hljs-string">'TAB'</span>
+            .split <span class="hljs-regexp">/|/</span>
+            .join <span class="hljs-string">"', '"</span>
+          msg += <span class="hljs-string">" ("</span> + i18n.__(<span class="hljs-string">"use '%s' as delimiter"</span>, del) + <span class="hljs-string">")"</span>
+        msg
+  report.h2 i18n.__ <span class="hljs-string">"final.head:Further Help"</span>
+  report.p i18n.__ <span class="hljs-string">"final.text:If something goes wrong or you need further help
+  send an email as reply to this."</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-34" id="section-34"></a>
+</div>
+<p>send help email</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  mail.send email,
+    <span class="hljs-attribute">name</span>: <span class="hljs-string">'help'</span>
+    <span class="hljs-attribute">conf</span>: conf
+    <span class="hljs-attribute">date</span>: <span class="hljs-keyword">new</span> Date()
+    <span class="hljs-attribute">help</span>: report.toString()
+  , cb</pre>
         </td>
       </tr>
     
