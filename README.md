@@ -55,6 +55,9 @@ After the mailman is configured you can start it once using:
 This will run the manager one time, check the emails run all required commands,
 send the replies like configured and finish.
 
+If the service is running you may also request the online help by sending
+`subject: help me` to it's email address.
+
 
 ### Run as a service
 
