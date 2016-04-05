@@ -1,0 +1,50 @@
+# Configuration for mailman
+# =================================================================
+
+default:
+  subject: >
+    Re: {{conf.title}}
+  body: |+
+    {{conf.title}}
+    ==========================================================================
+
+    {{conf.description}}
+
+    Started on {{dateFormat date "LL"}} from {{dateFormat process.start "LTS"}} to {{dateFormat process.end "LTS"}}
+
+    PID {{process.host}}#{{process.pid}}
+
+    {{#if result.code}}
+    ::: alert
+    **{{{result.error}}}** (Code {{result.code}})
+    :::
+    {{/if}}
+
+    {{#if result.stdout}}
+    Output of command was:
+
+    ``` text
+    {{{result.stdout}}}
+    ```
+    {{/if}}
+
+    {{#if result.stderr}}
+    Error output from command was:
+
+    ``` text
+    {{{result.stderr}}}
+    ```
+    {{/if}}
+
+help:
+  base: default
+
+  subject: >
+    Re: {{conf.title}}
+  body: |+
+    {{conf.title}}
+    ==========================================================================
+
+    {{conf.description}}
+
+    {{{help}}}
