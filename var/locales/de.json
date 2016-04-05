@@ -1,0 +1,42 @@
+{
+	"general": {
+		"head": "Allgemeine Benutzung",
+		"text": "Um einen der möglichen Befehle des Mailman aufzurufen muss lediglich eine einfache email an die Adresse %s gesendet werden."
+	},
+	"auth": {
+		"head": "Zugriffskontrolle",
+		"text": "Zur Sicherheit können einzelne Befehle nur von festgelegten Email Adressen aufgerufen werden. Die Liste der Befehle weiter unten in dieser Email zeigt alle Befehle die für deine Email Adresse derzeit freigegeben sind."
+	},
+	"select": {
+		"head": "Befehlsauswahl",
+		"text": "Welcher Befehl ausgeführt werden soll entscheidet der Betreff der Email. Hierzu muss die Betreffzeile wie unten in der Befehlsliste angegeben werden. Groß-/Kleinschreibung ist hierbei egal."
+	},
+	"var": {
+		"head": "Variablen",
+		"text": "Manche der Befehlte erlauben oder benötigen verschiedene Variablen. Diese werden im Inhalt der Email im INI-Format angegeben. Hierzu wird je Zeile der Variablenname gefolgt von einem '=' Zeichen und dem jeweiligen Wert notiert. Die erste Leere Zeile markiert das Ende der Werte, was danach folgt wird ignoriert. Siehe hierzu auch die folgenden Beispiele."
+	},
+	"response": {
+		"head": "Antwort",
+		"text": "Die Antwort kann je Befehl unterschiedlich ausfallen. So versenden manche Befehle direkt eine Email mit Erfolg oder Fehler, andere wiederum gar keine. Bei den DBReports wird meist keine Email versandt, da dies ja durch den Report selbst geschieht."
+	},
+	"example": {
+		"head": "Beispiele",
+		"simple": "Eine Datenbankanfrage über DBReports könnte wie folgt aussehen:",
+		"list": "Um mehrere Datensätze zu erhalten kann (wenn der Befehl dies unterstützt) eine Liste angegeben werden:",
+		"footer": "Was genau im einzelnen Befehl erlaubt ist, kann der Befehlsbeschreibung entnommen werden."
+	},
+	"command": {
+		"head": "Mögliche Befehle",
+		"var": "In diesem Befehl sind die folgenden Variablen erlaubt:",
+		"list": "Liste mit %s"
+	},
+	"default": "standard",
+	"optional": "optional",
+	"Type": "Typ",
+	"entries": "Einträgen",
+	"use '%s' as delimiter": "Benutze '%s' als Trenner der Elemente",
+	"final": {
+		"head": "Weitere Hilfe",
+		"text": "Sollte es Probleme geben oder etwas unklar sein, so sende deine Fragen als Antwort zu dieser Email."
+	}
+}

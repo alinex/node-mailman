@@ -1,0 +1,42 @@
+{
+	"general": {
+		"head": "General Use",
+		"text": "To run one of the possible commands from Mailman you have to send a simple email to it's address under %s."
+	},
+	"auth": {
+		"head": "Authentification",
+		"text": "This is done based on your email address. So you can only request what is available for your mail address. See the following list of possibilities for you."
+	},
+	"select": {
+		"head": "Selection of Command",
+		"text": "You may select from the below listed commands by to execute by using different subject lines in your email. The subject is case insensitive but have to be correctly spelled."
+	},
+	"var": {
+		"head": "Variables",
+		"text": "Some of the commands need or allow variables to be used. They have to be given in the body of your email in ini format. This means that you have to write the name of the variable, an equal sign and it's value in one line. The first empty line marks the end of the variables, all information below will be ignored. See the Examples below."
+	},
+	"response": {
+		"head": "Response",
+		"text": "The concrete response may vary for each command. It can send you an email with the result, the problems or just be quiet. Sometimes the called command will interact with you directly like DBReports will do."
+	},
+	"example": {
+		"head": "Examples",
+		"simple": "A question to DBReports for an database analyzation may look like:",
+		"list": "Or if you want to call it with multiple IDs (if possible):",
+		"footer": "What your command allows will be described in the command help below."
+	},
+	"command": {
+		"head": "Available Commands",
+		"var": "This command supports/needs some variables to be set within the contents:",
+		"list": "List of %s"
+	},
+	"default": "default",
+	"optional": "optional",
+	"Type": "Type",
+	"entries": "entries",
+	"use '%s' as delimiter": "use '%s' as delimiter",
+	"final": {
+		"head": "Further Help",
+		"text": "If something goes wrong or you need further help send an email as reply to this."
+	}
+}

@@ -234,102 +234,90 @@ help = (meta, conf, cb) ->
   email.inReplyTo = meta.header['message-id']
   email.references = [meta.header['message-id']]
   email = mail.resolve email
+  # setup internationalization
+  i18n = require 'i18n'
+  i18n.configure
+    # locales: ['en', 'de'] # not needed since v0.7 will be autodetected
+    defaultLocale: 'en'
+    directory: __dirname + '/../var/locales'
+    objectNotation: true
+  i18n.setLocale email.locale
   # create report
   report = new Report()
-  switch email.locale ? 'en'
-    when 'de'
-      report.h2 "Allgemeine Bedienung"
-      report.p "Um einen der Befehle auszuführen, muss eine einfache Email an die Adresse
-      #{meta.header.to} gesendet werden."
-      report.h3 "Zugriffskontrolle"
-
-      report.p "This is done based on your email address. So you can only request what
-      is available for your mail address. See the following list of possibilities for
-      you."
-      report.h3 "Selection of Report"
-      report.h3 "Variables"
-      report.h3 "Response"
-      report.h3 "Examples"
-      # search for allowed commands
-      report.h2 "Available Commands"
-      for name, cmd of config.get '/mailman/command'
-        # check for valid command
-        valid = cmd.filter?.from?.filter (e) -> ~meta.header.from.toLowerCase().indexOf e
-        continue if cmd.filter?.from and not valid.length
-        # create report entry
-        report.h3 cmd.title
-        report.p cmd.description
-        report.code "Subject: #{cmd.filter.subject}"
-        if cmd.variables
-          report.p "This report supports/needs some variables to be set within the contents:"
-          report.ul Object.keys(cmd.variables).map (key) ->
-            v = cmd.variables[key]
-            msg = "`#{key}`"
-            msg += " - **#{v.title}**" if v.title
-            msg += " (optional)" if v.optional and not v.default
-            msg += " (default: #{v.default})" if v.default
-            msg += "\\\n#{v.description}" if v.description
-            msg += "\\\nType: " + switch v.type
-              when 'array'
-                "List of #{v.entries?.type ? 'entries'}"
-              else
-                v.type
-            if v.delimiter
-              del = v.delimiter.toString()
-              if match = del.match /^\/(.*)\/([gim]+)?$/
-                del = match[1].replace /\\[srt ]\*/g, ''
-                .replace /\\s\+?/g, ' '
-                .replace /\\t\+?/g, 'TAB'
-                .split /|/
-                .join "', '"
-              msg += " (use '#{del}' as delimiter)"
-            msg
-    else
-      report.h2 "General Use"
-      report.p "To run one of the possible commands from Mailman you have to send an
-      simple email to it's address under #{meta.header.to}."
-      report.h3 "Authentification"
-      report.p "This is done based on your email address. So you can only request what
-      is available for your mail address. See the following list of possibilities for
-      you."
-      report.h3 "Selection of Report"
-      report.h3 "Variables"
-      report.h3 "Response"
-      report.h3 "Examples"
-      # search for allowed commands
-      report.h2 "Available Commands"
-      for name, cmd of config.get '/mailman/command'
-        # check for valid command
-        valid = cmd.filter?.from?.filter (e) -> ~meta.header.from.toLowerCase().indexOf e
-        continue if cmd.filter?.from and not valid.length
-        # create report entry
-        report.h3 cmd.title
-        report.p cmd.description
-        report.code "Subject: #{cmd.filter.subject}"
-        if cmd.variables
-          report.p "This report supports/needs some variables to be set within the contents:"
-          report.ul Object.keys(cmd.variables).map (key) ->
-            v = cmd.variables[key]
-            msg = "`#{key}`"
-            msg += " - **#{v.title}**" if v.title
-            msg += " (optional)" if v.optional and not v.default
-            msg += " (default: #{v.default})" if v.default
-            msg += "\\\n#{v.description}" if v.description
-            msg += "\\\nType: " + switch v.type
-              when 'array'
-                "List of #{v.entries?.type ? 'entries'}"
-              else
-                v.type
-            if v.delimiter
-              del = v.delimiter.toString()
-              if match = del.match /^\/(.*)\/([gim]+)?$/
-                del = match[1].replace /\\[srt ]\*/g, ''
-                .replace /\\s\+?/g, ' '
-                .replace /\\t\+?/g, 'TAB'
-                .split /|/
-                .join "', '"
-              msg += " (use '#{del}' as delimiter)"
-            msg
+  report.toc()
+  report.h2 i18n.__ "general.head:General Use"
+  report.p i18n.__ "general.text:To run one of the possible commands from Mailman
+  you have to send a simple email to it's address under %s.", meta.header.to
+  report.h3 i18n.__ "auth.head:Authentification"
+  report.p i18n.__ "auth.text:This is done based on your email address. So you can
+  only request what is available for your mail address. See the following list of
+  possibilities for you."
+  report.h3 i18n.__ "select.head:Selection of Command"
+  report.p i18n.__ "select.text:You may select from the below listed commands by
+  to execute by using different subject lines in your email. The subject is case
+  insensitive but have to be correctly spelled."
+  report.h3 i18n.__ "var.head:Variables"
+  report.p i18n.__ "var.text:Some of the commands need or allow variables to be used.
+  They have to be given in the body of your email in ini format. This means that
+  you have to write the name of the variable, an equal sign and it's value in one
+  line. The first empty line marks the end of the variables, all information below
+  will be ignored. See the Examples below."
+  report.h3 i18n.__ "response.head:Response"
+  report.p i18n.__ "response.text:The concrete response may vary for each command.
+  It can send you an email with the result, the problems or just be quiet. Sometimes
+  the called command will interact with you directly like DBReports will do."
+  report.h3 i18n.__ "example.head:Examples"
+  report.p i18n.__ "example.simple:A question to DBReports for an database analyzation
+  may look like:"
+  report.code "subject: last login\nbody: user_id = 52643"
+  report.p i18n.__ "example.list:Or if you want to call it with multiple IDs (if possible):"
+  report.code "subject: last login\nbody: user_id = 52643, 1285, 8854"
+  report.code """
+    subject: last login
+    body: user_id[] = 52643
+          user_id[] = 1285
+          user_id[] = 8854
+    """
+  report.p i18n.__ "example.footer:What your command allows will be described in
+  the command help below."
+  # search for allowed commands
+  report.h2 i18n.__ "command.head:Available Commands"
+  for name, cmd of config.get '/mailman/command'
+    # check for valid command
+    valid = cmd.filter?.from?.filter (e) -> ~meta.header.from.toLowerCase().indexOf e
+    continue if cmd.filter?.from and not valid.length
+    # create report entry
+    report.h3 cmd.title
+    report.p cmd.description
+    report.code "Subject: #{cmd.filter.subject}"
+    if cmd.variables
+      report.p i18n.__ "command.var:This command supports/needs some variables to be
+      set within the contents:"
+      report.ul Object.keys(cmd.variables).map (key) ->
+        v = cmd.variables[key]
+        msg = "`#{key}`"
+        msg += " - **#{v.title}**" if v.title
+        msg += " (#{i18n.__ 'optional'})" if v.optional and not v.default
+        msg += " (#{i18n.__ 'default'}: #{v.default})" if v.default
+        msg += "\\\n#{v.description}" if v.description
+        msg += "\\\n#{i18n.__ 'Type'}: " + switch v.type
+          when 'array'
+            i18n.__ "command.list:List of %s", v.entries?.type ? i18n.__ 'entries'
+          else
+            v.type
+        if v.delimiter
+          del = v.delimiter.toString()
+          if match = del.match /^\/(.*)\/([gim]+)?$/
+            del = match[1].replace /\\[srt ]\*/g, ''
+            .replace /\\s\+?/g, ' '
+            .replace /\\t\+?/g, 'TAB'
+            .split /|/
+            .join "', '"
+          msg += " (" + i18n.__("use '%s' as delimiter", del) + ")"
+        msg
+  report.h2 i18n.__ "final.head:Further Help"
+  report.p i18n.__ "final.text:If something goes wrong or you need further help
+  send an email as reply to this."
   # send help email
   mail.send email,
     name: 'help'

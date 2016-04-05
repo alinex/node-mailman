@@ -1,0 +1,18 @@
+# Configuration for mailman
+# =================================================================
+
+command:
+  help:
+    title: Show Help
+    description: >
+      Detailed help information for this tool with for general explanation and
+      all the possible commands which are available from your
+      email address.
+    filter:
+      subject: help me
+    email:
+      base: help
+
+daemon:
+  maxJobs: 5
+  interval: 1m
