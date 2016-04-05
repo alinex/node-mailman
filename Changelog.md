@@ -4,6 +4,14 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.1.0 (2016-04-05)
+-------------------------------------------------
+- Upgraded yargs package.
+- Add multilingual help.
+- Make help multi lingual.
+- Make delimiter output human readable also for regexp.
+- Add help command to ask for possibilities.
+
 Version 1.0.7 (2016-03-21)
 -------------------------------------------------
 - Allow array variables with custom delimiter.
