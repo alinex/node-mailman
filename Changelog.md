@@ -4,6 +4,10 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.1.2 (2016-04-05)
+-------------------------------------------------
+- Fix bug in help description for array delimiter.
+
 Version 1.1.1 (2016-04-05)
 -------------------------------------------------
 - Added basic mail configuration.
