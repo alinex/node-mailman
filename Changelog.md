@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.1.3 (2016-04-06)
+-------------------------------------------------
+- Upgraded mail package to fixed report component.
+- Translate also va4riable types.
+- Better list separator explanation.
+
 Version 1.1.2 (2016-04-05)
 -------------------------------------------------
 - Fix bug in help description for array delimiter.
