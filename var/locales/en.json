@@ -34,6 +34,11 @@
 	"optional": "optional",
 	"Type": "Type",
 	"entries": "entries",
+	"number": "number",
+	"string": "text",
+	"interval": "interval",
+	"date": "date",
+	"percent": "percent",
 	"use '%s' as delimiter": "use '%s' as delimiter",
 	"final": {
 		"head": "Further Help",

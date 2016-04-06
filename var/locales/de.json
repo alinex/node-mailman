@@ -34,6 +34,11 @@
 	"optional": "optional",
 	"Type": "Typ",
 	"entries": "Einträgen",
+	"number": "Zahl",
+	"string": "Text",
+	"interval": "Zeitdauer",
+	"date": "Zeit",
+	"percent": "Prozentwert",
 	"use '%s' as delimiter": "Benutze '%s' als Trenner der Elemente",
 	"final": {
 		"head": "Weitere Hilfe",

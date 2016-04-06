@@ -303,8 +303,12 @@ help = (meta, conf, cb) ->
         msg += "\\\n#{i18n.__ 'Type'}: " + switch v.type
           when 'array'
             i18n.__ "command.list:List of %s", v.entries?.type ? i18n.__ 'entries'
-          else
-            v.type
+          when 'number' then i18n.__ "number"
+          when 'string' then i18n.__ "string"
+          when 'date' then i18n.__ "date"
+          when 'interval' then i18n.__ "interval"
+          when 'percent' then i18n.__ "percent"
+          else v.type
         if v.delimiter
           del = v.delimiter.toString()
           if match = del.match /^\/(.*)\/([gim]+)?$/
