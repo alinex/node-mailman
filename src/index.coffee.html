@@ -742,16 +742,24 @@ obj = object.lcKeys obj</p>
         msg += <span class="hljs-string">"\\\n<span class="hljs-subst">#{i18n.__ <span class="hljs-string">'Type'</span>}</span>: "</span> + <span class="hljs-keyword">switch</span> v.type
           <span class="hljs-keyword">when</span> <span class="hljs-string">'array'</span>
             i18n.__ <span class="hljs-string">"command.list:List of %s"</span>, v.entries?.type ? i18n.__ <span class="hljs-string">'entries'</span>
-          <span class="hljs-keyword">else</span>
-            v.type
+          <span class="hljs-keyword">when</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">then</span> i18n.__ <span class="hljs-string">"number"</span>
+          <span class="hljs-keyword">when</span> <span class="hljs-string">'string'</span> <span class="hljs-keyword">then</span> i18n.__ <span class="hljs-string">"string"</span>
+          <span class="hljs-keyword">when</span> <span class="hljs-string">'date'</span> <span class="hljs-keyword">then</span> i18n.__ <span class="hljs-string">"date"</span>
+          <span class="hljs-keyword">when</span> <span class="hljs-string">'interval'</span> <span class="hljs-keyword">then</span> i18n.__ <span class="hljs-string">"interval"</span>
+          <span class="hljs-keyword">when</span> <span class="hljs-string">'percent'</span> <span class="hljs-keyword">then</span> i18n.__ <span class="hljs-string">"percent"</span>
+          <span class="hljs-keyword">else</span> v.type
         <span class="hljs-keyword">if</span> v.delimiter
           del = v.delimiter.toString()
           <span class="hljs-keyword">if</span> match = del.match <span class="hljs-regexp">/^\/(.*)\/([gim]+)?$/</span>
             del = match[<span class="hljs-number">1</span>].replace <span class="hljs-regexp">/\\[srt ]\*/g</span>, <span class="hljs-string">''</span>
+            .replace <span class="hljs-regexp">/\\t/g</span>, <span class="hljs-string">'\t'</span>
             .replace <span class="hljs-regexp">/\\s\+?/g</span>, <span class="hljs-string">' '</span>
-            .replace <span class="hljs-regexp">/\\t\+?/g</span>, <span class="hljs-string">'TAB'</span>
-            .split <span class="hljs-regexp">/\|/</span>
-            .join <span class="hljs-string">"', '"</span>
+            .replace <span class="hljs-regexp">/^\[(.*?)\]$/g</span>, <span class="hljs-function"><span class="hljs-params">(_, r)</span> -&gt;</span>
+              <span class="hljs-string">"<span class="hljs-subst">#{r.split(<span class="hljs-string">''</span>).join <span class="hljs-string">'\', \''</span>}</span>"</span>
+            .replace <span class="hljs-regexp">/^\((.*?)\)$/g</span>, <span class="hljs-function"><span class="hljs-params">(_, r)</span> -&gt;</span>
+              <span class="hljs-string">"<span class="hljs-subst">#{r.split(<span class="hljs-string">'|'</span>).join <span class="hljs-string">'\', \''</span>}</span>"</span>
+            .replace <span class="hljs-regexp">/\t\+?/g</span>, <span class="hljs-string">'TAB'</span>
+            .replace <span class="hljs-regexp">/\s\+?/g</span>, <span class="hljs-string">'SPACE'</span>
           msg += <span class="hljs-string">" ("</span> + i18n.__(<span class="hljs-string">"use '%s' as delimiter"</span>, del) + <span class="hljs-string">")"</span>
         msg
   report.h2 i18n.__ <span class="hljs-string">"final.head:Further Help"</span>
