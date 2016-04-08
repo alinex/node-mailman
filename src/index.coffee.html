@@ -476,8 +476,7 @@ obj = object.lcKeys obj</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"-&gt; execute <span class="hljs-subst">#{command}</span> for <span class="hljs-subst">#{meta.header.from}</span>"</span>
-  bodyVariables conf, meta.body, <span class="hljs-function"><span class="hljs-params">(err, variables)</span> -&gt;</span></pre>
+          <pre class="coffeescript">  bodyVariables conf, meta.body, <span class="hljs-function"><span class="hljs-params">(err, variables)</span> -&gt;</span></pre>
         </td>
       </tr>
     
@@ -508,6 +507,7 @@ obj = object.lcKeys obj</p>
         </td>
         <td class="code highlight">
           <pre class="coffeescript">    <span class="hljs-keyword">if</span> err
+      <span class="hljs-built_in">console</span>.log chalk.magenta <span class="hljs-string">"Error parsing body variables: <span class="hljs-subst">#{err.message}</span>"</span>
       <span class="hljs-keyword">return</span> mail.send email,
         <span class="hljs-attribute">name</span>: command
         <span class="hljs-attribute">conf</span>: conf
@@ -516,6 +516,7 @@ obj = object.lcKeys obj</p>
           <span class="hljs-attribute">code</span>: <span class="hljs-number">1</span>
           <span class="hljs-attribute">error</span>: err.message
       , cb
+    <span class="hljs-built_in">console</span>.log <span class="hljs-string">"-&gt; execute <span class="hljs-subst">#{command}</span> for <span class="hljs-subst">#{meta.header.from}</span> --"</span>
     <span class="hljs-built_in">console</span>.log <span class="hljs-string">"   with"</span>, variables <span class="hljs-keyword">if</span> variables</pre>
         </td>
       </tr>
@@ -533,6 +534,10 @@ obj = object.lcKeys obj</p>
     variables._mail =
       <span class="hljs-attribute">header</span>:
         <span class="hljs-attribute">from</span>: meta.header.from
+        <span class="hljs-attribute">cc</span>: meta.header.cc
+        <span class="hljs-attribute">bcc</span>: meta.header.bcc
+        <span class="hljs-attribute">subject</span>: meta.header.subject
+        <span class="hljs-attribute">messageId</span>: meta.header[<span class="hljs-string">'message-id'</span>]
     variables._json = JSON.stringify variables
     setup =
       <span class="hljs-attribute">remote</span>: conf.exec.remote
