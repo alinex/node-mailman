@@ -151,7 +151,6 @@ bodyVariables = (conf, body, cb) ->
   # validate variables
 #  obj = object.lcKeys obj
   delete obj[key] unless conf.variables[key] for key of obj
-  console.log obj, conf.variables
   validator.check
     name: 'emailBody'
     value: obj
@@ -216,7 +215,6 @@ execute = (meta, command, conf, cb) ->
       cmd: conf.exec.cmd
       args: conf.exec.args.map (e) -> e variables
   #    priority: 'immediately'
-    console.log setup
     Exec.run setup, (err, exec) ->
       # check if email should be send
       return cb() unless conf.email
