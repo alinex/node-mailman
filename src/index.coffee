@@ -151,6 +151,7 @@ bodyVariables = (conf, body, cb) ->
   # validate variables
 #  obj = object.lcKeys obj
   delete obj[key] unless conf.variables[key] for key of obj
+  console.log obj, conf.variables
   validator.check
     name: 'emailBody'
     value: obj
@@ -180,7 +181,6 @@ execute = (meta, command, conf, cb) ->
       console.error "skipping invalid sender #{from}"
       return cb()
   # parse Options
-  console.log "-> execute #{command} for #{meta.header.from}"
   bodyVariables conf, meta.body, (err, variables) ->
     # configure email
     email = object.clone conf.email ? {base: 'default'}
@@ -190,6 +190,7 @@ execute = (meta, command, conf, cb) ->
     email.references = [meta.header['message-id']]
     # send error email
     if err
+      console.log chalk.magenta "Error parsing body variables: #{err.message}"
       return mail.send email,
         name: command
         conf: conf
@@ -198,6 +199,7 @@ execute = (meta, command, conf, cb) ->
           code: 1
           error: err.message
       , cb
+    console.log "-> execute #{command} for #{meta.header.from} --"
     console.log "   with", variables if variables
     # add variables to command
     variables ?= {}
@@ -214,6 +216,7 @@ execute = (meta, command, conf, cb) ->
       cmd: conf.exec.cmd
       args: conf.exec.args.map (e) -> e variables
   #    priority: 'immediately'
+    console.log setup
     Exec.run setup, (err, exec) ->
       # check if email should be send
       return cb() unless conf.email
