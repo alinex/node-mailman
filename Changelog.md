@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.2.0 (2016-04-08)
+-------------------------------------------------
+- New version containing support for more mail origin options.
+- Upgraded config, util and validator packages.
+- Forward mail cc, bcc, subject and message id from original mail as json.
+
 Version 1.1.3 (2016-04-06)
 -------------------------------------------------
 - Upgraded mail package to fixed report component.
