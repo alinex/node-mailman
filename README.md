@@ -153,7 +153,7 @@ Within the `args` you may use specific parameters given in mail body (but use th
 all in lowercase). Also the following general variables are present:
 
 - `_mail` - the mail object
-  - `header` - all the mail header fields
+  - `header` - some mail header fields like `from`, `cc`, `bcc`, `subject`, `messageId`
   - `body` - text and html body if available
 - `_json` - complete parameters
 

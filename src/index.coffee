@@ -204,6 +204,10 @@ execute = (meta, command, conf, cb) ->
     variables._mail =
       header:
         from: meta.header.from
+        cc: meta.header.cc
+        bcc: meta.header.bcc
+        subject: meta.header.subject
+        messageId: meta.header['message-id']
     variables._json = JSON.stringify variables
     setup =
       remote: conf.exec.remote
