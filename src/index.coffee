@@ -301,7 +301,7 @@ help = (meta, conf, cb) ->
       report.ul Object.keys(cmd.variables).map (key) ->
         v = cmd.variables[key]
         msg = "`#{key}`"
-        msg += " - **#{v.title}**" if v.title
+        msg += " = **#{v.title}**" if v.title
         msg += " (#{i18n.__ 'optional'})" if v.optional and not v.default
         msg += " (#{i18n.__ 'default'}: #{v.default})" if v.default
         msg += "\\\n#{v.description}" if v.description
