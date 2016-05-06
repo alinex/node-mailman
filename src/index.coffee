@@ -10,13 +10,13 @@
 # include base modules
 debug = require('debug')('mailman')
 chalk = require 'chalk'
+async = require 'async'
 Imap = require 'imap'
 MailParser = require('mailparser').MailParser
 # include alinex modules
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
 util = require 'alinex-util'
-async = require 'alinex-async'
 mail = require 'alinex-mail'
 validator = require 'alinex-validator'
 Report = require 'alinex-report'
