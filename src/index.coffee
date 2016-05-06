@@ -10,13 +10,12 @@
 # include base modules
 debug = require('debug')('mailman')
 chalk = require 'chalk'
-util = require 'util'
 Imap = require 'imap'
 MailParser = require('mailparser').MailParser
 # include alinex modules
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
-{object} = require 'alinex-util'
+util = require 'alinex-util'
 async = require 'alinex-async'
 mail = require 'alinex-mail'
 validator = require 'alinex-validator'
@@ -182,7 +181,7 @@ execute = (meta, command, conf, cb) ->
   # parse Options
   bodyVariables conf, meta.body, (err, variables) ->
     # configure email
-    email = object.clone conf.email ? {base: 'default'}
+    email = util.clone conf.email ? {base: 'default'}
     email.to = [meta.header.from]
     email.subject = "Re: #{meta.header.subject}"
     email.inReplyTo = meta.header['message-id']
@@ -233,7 +232,7 @@ execute = (meta, command, conf, cb) ->
 
 help = (meta, conf, cb) ->
   # configure email
-  email = object.clone conf.email ? {base: 'default'}
+  email = util.clone conf.email ? {base: 'default'}
   email.to = [meta.header.from]
   email.subject = "Re: #{meta.header.subject}"
   email.inReplyTo = meta.header['message-id']
