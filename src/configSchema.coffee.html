@@ -7,7 +7,7 @@
   <script src="../doc-filelist.js"></script>
   <script>
     var relativeDir = "../";
-    var thisFile = "home/alex/github/node-mailman/src/configSchema.coffee";
+    var thisFile = "src/configSchema.coffee";
     var defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
@@ -89,66 +89,66 @@ Complete Schema Definition
         </td>
         <td class="code highlight">
           <pre class="coffeescript">command =
-  <span class="hljs-attribute">title</span>: <span class="hljs-string">"Command Setup"</span>
-  <span class="hljs-attribute">description</span>: <span class="hljs-string">"the definition of a single command to execute"</span>
-  <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-  <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-  <span class="hljs-attribute">keys</span>:
-    <span class="hljs-attribute">title</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Title"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the short title of the job to be used in display"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
-    <span class="hljs-attribute">description</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Description"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"a short abstract of what this job will retrieve"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
-    <span class="hljs-attribute">filter</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Filter Conditions"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the conditions to filter mails which are seen as linked to
+  title: <span class="hljs-string">"Command Setup"</span>
+  description: <span class="hljs-string">"the definition of a single command to execute"</span>
+  type: <span class="hljs-string">'object'</span>
+  allowedKeys: <span class="hljs-literal">true</span>
+  keys:
+    title:
+      title: <span class="hljs-string">"Title"</span>
+      description: <span class="hljs-string">"the short title of the job to be used in display"</span>
+      type: <span class="hljs-string">'string'</span>
+    description:
+      title: <span class="hljs-string">"Description"</span>
+      description: <span class="hljs-string">"a short abstract of what this job will retrieve"</span>
+      type: <span class="hljs-string">'string'</span>
+    filter:
+      title: <span class="hljs-string">"Filter Conditions"</span>
+      description: <span class="hljs-string">"the conditions to filter mails which are seen as linked to
       this command"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">keys</span>:
-        <span class="hljs-attribute">subject</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Subject"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the case insenitive part of the subject which must be there"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
-        <span class="hljs-attribute">from</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Allowed Sender"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the list of allowed users by name part of the email address"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'array'</span>
-          <span class="hljs-attribute">toArray</span>: <span class="hljs-literal">true</span>
-          <span class="hljs-attribute">entries</span>:
-            <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
-            <span class="hljs-attribute">lowerCase</span>: <span class="hljs-literal">true</span>
-    <span class="hljs-attribute">variables</span>:
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">entries</span>: [
-        <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-        <span class="hljs-attribute">mandatoryKeys</span>: [<span class="hljs-string">'type'</span>]
-        <span class="hljs-attribute">keys</span>:
-          <span class="hljs-attribute">type</span>:
-            <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
+      type: <span class="hljs-string">'object'</span>
+      allowedKeys: <span class="hljs-literal">true</span>
+      keys:
+        subject:
+          title: <span class="hljs-string">"Subject"</span>
+          description: <span class="hljs-string">"the case insenitive part of the subject which must be there"</span>
+          type: <span class="hljs-string">'string'</span>
+        from:
+          title: <span class="hljs-string">"Allowed Sender"</span>
+          description: <span class="hljs-string">"the list of allowed users by name part of the email address"</span>
+          type: <span class="hljs-string">'array'</span>
+          toArray: <span class="hljs-literal">true</span>
+          entries:
+            type: <span class="hljs-string">'string'</span>
+            lowerCase: <span class="hljs-literal">true</span>
+    variables:
+      type: <span class="hljs-string">'object'</span>
+      entries: [
+        type: <span class="hljs-string">'object'</span>
+        mandatoryKeys: [<span class="hljs-string">'type'</span>]
+        keys:
+          type:
+            type: <span class="hljs-string">'string'</span>
       ]
-    <span class="hljs-attribute">exec</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Commandline"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the real call on commandline"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">mandatoryKeys</span>: [<span class="hljs-string">'cmd'</span>]
-      <span class="hljs-attribute">keys</span>:
-        <span class="hljs-attribute">cmd</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Executable"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the executable to run"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
-        <span class="hljs-attribute">args</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Parameters"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the parameters to send"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'array'</span>
-          <span class="hljs-attribute">toArray</span>: <span class="hljs-literal">true</span>
-          <span class="hljs-attribute">entries</span>:
-            <span class="hljs-attribute">type</span>: <span class="hljs-string">'handlebars'</span>
-    <span class="hljs-attribute">email</span>: email</pre>
+    exec:
+      title: <span class="hljs-string">"Commandline"</span>
+      description: <span class="hljs-string">"the real call on commandline"</span>
+      type: <span class="hljs-string">'object'</span>
+      allowedKeys: <span class="hljs-literal">true</span>
+      mandatoryKeys: [<span class="hljs-string">'cmd'</span>]
+      keys:
+        cmd:
+          title: <span class="hljs-string">"Executable"</span>
+          description: <span class="hljs-string">"the executable to run"</span>
+          type: <span class="hljs-string">'string'</span>
+        args:
+          title: <span class="hljs-string">"Parameters"</span>
+          description: <span class="hljs-string">"the parameters to send"</span>
+          type: <span class="hljs-string">'array'</span>
+          toArray: <span class="hljs-literal">true</span>
+          entries:
+            type: <span class="hljs-string">'handlebars'</span>
+    email: email</pre>
         </td>
       </tr>
     
@@ -165,85 +165,85 @@ Complete Schema Definition
         <td class="code highlight">
           <pre class="coffeescript">
 <span class="hljs-built_in">module</span>.exports =
-  <span class="hljs-attribute">title</span>: <span class="hljs-string">"Mailman Setup"</span>
-  <span class="hljs-attribute">description</span>: <span class="hljs-string">"the configuration for the mail manager system"</span>
-  <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-  <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-  <span class="hljs-attribute">keys</span>:
-    <span class="hljs-attribute">mailcheck</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"IMAP Setup"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the mailserver on which to check for new commands"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">keys</span>:
-        <span class="hljs-attribute">user</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Username"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the username to log into server"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
-        <span class="hljs-attribute">password</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Password"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the password for login"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
-        <span class="hljs-attribute">host</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Hostname or IP"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the imap host"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'hostname'</span>
-        <span class="hljs-attribute">port</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Port"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the port number to use for connection"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'port'</span>
-          <span class="hljs-attribute">optional</span>: <span class="hljs-literal">true</span>
-        <span class="hljs-attribute">tls</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Secure Login"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"a flag to use secure login over TLS"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'boolean'</span>
-          <span class="hljs-attribute">default</span>: <span class="hljs-literal">false</span>
-        <span class="hljs-attribute">autotls</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"TLS Upgrade"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the value decides when to upgrade to a secure session"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'string'</span>
-          <span class="hljs-attribute">values</span>: [<span class="hljs-string">'always'</span>, <span class="hljs-string">'required'</span>, <span class="hljs-string">'never'</span>]
-          <span class="hljs-attribute">default</span>: <span class="hljs-string">'never'</span>
-        <span class="hljs-attribute">connTimeout</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Connection Timeout"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the time in milliseconds to wait to establish connection"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'interval'</span>
-          <span class="hljs-attribute">min</span>: <span class="hljs-number">100</span>
-          <span class="hljs-attribute">default</span>: <span class="hljs-number">10000</span>
-        <span class="hljs-attribute">authTimeout</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Authentication Timeout"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the time in milliseconds to wait to authenticate user"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'interval'</span>
-          <span class="hljs-attribute">min</span>: <span class="hljs-number">100</span>
-          <span class="hljs-attribute">default</span>: <span class="hljs-number">5000</span>
-    <span class="hljs-attribute">command</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Command Setup"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the configuration for the calling command"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">entries</span>: [command]
-    <span class="hljs-attribute">email</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Email Templates"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the possible templates used for sending emails"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">entries</span>: [email]
-    <span class="hljs-attribute">daemon</span>:
-      <span class="hljs-attribute">title</span>: <span class="hljs-string">"Setup Daemon"</span>
-      <span class="hljs-attribute">description</span>: <span class="hljs-string">"the setup of the daemon mode"</span>
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">keys</span>:
-        <span class="hljs-attribute">maxJobs</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Number of Jobs"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the maximum number of jobs to run"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'integer'</span>
-          <span class="hljs-attribute">min</span>: <span class="hljs-number">1</span>
-          <span class="hljs-attribute">default</span>: <span class="hljs-number">5</span>
-        <span class="hljs-attribute">interval</span>:
-          <span class="hljs-attribute">title</span>: <span class="hljs-string">"Check Interval"</span>
-          <span class="hljs-attribute">description</span>: <span class="hljs-string">"the time to recheck for new emails in daemon mode"</span>
-          <span class="hljs-attribute">type</span>: <span class="hljs-string">'interval'</span>
-          <span class="hljs-attribute">default</span>: <span class="hljs-number">300000</span></pre>
+  title: <span class="hljs-string">"Mailman Setup"</span>
+  description: <span class="hljs-string">"the configuration for the mail manager system"</span>
+  type: <span class="hljs-string">'object'</span>
+  allowedKeys: <span class="hljs-literal">true</span>
+  keys:
+    mailcheck:
+      title: <span class="hljs-string">"IMAP Setup"</span>
+      description: <span class="hljs-string">"the mailserver on which to check for new commands"</span>
+      type: <span class="hljs-string">'object'</span>
+      allowedKeys: <span class="hljs-literal">true</span>
+      keys:
+        user:
+          title: <span class="hljs-string">"Username"</span>
+          description: <span class="hljs-string">"the username to log into server"</span>
+          type: <span class="hljs-string">'string'</span>
+        password:
+          title: <span class="hljs-string">"Password"</span>
+          description: <span class="hljs-string">"the password for login"</span>
+          type: <span class="hljs-string">'string'</span>
+        host:
+          title: <span class="hljs-string">"Hostname or IP"</span>
+          description: <span class="hljs-string">"the imap host"</span>
+          type: <span class="hljs-string">'hostname'</span>
+        port:
+          title: <span class="hljs-string">"Port"</span>
+          description: <span class="hljs-string">"the port number to use for connection"</span>
+          type: <span class="hljs-string">'port'</span>
+          optional: <span class="hljs-literal">true</span>
+        tls:
+          title: <span class="hljs-string">"Secure Login"</span>
+          description: <span class="hljs-string">"a flag to use secure login over TLS"</span>
+          type: <span class="hljs-string">'boolean'</span>
+          default: <span class="hljs-literal">false</span>
+        autotls:
+          title: <span class="hljs-string">"TLS Upgrade"</span>
+          description: <span class="hljs-string">"the value decides when to upgrade to a secure session"</span>
+          type: <span class="hljs-string">'string'</span>
+          values: [<span class="hljs-string">'always'</span>, <span class="hljs-string">'required'</span>, <span class="hljs-string">'never'</span>]
+          default: <span class="hljs-string">'never'</span>
+        connTimeout:
+          title: <span class="hljs-string">"Connection Timeout"</span>
+          description: <span class="hljs-string">"the time in milliseconds to wait to establish connection"</span>
+          type: <span class="hljs-string">'interval'</span>
+          min: <span class="hljs-number">100</span>
+          default: <span class="hljs-number">10000</span>
+        authTimeout:
+          title: <span class="hljs-string">"Authentication Timeout"</span>
+          description: <span class="hljs-string">"the time in milliseconds to wait to authenticate user"</span>
+          type: <span class="hljs-string">'interval'</span>
+          min: <span class="hljs-number">100</span>
+          default: <span class="hljs-number">5000</span>
+    command:
+      title: <span class="hljs-string">"Command Setup"</span>
+      description: <span class="hljs-string">"the configuration for the calling command"</span>
+      type: <span class="hljs-string">'object'</span>
+      allowedKeys: <span class="hljs-literal">true</span>
+      entries: [command]
+    email:
+      title: <span class="hljs-string">"Email Templates"</span>
+      description: <span class="hljs-string">"the possible templates used for sending emails"</span>
+      type: <span class="hljs-string">'object'</span>
+      entries: [email]
+    daemon:
+      title: <span class="hljs-string">"Setup Daemon"</span>
+      description: <span class="hljs-string">"the setup of the daemon mode"</span>
+      type: <span class="hljs-string">'object'</span>
+      allowedKeys: <span class="hljs-literal">true</span>
+      keys:
+        maxJobs:
+          title: <span class="hljs-string">"Number of Jobs"</span>
+          description: <span class="hljs-string">"the maximum number of jobs to run"</span>
+          type: <span class="hljs-string">'integer'</span>
+          min: <span class="hljs-number">1</span>
+          default: <span class="hljs-number">5</span>
+        interval:
+          title: <span class="hljs-string">"Check Interval"</span>
+          description: <span class="hljs-string">"the time to recheck for new emails in daemon mode"</span>
+          type: <span class="hljs-string">'interval'</span>
+          default: <span class="hljs-number">300000</span></pre>
         </td>
       </tr>
     

@@ -7,7 +7,7 @@
   <script src="../../doc-filelist.js"></script>
   <script>
     var relativeDir = "../../";
-    var thisFile = "home/alex/github/node-mailman/var/locales/de.json";
+    var thisFile = "var/locales/de.json";
     var defaultSidebar = true;
   </script>
   <script src="../../doc-script.js"></script>
@@ -65,52 +65,52 @@
         </td>
         <td class="code highlight">
           <pre class="json">{
-	"<span class="hljs-attribute">general</span>": <span class="hljs-value">{
-		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Allgemeine Benutzung"</span></span>,
-		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"Um einen der möglichen Befehle des Mailman aufzurufen muss lediglich eine einfache email an die Adresse %s gesendet werden."</span>
-	</span>}</span>,
-	"<span class="hljs-attribute">auth</span>": <span class="hljs-value">{
-		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Zugriffskontrolle"</span></span>,
-		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"Zur Sicherheit können einzelne Befehle nur von festgelegten Email Adressen aufgerufen werden. Die Liste der Befehle weiter unten in dieser Email zeigt alle Befehle die für deine Email Adresse derzeit freigegeben sind."</span>
-	</span>}</span>,
-	"<span class="hljs-attribute">select</span>": <span class="hljs-value">{
-		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Befehlsauswahl"</span></span>,
-		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"Welcher Befehl ausgeführt werden soll entscheidet der Betreff der Email. Hierzu muss die Betreffzeile wie unten in der Befehlsliste angegeben werden. Groß-/Kleinschreibung ist hierbei egal."</span>
-	</span>}</span>,
-	"<span class="hljs-attribute">var</span>": <span class="hljs-value">{
-		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Variablen"</span></span>,
-		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"Manche der Befehlte erlauben oder benötigen verschiedene Variablen. Diese werden im Inhalt der Email im INI-Format angegeben. Hierzu wird je Zeile der Variablenname gefolgt von einem '=' Zeichen und dem jeweiligen Wert notiert. Die erste Leere Zeile markiert das Ende der Werte, was danach folgt wird ignoriert. Siehe hierzu auch die folgenden Beispiele."</span>
-	</span>}</span>,
-	"<span class="hljs-attribute">response</span>": <span class="hljs-value">{
-		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Antwort"</span></span>,
-		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"Die Antwort kann je Befehl unterschiedlich ausfallen. So versenden manche Befehle direkt eine Email mit Erfolg oder Fehler, andere wiederum gar keine. Bei den DBReports wird meist keine Email versandt, da dies ja durch den Report selbst geschieht."</span>
-	</span>}</span>,
-	"<span class="hljs-attribute">example</span>": <span class="hljs-value">{
-		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Beispiele"</span></span>,
-		"<span class="hljs-attribute">simple</span>": <span class="hljs-value"><span class="hljs-string">"Eine Datenbankanfrage über DBReports könnte wie folgt aussehen:"</span></span>,
-		"<span class="hljs-attribute">list</span>": <span class="hljs-value"><span class="hljs-string">"Um mehrere Datensätze zu erhalten kann (wenn der Befehl dies unterstützt) eine Liste angegeben werden:"</span></span>,
-		"<span class="hljs-attribute">footer</span>": <span class="hljs-value"><span class="hljs-string">"Was genau im einzelnen Befehl erlaubt ist, kann der Befehlsbeschreibung entnommen werden."</span>
-	</span>}</span>,
-	"<span class="hljs-attribute">command</span>": <span class="hljs-value">{
-		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Mögliche Befehle"</span></span>,
-		"<span class="hljs-attribute">var</span>": <span class="hljs-value"><span class="hljs-string">"In diesem Befehl sind die folgenden Variablen erlaubt:"</span></span>,
-		"<span class="hljs-attribute">list</span>": <span class="hljs-value"><span class="hljs-string">"Liste mit %s"</span>
-	</span>}</span>,
-	"<span class="hljs-attribute">default</span>": <span class="hljs-value"><span class="hljs-string">"standard"</span></span>,
-	"<span class="hljs-attribute">optional</span>": <span class="hljs-value"><span class="hljs-string">"optional"</span></span>,
-	"<span class="hljs-attribute">Type</span>": <span class="hljs-value"><span class="hljs-string">"Typ"</span></span>,
-	"<span class="hljs-attribute">entries</span>": <span class="hljs-value"><span class="hljs-string">"Einträgen"</span></span>,
-	"<span class="hljs-attribute">number</span>": <span class="hljs-value"><span class="hljs-string">"Zahl"</span></span>,
-	"<span class="hljs-attribute">string</span>": <span class="hljs-value"><span class="hljs-string">"Text"</span></span>,
-	"<span class="hljs-attribute">interval</span>": <span class="hljs-value"><span class="hljs-string">"Zeitdauer"</span></span>,
-	"<span class="hljs-attribute">date</span>": <span class="hljs-value"><span class="hljs-string">"Zeit"</span></span>,
-	"<span class="hljs-attribute">percent</span>": <span class="hljs-value"><span class="hljs-string">"Prozentwert"</span></span>,
-	"<span class="hljs-attribute">use '%s' as delimiter</span>": <span class="hljs-value"><span class="hljs-string">"Benutze '%s' als Trenner der Elemente"</span></span>,
-	"<span class="hljs-attribute">final</span>": <span class="hljs-value">{
-		"<span class="hljs-attribute">head</span>": <span class="hljs-value"><span class="hljs-string">"Weitere Hilfe"</span></span>,
-		"<span class="hljs-attribute">text</span>": <span class="hljs-value"><span class="hljs-string">"Sollte es Probleme geben oder etwas unklar sein, so sende deine Fragen als Antwort zu dieser Email."</span>
-	</span>}
-</span>}</pre>
+	<span class="hljs-attr">"general"</span>: {
+		<span class="hljs-attr">"head"</span>: <span class="hljs-string">"Allgemeine Benutzung"</span>,
+		<span class="hljs-attr">"text"</span>: <span class="hljs-string">"Um einen der möglichen Befehle des Mailman aufzurufen muss lediglich eine einfache email an die Adresse %s gesendet werden."</span>
+	},
+	<span class="hljs-attr">"auth"</span>: {
+		<span class="hljs-attr">"head"</span>: <span class="hljs-string">"Zugriffskontrolle"</span>,
+		<span class="hljs-attr">"text"</span>: <span class="hljs-string">"Zur Sicherheit können einzelne Befehle nur von festgelegten Email Adressen aufgerufen werden. Die Liste der Befehle weiter unten in dieser Email zeigt alle Befehle die für deine Email Adresse derzeit freigegeben sind."</span>
+	},
+	<span class="hljs-attr">"select"</span>: {
+		<span class="hljs-attr">"head"</span>: <span class="hljs-string">"Befehlsauswahl"</span>,
+		<span class="hljs-attr">"text"</span>: <span class="hljs-string">"Welcher Befehl ausgeführt werden soll entscheidet der Betreff der Email. Hierzu muss die Betreffzeile wie unten in der Befehlsliste angegeben werden. Groß-/Kleinschreibung ist hierbei egal."</span>
+	},
+	<span class="hljs-attr">"var"</span>: {
+		<span class="hljs-attr">"head"</span>: <span class="hljs-string">"Variablen"</span>,
+		<span class="hljs-attr">"text"</span>: <span class="hljs-string">"Manche der Befehlte erlauben oder benötigen verschiedene Variablen. Diese werden im Inhalt der Email im INI-Format angegeben. Hierzu wird je Zeile der Variablenname gefolgt von einem '=' Zeichen und dem jeweiligen Wert notiert. Die erste Leere Zeile markiert das Ende der Werte, was danach folgt wird ignoriert. Siehe hierzu auch die folgenden Beispiele."</span>
+	},
+	<span class="hljs-attr">"response"</span>: {
+		<span class="hljs-attr">"head"</span>: <span class="hljs-string">"Antwort"</span>,
+		<span class="hljs-attr">"text"</span>: <span class="hljs-string">"Die Antwort kann je Befehl unterschiedlich ausfallen. So versenden manche Befehle direkt eine Email mit Erfolg oder Fehler, andere wiederum gar keine. Bei den DBReports wird meist keine Email versandt, da dies ja durch den Report selbst geschieht."</span>
+	},
+	<span class="hljs-attr">"example"</span>: {
+		<span class="hljs-attr">"head"</span>: <span class="hljs-string">"Beispiele"</span>,
+		<span class="hljs-attr">"simple"</span>: <span class="hljs-string">"Eine Datenbankanfrage über DBReports könnte wie folgt aussehen:"</span>,
+		<span class="hljs-attr">"list"</span>: <span class="hljs-string">"Um mehrere Datensätze zu erhalten kann (wenn der Befehl dies unterstützt) eine Liste angegeben werden:"</span>,
+		<span class="hljs-attr">"footer"</span>: <span class="hljs-string">"Was genau im einzelnen Befehl erlaubt ist, kann der Befehlsbeschreibung entnommen werden."</span>
+	},
+	<span class="hljs-attr">"command"</span>: {
+		<span class="hljs-attr">"head"</span>: <span class="hljs-string">"Mögliche Befehle"</span>,
+		<span class="hljs-attr">"var"</span>: <span class="hljs-string">"In diesem Befehl sind die folgenden Variablen erlaubt:"</span>,
+		<span class="hljs-attr">"list"</span>: <span class="hljs-string">"Liste mit %s"</span>
+	},
+	<span class="hljs-attr">"default"</span>: <span class="hljs-string">"standard"</span>,
+	<span class="hljs-attr">"optional"</span>: <span class="hljs-string">"optional"</span>,
+	<span class="hljs-attr">"Type"</span>: <span class="hljs-string">"Typ"</span>,
+	<span class="hljs-attr">"entries"</span>: <span class="hljs-string">"Einträgen"</span>,
+	<span class="hljs-attr">"number"</span>: <span class="hljs-string">"Zahl"</span>,
+	<span class="hljs-attr">"string"</span>: <span class="hljs-string">"Text"</span>,
+	<span class="hljs-attr">"interval"</span>: <span class="hljs-string">"Zeitdauer"</span>,
+	<span class="hljs-attr">"date"</span>: <span class="hljs-string">"Zeit"</span>,
+	<span class="hljs-attr">"percent"</span>: <span class="hljs-string">"Prozentwert"</span>,
+	<span class="hljs-attr">"use '%s' as delimiter"</span>: <span class="hljs-string">"Benutze '%s' als Trenner der Elemente"</span>,
+	<span class="hljs-attr">"final"</span>: {
+		<span class="hljs-attr">"head"</span>: <span class="hljs-string">"Weitere Hilfe"</span>,
+		<span class="hljs-attr">"text"</span>: <span class="hljs-string">"Sollte es Probleme geben oder etwas unklar sein, so sende deine Fragen als Antwort zu dieser Email."</span>
+	}
+}</pre>
         </td>
       </tr>
     

@@ -7,7 +7,7 @@
   <script src="../doc-filelist.js"></script>
   <script>
     var relativeDir = "../";
-    var thisFile = "home/alex/github/node-mailman/src/index.coffee";
+    var thisFile = "src/index.coffee";
     var defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
@@ -116,7 +116,7 @@ Node Modules
         <td class="code highlight">
           <pre class="coffeescript">debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>)(<span class="hljs-string">'mailman'</span>)
 chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'chalk'</span>
-util = <span class="hljs-built_in">require</span> <span class="hljs-string">'util'</span>
+async = <span class="hljs-built_in">require</span> <span class="hljs-string">'async'</span>
 Imap = <span class="hljs-built_in">require</span> <span class="hljs-string">'imap'</span>
 MailParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mailparser'</span>).MailParser</pre>
         </td>
@@ -133,8 +133,7 @@ MailParser = <span class="hljs-built_in">require</span>(<span class="hljs-string
         <td class="code highlight">
           <pre class="coffeescript">config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span>
 Exec = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-exec'</span>
-{object} = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
-async = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-async'</span>
+util = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
 mail = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-mail'</span>
 validator = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-validator'</span>
 Report = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-report'</span></pre>
@@ -185,8 +184,8 @@ be changed at any time.</p>
         </td>
         <td class="code highlight">
           <pre class="coffeescript">mode =
-  <span class="hljs-attribute">try</span>: <span class="hljs-literal">false</span> <span class="hljs-comment"># work in try mode</span>
-  <span class="hljs-attribute">daemon</span>: <span class="hljs-literal">false</span> <span class="hljs-comment"># runs in daemon mode?</span>
+  try: <span class="hljs-literal">false</span> <span class="hljs-comment"># work in try mode</span>
+  daemon: <span class="hljs-literal">false</span> <span class="hljs-comment"># runs in daemon mode?</span>
 
 imap = <span class="hljs-literal">null</span> <span class="hljs-comment"># imap connection</span>
 numJobs = <span class="hljs-number">0</span> <span class="hljs-comment"># number of jobs in progress</span>
@@ -257,17 +256,17 @@ Helper Methods
       debug <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span> found <span class="hljs-subst">#{count}</span> messages"</span>
       <span class="hljs-keyword">return</span> cb() <span class="hljs-keyword">unless</span> count
       f = imap.fetch results,
-        <span class="hljs-attribute">bodies</span>: [<span class="hljs-string">'HEADER'</span>, <span class="hljs-string">'TEXT'</span>]
-        <span class="hljs-attribute">markSeen</span>: <span class="hljs-literal">true</span>
+        bodies: [<span class="hljs-string">'HEADER'</span>, <span class="hljs-string">'TEXT'</span>]
+        markSeen: <span class="hljs-literal">true</span>
       f.<span class="hljs-literal">on</span> <span class="hljs-string">'message'</span>, <span class="hljs-function"><span class="hljs-params">(msg, seqno)</span> -&gt;</span>
         debug <span class="hljs-string">"<span class="hljs-subst">#{chalk.grey command}</span> read message #<span class="hljs-subst">#{seqno}</span>"</span>
         mailparser = <span class="hljs-keyword">new</span> MailParser()
         mailparser.<span class="hljs-literal">on</span> <span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
           execute
-            <span class="hljs-attribute">header</span>: obj.headers
-            <span class="hljs-attribute">body</span>:
-              <span class="hljs-attribute">html</span>: obj.html
-              <span class="hljs-attribute">text</span>: obj.text
+            header: obj.headers
+            body:
+              html: obj.html
+              text: obj.text
           , command, setup, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
             <span class="hljs-keyword">return</span> cb err <span class="hljs-keyword">if</span> err
             count--</pre>
@@ -415,13 +414,13 @@ obj = object.lcKeys obj</p>
         <td class="code highlight">
           <pre class="coffeescript">  <span class="hljs-keyword">delete</span> obj[key] <span class="hljs-keyword">unless</span> conf.variables[key] <span class="hljs-keyword">for</span> key <span class="hljs-keyword">of</span> obj
   validator.check
-    <span class="hljs-attribute">name</span>: <span class="hljs-string">'emailBody'</span>
-    <span class="hljs-attribute">value</span>: obj
-    <span class="hljs-attribute">schema</span>:
-      <span class="hljs-attribute">type</span>: <span class="hljs-string">'object'</span>
-      <span class="hljs-attribute">allowedKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">mandatoryKeys</span>: <span class="hljs-literal">true</span>
-      <span class="hljs-attribute">keys</span>: conf.variables
+    name: <span class="hljs-string">'emailBody'</span>
+    value: obj
+    schema:
+      type: <span class="hljs-string">'object'</span>
+      allowedKeys: <span class="hljs-literal">true</span>
+      mandatoryKeys: <span class="hljs-literal">true</span>
+      keys: conf.variables
   , cb
 <span class="hljs-function">
 <span class="hljs-title">execute</span> = <span class="hljs-params">(meta, command, conf, cb)</span> -&gt;</span>
@@ -489,7 +488,7 @@ obj = object.lcKeys obj</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">    email = object.clone conf.email ? {<span class="hljs-attribute">base</span>: <span class="hljs-string">'default'</span>}
+          <pre class="coffeescript">    email = util.clone conf.email ? {base: <span class="hljs-string">'default'</span>}
     email.to = [meta.header.from]
     email.subject = <span class="hljs-string">"Re: <span class="hljs-subst">#{meta.header.subject}</span>"</span>
     email.inReplyTo = meta.header[<span class="hljs-string">'message-id'</span>]
@@ -509,12 +508,12 @@ obj = object.lcKeys obj</p>
           <pre class="coffeescript">    <span class="hljs-keyword">if</span> err
       <span class="hljs-built_in">console</span>.log chalk.magenta <span class="hljs-string">"Error parsing body variables: <span class="hljs-subst">#{err.message}</span>"</span>
       <span class="hljs-keyword">return</span> mail.send email,
-        <span class="hljs-attribute">name</span>: command
-        <span class="hljs-attribute">conf</span>: conf
-        <span class="hljs-attribute">date</span>: <span class="hljs-keyword">new</span> Date()
-        <span class="hljs-attribute">result</span>:
-          <span class="hljs-attribute">code</span>: <span class="hljs-number">1</span>
-          <span class="hljs-attribute">error</span>: err.message
+        name: command
+        conf: conf
+        date: <span class="hljs-keyword">new</span> Date()
+        result:
+          code: <span class="hljs-number">1</span>
+          error: err.message
       , cb
     <span class="hljs-built_in">console</span>.log <span class="hljs-string">"-&gt; execute <span class="hljs-subst">#{command}</span> for <span class="hljs-subst">#{meta.header.from}</span> --"</span>
     <span class="hljs-built_in">console</span>.log <span class="hljs-string">"   with"</span>, variables <span class="hljs-keyword">if</span> variables</pre>
@@ -532,17 +531,17 @@ obj = object.lcKeys obj</p>
         <td class="code highlight">
           <pre class="coffeescript">    variables ?= {}
     variables._mail =
-      <span class="hljs-attribute">header</span>:
-        <span class="hljs-attribute">from</span>: meta.header.from
-        <span class="hljs-attribute">cc</span>: meta.header.cc
-        <span class="hljs-attribute">bcc</span>: meta.header.bcc
-        <span class="hljs-attribute">subject</span>: meta.header.subject
-        <span class="hljs-attribute">messageId</span>: meta.header[<span class="hljs-string">'message-id'</span>]
+      header:
+        from: meta.header.from
+        cc: meta.header.cc
+        bcc: meta.header.bcc
+        subject: meta.header.subject
+        messageId: meta.header[<span class="hljs-string">'message-id'</span>]
     variables._json = JSON.stringify variables
     setup =
-      <span class="hljs-attribute">remote</span>: conf.exec.remote
-      <span class="hljs-attribute">cmd</span>: conf.exec.cmd
-      <span class="hljs-attribute">args</span>: conf.exec.args.map (e) -&gt; e variables</pre>
+      remote: conf.exec.remote
+      cmd: conf.exec.cmd
+      args: conf.exec.args.map (e) -&gt; e variables</pre>
         </td>
       </tr>
     
@@ -584,11 +583,11 @@ obj = object.lcKeys obj</p>
         <td class="code highlight">
           <pre class="coffeescript">      <span class="hljs-built_in">console</span>.log chalk.grey <span class="hljs-string">'   sending mail response'</span>
       context =
-        <span class="hljs-attribute">name</span>: command
-        <span class="hljs-attribute">conf</span>: conf
-        <span class="hljs-attribute">date</span>: <span class="hljs-keyword">new</span> Date()
-        <span class="hljs-attribute">process</span>: exec.process
-        <span class="hljs-attribute">result</span>: exec.result
+        name: command
+        conf: conf
+        date: <span class="hljs-keyword">new</span> Date()
+        process: exec.process
+        result: exec.result
       context.result.stdout = exec.stdout()
       context.result.stderr = exec.stderr()
       mail.send email, context, cb
@@ -606,7 +605,7 @@ obj = object.lcKeys obj</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  email = object.clone conf.email ? {<span class="hljs-attribute">base</span>: <span class="hljs-string">'default'</span>}
+          <pre class="coffeescript">  email = util.clone conf.email ? {base: <span class="hljs-string">'default'</span>}
   email.to = [meta.header.from]
   email.subject = <span class="hljs-string">"Re: <span class="hljs-subst">#{meta.header.subject}</span>"</span>
   email.inReplyTo = meta.header[<span class="hljs-string">'message-id'</span>]
@@ -638,9 +637,9 @@ obj = object.lcKeys obj</p>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">    <span class="hljs-attribute">defaultLocale</span>: <span class="hljs-string">'en'</span>
-    <span class="hljs-attribute">directory</span>: __dirname + <span class="hljs-string">'/../var/locales'</span>
-    <span class="hljs-attribute">objectNotation</span>: <span class="hljs-literal">true</span>
+          <pre class="coffeescript">    defaultLocale: <span class="hljs-string">'en'</span>
+    directory: __dirname + <span class="hljs-string">'/../var/locales'</span>
+    objectNotation: <span class="hljs-literal">true</span>
   i18n.setLocale email.locale</pre>
         </td>
       </tr>
@@ -740,7 +739,7 @@ obj = object.lcKeys obj</p>
       report.ul Object.keys(cmd.variables).map (key) -&gt;
         v = cmd.variables[key]
         msg = <span class="hljs-string">"`<span class="hljs-subst">#{key}</span>`"</span>
-        msg += <span class="hljs-string">" - **<span class="hljs-subst">#{v.title}</span>**"</span> <span class="hljs-keyword">if</span> v.title
+        msg += <span class="hljs-string">" = **<span class="hljs-subst">#{v.title}</span>**"</span> <span class="hljs-keyword">if</span> v.title
         msg += <span class="hljs-string">" (<span class="hljs-subst">#{i18n.__ <span class="hljs-string">'optional'</span>}</span>)"</span> <span class="hljs-keyword">if</span> v.optional <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> v.default
         msg += <span class="hljs-string">" (<span class="hljs-subst">#{i18n.__ <span class="hljs-string">'default'</span>}</span>: <span class="hljs-subst">#{v.default}</span>)"</span> <span class="hljs-keyword">if</span> v.default
         msg += <span class="hljs-string">"\\\n<span class="hljs-subst">#{v.description}</span>"</span> <span class="hljs-keyword">if</span> v.description
@@ -783,10 +782,10 @@ obj = object.lcKeys obj</p>
         </td>
         <td class="code highlight">
           <pre class="coffeescript">  mail.send email,
-    <span class="hljs-attribute">name</span>: <span class="hljs-string">'help'</span>
-    <span class="hljs-attribute">conf</span>: conf
-    <span class="hljs-attribute">date</span>: <span class="hljs-keyword">new</span> Date()
-    <span class="hljs-attribute">help</span>: report.toString()
+    name: <span class="hljs-string">'help'</span>
+    conf: conf
+    date: <span class="hljs-keyword">new</span> Date()
+    help: report.toString()
   , cb</pre>
         </td>
       </tr>

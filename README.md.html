@@ -7,7 +7,7 @@
   <script src="doc-filelist.js"></script>
   <script>
     var relativeDir = "";
-    var thisFile = "home/alex/github/node-mailman/README.md";
+    var thisFile = "README.md";
     var defaultSidebar = true;
   </script>
   <script src="doc-script.js"></script>
@@ -110,7 +110,7 @@ machines may be checked:</p>
 <p>Because this application works agentless, you don't have to do something special
 on your clients but often some simple changes can make the reports more powerful.
 If so you will get a hint in the report.</p>
-<p>Always have a look at the latest <a href="Changelog.md.html.html">changes</a>.</p>
+<p>Always have a look at the latest <a href="Changelog.md.html">changes</a>.</p>
 <div class="pilwrap" id="usage">
   <h2>
     <a href="#usage" name="usage" class="pilcrow"></a>
@@ -158,61 +158,61 @@ Configuration
   </h2>
 </div>
 <p>The base configuration for <code>/mailman</code> looks like:</p>
-<pre><code class="yaml"># Configuration for mailman
-# =================================================================
+<pre><code class="yaml"><span class="hljs-comment"># Configuration for mailman</span>
+<span class="hljs-comment"># =================================================================</span>
 
-# IMAP Server to check for mails
-mailcheck:
-  # Username for login
-  user: alexander.schilling@mycompany.de
-  # Password for login
-  password: mypass
-  # Host or IP address to connect to
-  host: mail.mycompany.de
-  # Connection port
-  port: 143
-  # Secure login, set to true to login through TLS
-  tls: false
-  # TLS Upgrade decides when to upgrade to a secure session:
-  # one of 'always', 'required', 'never'
-  autotls: never
-  # Connection timeout in milliseconds to wait to establish connection&quot;
-  connTimeout: 10s
-  # Authentication timeout in milliseconds to wait to authenticate user&quot;
-  authTimeout: 5s
+<span class="hljs-comment"># IMAP Server to check for mails</span>
+<span class="hljs-attr">mailcheck:</span>
+  <span class="hljs-comment"># Username for login</span>
+<span class="hljs-attr">  user:</span> alexander.schilling@mycompany.de
+  <span class="hljs-comment"># Password for login</span>
+<span class="hljs-attr">  password:</span> mypass
+  <span class="hljs-comment"># Host or IP address to connect to</span>
+<span class="hljs-attr">  host:</span> mail.mycompany.de
+  <span class="hljs-comment"># Connection port</span>
+<span class="hljs-attr">  port:</span> <span class="hljs-number">143</span>
+  <span class="hljs-comment"># Secure login, set to true to login through TLS</span>
+<span class="hljs-attr">  tls:</span> <span class="hljs-literal">false</span>
+  <span class="hljs-comment"># TLS Upgrade decides when to upgrade to a secure session:</span>
+  <span class="hljs-comment"># one of 'always', 'required', 'never'</span>
+<span class="hljs-attr">  autotls:</span> never
+  <span class="hljs-comment"># Connection timeout in milliseconds to wait to establish connection"</span>
+<span class="hljs-attr">  connTimeout:</span> <span class="hljs-number">10</span>s
+  <span class="hljs-comment"># Authentication timeout in milliseconds to wait to authenticate user"</span>
+<span class="hljs-attr">  authTimeout:</span> <span class="hljs-number">5</span>s
 
-# Check interval to recheck for new emails in daemon mode
-interval: 5m
+<span class="hljs-comment"># Check interval to recheck for new emails in daemon mode</span>
+<span class="hljs-attr">interval:</span> <span class="hljs-number">5</span>m
 </code></pre>
 <p>And then the commands under <code>/mailman/comand/</code> will look like:</p>
-<pre><code class="yaml"># Commands
-# -------------------------------------------------------------------
-command:
-  # Object of possible commands to use
-  date:
-    # Title and description used for the mail response
-    title: &quot;Get the Date&quot;
-    description: &quot;Get the date from the server.&quot;
-    # Filter rules which define the emails to react on
-    filter:
-      # case-insensitive part of the subject
-      subject: 'what time is it'
-      # address or list of addresses, also as case-insensitive parts
-      from: '@mycompany.de'
-    # Variables to support from body
-    variables:      
-      format:
-        type: 'string'
-    # Command to execute
-    exec:
-      # executional on command line
-      cmd: 'date'
-      # list of arguments
-      args: []
-    # response mail settings
-    email:
-      # use the template
-      base: default
+<pre><code class="yaml"><span class="hljs-comment"># Commands</span>
+<span class="hljs-comment"># -------------------------------------------------------------------</span>
+<span class="hljs-attr">command:</span>
+  <span class="hljs-comment"># Object of possible commands to use</span>
+<span class="hljs-attr">  date:</span>
+    <span class="hljs-comment"># Title and description used for the mail response</span>
+<span class="hljs-attr">    title:</span> <span class="hljs-string">"Get the Date"</span>
+<span class="hljs-attr">    description:</span> <span class="hljs-string">"Get the date from the server."</span>
+    <span class="hljs-comment"># Filter rules which define the emails to react on</span>
+<span class="hljs-attr">    filter:</span>
+      <span class="hljs-comment"># case-insensitive part of the subject</span>
+<span class="hljs-attr">      subject:</span> <span class="hljs-string">'what time is it'</span>
+      <span class="hljs-comment"># address or list of addresses, also as case-insensitive parts</span>
+<span class="hljs-attr">      from:</span> <span class="hljs-string">'@mycompany.de'</span>
+    <span class="hljs-comment"># Variables to support from body</span>
+<span class="hljs-attr">    variables:</span>      
+<span class="hljs-attr">      format:</span>
+<span class="hljs-attr">        type:</span> <span class="hljs-string">'string'</span>
+    <span class="hljs-comment"># Command to execute</span>
+<span class="hljs-attr">    exec:</span>
+      <span class="hljs-comment"># executional on command line</span>
+<span class="hljs-attr">      cmd:</span> <span class="hljs-string">'date'</span>
+      <span class="hljs-comment"># list of arguments</span>
+<span class="hljs-attr">      args:</span> []
+    <span class="hljs-comment"># response mail settings</span>
+<span class="hljs-attr">    email:</span>
+      <span class="hljs-comment"># use the template</span>
+<span class="hljs-attr">      base:</span> default
 </code></pre>
 <p>Within the <code>args</code> you may use specific parameters given in mail body (but use them
 all in lowercase). Also the following general variables are present:</p>
@@ -228,36 +228,36 @@ all in lowercase). Also the following general variables are present:</p>
 <p>So you may use the email address of the sender as <code>_mail.header.from</code> to give it
 to your command.</p>
 <p>The email templates are stored under <code>/email</code> will look like:</p>
-<pre><code class="yaml"># Email Templates
-# -------------------------------------------------------------------
-default:
-  # specify how to connect to the server
-  transport: smtp://alexander.schilling%40mycompany.de:&lt;&lt;&lt;env://PW_ALEX_COM&gt;&gt;&gt;@mail.mycompany.de
-  # sender address
-  from: alexander.schilling@mycompany.de
-  replyTo: alexander.schilling@mycompany.de
+<pre><code class="yaml"><span class="hljs-comment"># Email Templates</span>
+<span class="hljs-comment"># -------------------------------------------------------------------</span>
+<span class="hljs-attr">default:</span>
+  <span class="hljs-comment"># specify how to connect to the server</span>
+<span class="hljs-attr">  transport:</span> smtp://alexander.schilling%<span class="hljs-number">40</span>mycompany.de:&lt;&lt;&lt;env://PW_ALEX_COM&gt;&gt;&gt;@mail.mycompany.de
+  <span class="hljs-comment"># sender address</span>
+<span class="hljs-attr">  from:</span> alexander.schilling@mycompany.de
+<span class="hljs-attr">  replyTo:</span> alexander.schilling@mycompany.de
 
-  # content
-  locale: de
-  subject: &gt;
-    Re: {{conf.title}}
-  body: |+
+  <span class="hljs-comment"># content</span>
+<span class="hljs-attr">  locale:</span> de
+<span class="hljs-attr">  subject:</span> <span class="hljs-string">&gt;
+</span><span class="hljs-attr">    Re:</span> {{conf.title}}
+<span class="hljs-attr">  body:</span> |+
   {{conf.title}}
   ==========================================================================
 
   {{conf.description}}
 
-  Started on {{dateFormat date &quot;LL&quot;}} from {{dateFormat process.start &quot;LTS&quot;}} to {{dateFormat process.end &quot;LTS&quot;}}
+  Started on {{dateFormat date <span class="hljs-string">"LL"</span>}} from {{dateFormat process.start <span class="hljs-string">"LTS"</span>}} to {{dateFormat process.end <span class="hljs-string">"LTS"</span>}}
 
-  PID {{process.host}}#{{process.pid}}
+  PID {{process.host}}<span class="hljs-comment">#{{process.pid}}</span>
 
-  {{#if result.code}}
+  {{<span class="hljs-comment">#if result.code}}</span>
   ::: alert
   **{{{result.error}}}** (Code {{result.code}})
   :::
   {{/if}}
 
-  {{#if result.stdout}}
+  {{<span class="hljs-comment">#if result.stdout}}</span>
   Output of command was:
 
   ``` text

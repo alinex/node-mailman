@@ -7,7 +7,7 @@
   <script src="../doc-filelist.js"></script>
   <script>
     var relativeDir = "../";
-    var thisFile = "home/alex/github/node-mailman/src/cli.coffee";
+    var thisFile = "src/cli.coffee";
     var defaultSidebar = true;
   </script>
   <script src="../doc-script.js"></script>
@@ -172,7 +172,7 @@ Start argument parsing
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">  <span class="hljs-attribute">Usage</span>: $<span class="hljs-number">0</span> [-vCcltd]
+          <pre class="coffeescript">  Usage: $<span class="hljs-number">0</span> [-vCcltd]
   <span class="hljs-string">""")
 </span></pre>
         </td>
@@ -385,8 +385,8 @@ Main routine
         </td>
         <td class="code highlight">
           <pre class="coffeescript">mailman.init
-  <span class="hljs-attribute">try</span>: argv.<span class="hljs-keyword">try</span>
-  <span class="hljs-attribute">daemon</span>: argv.daemon
+  try: argv.<span class="hljs-keyword">try</span>
+  daemon: argv.daemon
 mail.setup (err) -&gt;
   exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
   Exec.setup (err) -&gt;
@@ -418,7 +418,7 @@ mail.setup (err) -&gt;
         <td class="code highlight">
           <pre class="coffeescript">    config.register <span class="hljs-string">'mailman'</span>, fspath.dirname __dirname
     mailman.init
-      <span class="hljs-attribute">try</span>: argv.<span class="hljs-keyword">try</span>
+      try: argv.<span class="hljs-keyword">try</span>
     config.init (err) -&gt;
       exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err</pre>
         </td>
