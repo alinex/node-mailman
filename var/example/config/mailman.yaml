@@ -69,7 +69,7 @@ email:
 
       {{conf.description}}
 
-      Started on {{dateFormat date "LL"}} from {{dateFormat process.start "LTS"}} to {{dateFormat process.end "LTS"}}
+      Started on {{date date "LL"}} from {{date process.start "LTS"}} to {{date process.end "LTS"}}
 
       PID {{process.host}}#{{process.pid}}
 

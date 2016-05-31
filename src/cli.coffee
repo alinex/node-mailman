@@ -12,12 +12,20 @@ fspath = require 'path'
 config = require 'alinex-config'
 Exec = require 'alinex-exec'
 mail = require 'alinex-mail'
+alinex = require 'alinex-core'
 # include classes and helpers
-logo = require('alinex-core').logo 'Email Control Manager'
 mailman = require './index'
 schema = require './configSchema'
 
 process.title = 'MailMan'
+logo = alinex.logo 'Email Control Manager'
+
+
+# Error management
+# -------------------------------------------------
+alinex.initExit()
+process.on 'exit', ->
+  console.log "Goodbye\n"
 
 # Start argument parsing
 # -------------------------------------------------
@@ -51,40 +59,15 @@ argv = yargs
 .showHelpOnFail(false, "Specify --help for available options")
 .strict()
 .fail (err) ->
-  console.error """
-    #{logo}
-    #{chalk.red.bold 'CLI Parameter Failure:'} #{chalk.red err}
-
-    """
-  process.exit 1
+  err = new Error "CLI #{err}"
+  err.description = 'Specify --help for available options'
+  alinex.exit 2, err
 .argv
 # parse data
 argv.json = JSON.parse argv.json if argv.json
 # implement some global switches
 chalk.enabled = false if argv.nocolors
 
-
-# Error management
-# -------------------------------------------------
-exit = (code = 0, err) ->
-  # exit without error
-  process.exit code unless err
-  # exit with error
-  console.error chalk.red.bold "FAILED: #{err.message}"
-  console.error err.description if err.description
-  process.exit code unless argv.daemon
-  argv.daemon = false
-  setTimeout ->
-    process.exit code
-  , 2000
-
-process.on 'SIGINT', -> exit 130, new Error "Got SIGINT signal"
-process.on 'SIGTERM', -> exit 143, new Error "Got SIGTERM signal"
-process.on 'SIGHUP', -> exit 129, new Error "Got SIGHUP signal"
-process.on 'SIGQUIT', -> exit 131, new Error "Got SIGQUIT signal"
-process.on 'SIGABRT', -> exit 134, new Error "Got SIGABRT signal"
-process.on 'exit', ->
-  console.log "Goodbye\n"
 
 # Main routine
 # -------------------------------------------------
@@ -95,9 +78,9 @@ mailman.init
   try: argv.try
   daemon: argv.daemon
 mail.setup (err) ->
-  exit 1, err if err
+  alinex.exit err if err
   Exec.setup (err) ->
-    exit 1, err if err
+    alinex.exit err if err
     # add schema for module's configuration
     config.setSchema '/mailman', schema
     # set module search path
@@ -105,15 +88,15 @@ mail.setup (err) ->
     mailman.init
       try: argv.try
     config.init (err) ->
-      exit 1, err if err
+      alinex.exit err if err
       # check mails
       if argv.daemon
         daemon()
       else
         mailman.run (err) ->
-          exit 1, err if err
+          alinex.exit err if err
 
 daemon = ->
   setTimeout daemon, config.get '/mailman/daemon/interval'
   mailman.run (err) ->
-    exit 1, err if err
+    alinex.exit err if err
