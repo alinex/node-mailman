@@ -3,7 +3,6 @@
 
 email = require('alinex-mail/lib/configSchema.js').email
 
-
 # Complete Schema Definition
 # -------------------------------------------------
 command =
@@ -66,7 +65,7 @@ command =
           toArray: true
           entries:
             type: 'handlebars'
-    email: email
+     email: email
 
 # Complete Schema Definition
 # -------------------------------------------------

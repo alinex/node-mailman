@@ -1,7 +1,5 @@
 ### eslint-env node, mocha ###
 
-validator = require 'alinex-validator'
-
 describe "Base", ->
 
   describe "configuration", ->
