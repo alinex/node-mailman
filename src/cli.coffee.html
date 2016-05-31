@@ -49,11 +49,11 @@
       </div>
 
       <div class="heading h2">
-        <a href="#start-argument-parsing">Start argument parsing</a>
+        <a href="#error-management">Error management</a>
       </div>
 
       <div class="heading h2">
-        <a href="#error-management">Error management</a>
+        <a href="#start-argument-parsing">Start argument parsing</a>
       </div>
 
       <div class="heading h2">
@@ -125,7 +125,8 @@ fspath = <span class="hljs-built_in">require</span> <span class="hljs-string">'p
         <td class="code highlight">
           <pre class="coffeescript">config = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-config'</span>
 Exec = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-exec'</span>
-mail = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-mail'</span></pre>
+mail = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-mail'</span>
+alinex = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-core'</span></pre>
         </td>
       </tr>
     
@@ -138,11 +139,28 @@ mail = <span class="hljs-built_in">require</span> <span class="hljs-string">'ali
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">logo = <span class="hljs-built_in">require</span>(<span class="hljs-string">'alinex-core'</span>).logo <span class="hljs-string">'Email Control Manager'</span>
-mailman = <span class="hljs-built_in">require</span> <span class="hljs-string">'./index'</span>
+          <pre class="coffeescript">mailman = <span class="hljs-built_in">require</span> <span class="hljs-string">'./index'</span>
 schema = <span class="hljs-built_in">require</span> <span class="hljs-string">'./configSchema'</span>
 
-process.title = <span class="hljs-string">'MailMan'</span></pre>
+process.title = <span class="hljs-string">'MailMan'</span>
+logo = alinex.logo <span class="hljs-string">'Email Control Manager'</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="error-management">
+  <h2>
+    <a href="#error-management" name="error-management" class="pilcrow"></a>
+Error management
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">alinex.initExit()
+process.<span class="hljs-literal">on</span> <span class="hljs-string">'exit'</span>, <span class="hljs-function">-&gt;</span>
+  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"Goodbye\n"</span></pre>
         </td>
       </tr>
     
@@ -166,7 +184,7 @@ Start argument parsing
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-7" id="section-7"></a>
+  <a class="pilcrow" href="#section-8" id="section-8"></a>
 </div>
 <p>{logo}</p>
 
@@ -181,7 +199,7 @@ Start argument parsing
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-8" id="section-8"></a>
+  <a class="pilcrow" href="#section-9" id="section-9"></a>
 </div>
 <p>examples</p>
 
@@ -195,7 +213,7 @@ Start argument parsing
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-9" id="section-9"></a>
+  <a class="pilcrow" href="#section-10" id="section-10"></a>
 </div>
 <p>general options</p>
 
@@ -213,7 +231,7 @@ Start argument parsing
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-10" id="section-10"></a>
+  <a class="pilcrow" href="#section-11" id="section-11"></a>
 </div>
 <p>controller run</p>
 
@@ -228,7 +246,7 @@ Start argument parsing
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-11" id="section-11"></a>
+  <a class="pilcrow" href="#section-12" id="section-12"></a>
 </div>
 <p>daemon</p>
 
@@ -243,7 +261,7 @@ Start argument parsing
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-12" id="section-12"></a>
+  <a class="pilcrow" href="#section-13" id="section-13"></a>
 </div>
 <p>general help</p>
 
@@ -255,26 +273,10 @@ Start argument parsing
 .showHelpOnFail(<span class="hljs-literal">false</span>, <span class="hljs-string">"Specify --help for available options"</span>)
 .strict()
 .fail (err) -&gt;
-  <span class="hljs-built_in">console</span>.error <span class="hljs-string">"""
-</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13"></a>
-</div>
-<p>{logo}
-{chalk.red.bold 'CLI Parameter Failure:'} #{chalk.red err}</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">
-    <span class="hljs-string">"""
-  process.exit 1
-.argv
-</span></pre>
+  err = <span class="hljs-keyword">new</span> Error <span class="hljs-string">"CLI <span class="hljs-subst">#{err}</span>"</span>
+  err.description = <span class="hljs-string">'Specify --help for available options'</span>
+  alinex.exit <span class="hljs-number">2</span>, err
+.argv</pre>
         </td>
       </tr>
     
@@ -306,61 +308,6 @@ Start argument parsing
     
       <tr>
         <td class="docs">
-          <div class="pilwrap" id="error-management">
-  <h2>
-    <a href="#error-management" name="error-management" class="pilcrow"></a>
-Error management
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript"><span class="hljs-function"><span class="hljs-title">exit</span> = <span class="hljs-params">(code = <span class="hljs-number">0</span>, err)</span> -&gt;</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17"></a>
-</div>
-<p>exit without error</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">  process.exit code <span class="hljs-keyword">unless</span> err</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18"></a>
-</div>
-<p>exit with error</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">  <span class="hljs-built_in">console</span>.error chalk.red.bold <span class="hljs-string">"FAILED: <span class="hljs-subst">#{err.message}</span>"</span>
-  <span class="hljs-built_in">console</span>.error err.description <span class="hljs-keyword">if</span> err.description
-  process.exit code <span class="hljs-keyword">unless</span> argv.daemon
-  argv.daemon = <span class="hljs-literal">false</span>
-  setTimeout -&gt;
-    process.exit code
-  , <span class="hljs-number">2000</span>
-
-process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGINT'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">130</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGINT signal"</span>
-process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGTERM'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">143</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGTERM signal"</span>
-process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGHUP'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">129</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGHUP signal"</span>
-process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGQUIT'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">131</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGQUIT signal"</span>
-process.<span class="hljs-literal">on</span> <span class="hljs-string">'SIGABRT'</span>, <span class="hljs-function">-&gt;</span> exit <span class="hljs-number">134</span>, <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Got SIGABRT signal"</span>
-process.<span class="hljs-literal">on</span> <span class="hljs-string">'exit'</span>, <span class="hljs-function">-&gt;</span>
-  <span class="hljs-built_in">console</span>.log <span class="hljs-string">"Goodbye\n"</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
           <div class="pilwrap" id="main-routine">
   <h2>
     <a href="#main-routine" name="main-routine" class="pilcrow"></a>
@@ -378,7 +325,7 @@ Main routine
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20"></a>
+  <a class="pilcrow" href="#section-17" id="section-17"></a>
 </div>
 <p>init</p>
 
@@ -388,16 +335,16 @@ Main routine
   try: argv.<span class="hljs-keyword">try</span>
   daemon: argv.daemon
 mail.setup (err) -&gt;
-  exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
+  alinex.exit err <span class="hljs-keyword">if</span> err
   Exec.setup (err) -&gt;
-    exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err</pre>
+    alinex.exit err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>
     
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21"></a>
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
 </div>
 <p>add schema for module's configuration</p>
 
@@ -410,7 +357,7 @@ mail.setup (err) -&gt;
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-22" id="section-22"></a>
+  <a class="pilcrow" href="#section-19" id="section-19"></a>
 </div>
 <p>set module search path</p>
 
@@ -420,14 +367,14 @@ mail.setup (err) -&gt;
     mailman.init
       try: argv.<span class="hljs-keyword">try</span>
     config.init (err) -&gt;
-      exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err</pre>
+      alinex.exit err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>
     
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23"></a>
+  <a class="pilcrow" href="#section-20" id="section-20"></a>
 </div>
 <p>check mails</p>
 
@@ -437,12 +384,12 @@ mail.setup (err) -&gt;
         daemon()
       <span class="hljs-keyword">else</span>
         mailman.run (err) -&gt;
-          exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err
+          alinex.exit err <span class="hljs-keyword">if</span> err
 <span class="hljs-function">
 <span class="hljs-title">daemon</span> = -&gt;</span>
   setTimeout daemon, config.get <span class="hljs-string">'/mailman/daemon/interval'</span>
   mailman.run (err) -&gt;
-    exit <span class="hljs-number">1</span>, err <span class="hljs-keyword">if</span> err</pre>
+    alinex.exit err <span class="hljs-keyword">if</span> err</pre>
         </td>
       </tr>
     

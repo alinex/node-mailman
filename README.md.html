@@ -64,6 +64,10 @@
         <a href="#configuration">Configuration</a>
       </div>
 
+      <div class="heading h2">
+        <a href="#license">License</a>
+      </div>
+
     </div>
   </div>
   <div id="sidebar-toggle"></div>
@@ -260,34 +264,37 @@ to your command.</p>
   {{<span class="hljs-comment">#if result.stdout}}</span>
   Output of command was:
 
-  ``` text
+  ``\` text
   {{{result.stdout}}}
-</code></pre>
-<p>{{/if}}</p>
-<p>{{#if result.stderr}}
-Error output from command was:</p>
-<pre><code class="text">{{{result.stderr}}}
-</code></pre>
-<p>{{/if}}</p>
-<pre><code>
+  ``\`
+  {{/if}}
 
+  {{<span class="hljs-comment">#if result.stderr}}</span>
+  Error output from command was:
+
+  ``\` text
+  {{{result.stderr}}}
+  ``\`
+  {{/if}}
+</code></pre>
+<div class="pilwrap" id="license">
+  <h2>
+    <a href="#license" name="license" class="pilcrow"></a>
 License
--------------------------------------------------
-
-Copyright 2016 Alexander Schilling
-
-Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+  </h2>
+</div>
+<p>Copyright 2016 Alexander Schilling</p>
+<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
 you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-&gt;  &lt;http://www.apache.org/licenses/LICENSE-2.0&gt;
-
-Unless required by applicable law or agreed to in writing, software
+You may obtain a copy of the License at</p>
+<blockquote>
+<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+</blockquote>
+<p>Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
-limitations under the License.
-</code></pre>
+limitations under the License.</p>
 </div>
   </div>
 </body>
