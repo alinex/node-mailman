@@ -90,6 +90,7 @@ console.log "Initializing..."
 # init
 mailman.init
   try: argv.try
+  verbose: argv.verbose
   daemon: argv.daemon
 mail.setup (err) ->
   alinex.exit err if err
@@ -101,6 +102,7 @@ mail.setup (err) ->
     config.register 'mailman', fspath.dirname __dirname
     mailman.init
       try: argv.try
+      verbose: argv.verbose
     config.init (err) ->
       alinex.exit err if err
       # check mails

@@ -33,6 +33,7 @@ Report = require 'alinex-report'
 # be changed at any time.
 mode =
   try: false # work in try mode
+  verbose: 0 # verbose level
   daemon: false # runs in daemon mode?
 
 imap = null # imap connection
@@ -46,7 +47,7 @@ exports.init = (setup) ->
 # -------------------------------------------------
 exports.run = (cb) ->
   numJobs = 0
-  console.log "check for commands on mailbox"
+  console.log "check for commands on mailbox" if mode.verbose
   debug "connect to mailserver..."
   setup = config.get '/mailman/mailcheck'
   imap = new Imap setup
@@ -80,6 +81,7 @@ processMails = (box, cb) ->
     imap.search criteria, (err, results) ->
       return cb err if err
       count = results.length
+      console.log "found #{count} messages for #{command}" if mode.verbose
       debug "#{chalk.grey command} found #{count} messages"
       return cb() unless count
       f = imap.fetch results,
@@ -197,8 +199,9 @@ execute = (meta, command, conf, cb) ->
           code: 1
           error: err.message
       , cb
-    console.log "-> execute #{command} for #{meta.header.from} --"
-    console.log "   with", variables if variables
+    if mode.verbose > 2
+      console.log "-> execute #{command} for #{meta.header.from}"
+      console.log "   with", variables if variables
     # add variables to command
     variables ?= {}
     variables._mail =
@@ -219,7 +222,8 @@ execute = (meta, command, conf, cb) ->
       return cb() unless conf.email
       return cb() unless not conf.emailOnlyOnError or exec.result.code
       # send email
-      console.log chalk.grey '   sending mail response'
+      if mode.verbose > 1
+        console.log chalk.grey "sending mail for #{command} of #{meta.header.from}"
       context =
         name: command
         conf: conf

@@ -55,6 +55,12 @@ After the mailman is configured you can start it once using:
 This will run the manager one time, check the emails run all required commands,
 send the replies like configured and finish.
 
+The service may run with multiple verbose levels:
+
+- '-v' - to only show each run and numer of calls per job
+- '-vv' - to display if email is send
+- '-vvv' - to display what is called (with variables)
+
 If the service is running you may also request the online help by sending
 `subject: help me` to it's email address.
 
