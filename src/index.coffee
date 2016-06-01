@@ -217,7 +217,7 @@ execute = (meta, command, conf, cb) ->
     Exec.run setup, (err, exec) ->
       # check if email should be send
       return cb() unless conf.email
-      return cb() unless not conf.email.onlyOnError or exec.result.code
+      return cb() unless not conf.emailOnlyOnError or exec.result.code
       # send email
       console.log chalk.grey '   sending mail response'
       context =

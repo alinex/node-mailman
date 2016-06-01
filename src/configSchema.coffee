@@ -66,6 +66,11 @@ command =
           entries:
             type: 'handlebars'
      email: email
+     emailOnlyOnError:
+       title: "Email only on Error"
+       description: "the flag to send email only on error"
+       type: 'boolean'
+
 
 # Complete Schema Definition
 # -------------------------------------------------

@@ -73,9 +73,9 @@ email:
 
       PID {{process.host}}#{{process.pid}}
 
-      {{#if result.code}}
+      {{#if result.error}}
       ::: alert
-      Code {{result.code}} {{result.error}}
+      **{{{result.error}}}**
       :::
       {{/if}}
 

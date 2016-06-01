@@ -147,6 +147,8 @@ command:
     email:
       # use the template
       base: default
+    # send an email only on error
+    emailOnlyOnError: true
 ```
 
 Within the `args` you may use specific parameters given in mail body (but use them
@@ -195,17 +197,17 @@ default:
   {{#if result.stdout}}
   Output of command was:
 
-  ``` text
+  `` ` text
   {{{result.stdout}}}
-  ```
+  `` `
   {{/if}}
 
   {{#if result.stderr}}
   Error output from command was:
 
-  ``` text
+  `` ` text
   {{{result.stderr}}}
-  ```
+  `` `
   {{/if}}
 ```
 
