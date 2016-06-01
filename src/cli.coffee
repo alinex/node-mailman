@@ -61,6 +61,7 @@ yargs
     type: 'boolean'
     global: true
 # general help
+.help 'help'
 .updateStrings
   'Options:': 'General Options:'
 .epilogue """
