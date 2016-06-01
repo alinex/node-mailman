@@ -29,40 +29,53 @@ process.on 'exit', ->
 
 # Start argument parsing
 # -------------------------------------------------
-argv = yargs
-.usage("""
-  #{logo}
-  Usage: $0 [-vCcltd]
-  """)
+yargs
+.usage "\nUsage: $0 [options]"
+.env 'MAILMAN' # use environment arguments prefixed with SCRIPTER_
 # examples
 .example('$0', 'to simply run the manager once')
-.example('$0 -d -C >/dev/null', 'run continuously as a daemon')
+.example('$0 -d -C -v 2>&1 >/var/log/mailman.log', 'run continuously as a daemon')
 # general options
-.alias('C', 'nocolors')
-.describe('C', 'turn of color output')
-.boolean('C')
-.alias('v', 'verbose')
-.describe('v', 'run in verbose mode (multiple makes more verbose)')
-.count('verbose')
-# controller run
-.alias('t', 'try')
-.describe('t', 'try run which wont change the emails')
-.boolean('t')
-# daemon
-.alias('d', 'daemon')
-.describe('d', 'run as a daemon')
-.boolean('d')
+.options
+  help:
+    alias: 'h',
+    description: 'display help message'
+  nocolors:
+    alias: 'C'
+    describe: 'turn of color output'
+    type: 'boolean'
+    global: true
+  verbose:
+    alias: 'v'
+    describe: 'run in verbose mode (multiple makes more verbose)'
+    count: true
+    global: true
+  try:
+    alias: 't'
+    describe: "try run which wont change the request emails"
+    type: 'boolean'
+    global: true
+  daemon:
+    alias: 't'
+    describe: "run as a daemon"
+    type: 'boolean'
+    global: true
 # general help
-.help('h')
-.alias('h', 'help')
-.epilogue("For more information, look into the man page.")
-.showHelpOnFail(false, "Specify --help for available options")
+.updateStrings
+  'Options:': 'General Options:'
+.epilogue """
+  You may use environment variables prefixed with 'MAILMAN_' to set any of
+  the options like 'MAILMAN_VERBOSE' to set the verbose level.
+
+  For more information, look into the man page.
+  """
+# validation
 .strict()
 .fail (err) ->
   err = new Error "CLI #{err}"
   err.description = 'Specify --help for available options'
   alinex.exit 2, err
-.argv
+argv = yargs.argv
 # parse data
 argv.json = JSON.parse argv.json if argv.json
 # implement some global switches

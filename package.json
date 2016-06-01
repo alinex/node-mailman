@@ -41,10 +41,10 @@
   },
   "dependencies": {
     "alinex-config": "^1.1.4",
-    "alinex-core": "^0.2.5",
+    "alinex-core": "^0.2.6",
     "alinex-exec": "^1.1.3",
     "alinex-mail": "^1.1.1",
-    "alinex-report": "^1.4.0",
+    "alinex-report": "^1.4.1",
     "alinex-util": "^2.2.0",
     "alinex-validator": "^1.6.4",
     "async": "^2.0.0-rc.5",
@@ -58,7 +58,7 @@
     "yargs": "^4.7.1"
   },
   "devDependencies": {
-    "alinex-builder": "^2.1.2"
+    "alinex-builder": "^2.1.4"
   },
   "optionalDependencies": {},
   "engines": {
