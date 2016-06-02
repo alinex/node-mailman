@@ -20,6 +20,7 @@ util = require 'alinex-util'
 mail = require 'alinex-mail'
 validator = require 'alinex-validator'
 Report = require 'alinex-report'
+formatter = require 'alinex-formatter'
 # include classes and helpers
 
 
@@ -135,32 +136,19 @@ bodyVariables = (conf, body, cb) ->
     break unless l.trim()
     lines.push l
   # parse ini format
-  ini = require 'ini'
-  try
-    obj = ini.decode lines.join '\n'
-  catch error
-    return cb new Error "ini parser: #{error.message}"
-  # detect failed parsing
-  if not obj?
-    return cb new Error "ini parser: could not parse any result"
-  if obj['{']
-    return cb new Error "ini parser: Unexpected token { at start"
-  for k, v of obj
-    if v is true and k.match /:/
-      return cb new Error "ini parser: Unexpected key name containing
-      ':' with value true"
-  # validate variables
-#  obj = object.lcKeys obj
-  delete obj[key] unless conf.variables[key] for key of obj
-  validator.check
-    name: 'emailBody'
-    value: obj
-    schema:
-      type: 'object'
-      allowedKeys: true
-      mandatoryKeys: true
-      keys: conf.variables
-  , cb
+  formatter.parse lines.join('\n'), 'ini', (err, obj) ->
+    return cb err if err
+    # obj = object.lcKeys obj
+    delete obj[key] unless conf.variables[key] for key of obj
+    validator.check
+      name: 'emailBody'
+      value: obj
+      schema:
+        type: 'object'
+        allowedKeys: true
+        mandatoryKeys: true
+        keys: conf.variables
+    , cb
 
 execute = (meta, command, conf, cb) ->
   if command is 'help'
