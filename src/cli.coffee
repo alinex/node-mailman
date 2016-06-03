@@ -110,6 +110,7 @@ mail.setup (err) ->
         console.log "Run as daemon!"
         daemon()
       else
+        console.log "Run once..."
         mailman.run (err) ->
           alinex.exit err if err
 

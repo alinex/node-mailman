@@ -211,7 +211,7 @@ execute = (meta, command, conf, cb) ->
       return cb() unless not conf.emailOnlyOnError or exec.result.code
       # send email
       if mode.verbose > 1
-        console.log chalk.grey "sending mail for #{command} of #{meta.header.from}"
+        console.log chalk.grey "sending mail for #{command} to #{meta.header.from}"
       context =
         name: command
         conf: conf
