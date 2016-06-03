@@ -4,6 +4,28 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.3.0 (2016-06-03)
+-------------------------------------------------
+Allow attachments and changed handlebars syntax.
+
+- Upgraded mail package and optimized verbose output.
+- Fix daemon mode to only run if set via cli call.
+- Upgraded validator, mail, config, mailparser and builder packages.
+- Use formatter for ini parsing.
+- Allow multiple verbose settings.
+- Reenable help screen.
+- Upgrade core, report and builder packages.
+- Possibility to send email only on errors by configuration.
+- Use alinex error handling.
+- Upgraded validator to newest bugfix release for deep schema.
+- Upgraded config, exec, report, util, async, debug and yargs packages.
+- Upgrade to async 2.0 syntax.
+- Upgrade to expand and clone to new util package methods.
+- Upgraded alinex packages and yargs.
+- Added v6 for travis but didn't activate, yet.
+- Upgraded config, mail, util, validator, i18n, imap, yargs.
+- Add '=' as separator in variable help.
+
 Version 1.2.0 (2016-04-08)
 -------------------------------------------------
 - New version containing support for more mail origin options.
