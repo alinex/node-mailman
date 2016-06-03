@@ -82,7 +82,7 @@ processMails = (box, cb) ->
     imap.search criteria, (err, results) ->
       return cb err if err
       count = results.length
-      console.log "found #{count} messages for #{command}" if mode.verbose and count
+      console.log "found #{count} messages for command #{command}" if mode.verbose and count
       debug "#{chalk.grey command} found #{count} messages"
       return cb() unless count
       f = imap.fetch results,

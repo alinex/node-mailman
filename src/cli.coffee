@@ -56,7 +56,7 @@ yargs
     type: 'boolean'
     global: true
   daemon:
-    alias: 't'
+    alias: 'd'
     describe: "run as a daemon"
     type: 'boolean'
     global: true
@@ -107,6 +107,7 @@ mail.setup (err) ->
       alinex.exit err if err
       # check mails
       if argv.daemon
+        console.log "Run as daemon!"
         daemon()
       else
         mailman.run (err) ->
