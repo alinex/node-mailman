@@ -39,9 +39,10 @@
 	"interval": "Zeitdauer",
 	"date": "Zeit",
 	"percent": "Prozentwert",
-	"use '%s' as delimiter": "Benutze '%s' als Trenner der Elemente",
+	"use '%s' as delimiter": "Benutze %s als Trenner der Elemente",
 	"final": {
 		"head": "Weitere Hilfe",
 		"text": "Sollte es Probleme geben oder etwas unklar sein, so sende deine Fragen als Antwort zu dieser Email."
-	}
+	},
+	"use %s as delimiter": "use %s as delimiter"
 }

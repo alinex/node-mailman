@@ -310,14 +310,22 @@ help = (meta, conf, cb) ->
           if match = del.match /^\/(.*)\/([gim]+)?$/
             del = match[1].replace /\\[srt ]\*/g, ''
             .replace /\\t/g, '\t'
-            .replace /\\s\+?/g, ' '
+            .replace /\\s/g, '[ \t\r\n]'
             .replace /^\[(.*?)\]$/g, (_, r) ->
-              "#{r.split('').join '\', \''}"
+              r.split('').map (e) ->
+                switch e
+                  when ' ' then 'SPACE'
+                  when '\t' then 'TAB'
+                  else "'#{e}'"
+              .join ', '
             .replace /^\((.*?)\)$/g, (_, r) ->
-              "#{r.split('|').join '\', \''}"
-            .replace /\t\+?/g, 'TAB'
-            .replace /\s\+?/g, 'SPACE'
-          msg += " (" + i18n.__("use '%s' as delimiter", del) + ")"
+              r.split('').map (e) ->
+                switch e
+                  when ' ' then 'SPACE'
+                  when '\t' then 'TAB'
+                  else "'#{e}'"
+              .join ', '
+          msg += " (" + i18n.__("use %s as delimiter", del) + ")"
         msg
   report.h2 i18n.__ "final.head:Further Help"
   report.p i18n.__ "final.text:If something goes wrong or you need further help

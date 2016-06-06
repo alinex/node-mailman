@@ -39,7 +39,7 @@
 	"interval": "interval",
 	"date": "date",
 	"percent": "percent",
-	"use '%s' as delimiter": "use '%s' as delimiter",
+	"use '%s' as delimiter": "use %s as delimiter",
 	"final": {
 		"head": "Further Help",
 		"text": "If something goes wrong or you need further help send an email as reply to this."
