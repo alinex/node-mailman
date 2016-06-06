@@ -58,7 +58,7 @@
     "yargs": "^4.7.1"
   },
   "devDependencies": {
-    "alinex-builder": "^2.1.6"
+    "alinex-builder": "^2.1.7"
   },
   "optionalDependencies": {},
   "engines": {
