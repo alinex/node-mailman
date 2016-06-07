@@ -65,6 +65,14 @@ command =
           toArray: true
           entries:
             type: 'handlebars'
+        env:
+          title: "Environment Settings"
+          description: "the environment settings"
+          type: 'object'
+        cwd:
+          title: "Working Directory"
+          description: "the directory in which to start the process"
+          type: 'string'
      email: email
      emailOnlyOnError:
        title: "Email only on Error"

@@ -20,7 +20,7 @@ util = require 'alinex-util'
 mail = require 'alinex-mail'
 validator = require 'alinex-validator'
 Report = require 'alinex-report'
-formatter = require 'alinex-formatter'
+format = require 'alinex-format'
 # include classes and helpers
 
 
@@ -136,7 +136,7 @@ bodyVariables = (conf, body, cb) ->
     break unless l.trim()
     lines.push l
   # parse ini format
-  formatter.parse lines.join('\n'), 'ini', (err, obj) ->
+  format.parse lines.join('\n'), 'ini', (err, obj) ->
     return cb err if err
     # obj = object.lcKeys obj
     delete obj[key] unless conf.variables[key] for key of obj

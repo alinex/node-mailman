@@ -43,7 +43,7 @@
     "alinex-config": "^1.1.6",
     "alinex-core": "^0.2.6",
     "alinex-exec": "^1.1.3",
-    "alinex-formatter": "^1.1.0",
+    "alinex-format": "^1.1.0",
     "alinex-mail": "^1.2.4",
     "alinex-report": "^1.4.1",
     "alinex-util": "^2.2.0",
