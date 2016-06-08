@@ -204,6 +204,13 @@ execute = (meta, command, conf, cb) ->
       remote: conf.exec.remote
       cmd: conf.exec.cmd
       args: conf.exec.args.map (e) -> e variables
+      env: if conf.exec.env?
+        util.extend
+          LOGO: process.env.LOGO
+        , conf.exec.env
+      else
+        process.env
+      cwd: conf.exec.cwd
   #    priority: 'immediately'
     Exec.run setup, (err, exec) ->
       # check if email should be send
