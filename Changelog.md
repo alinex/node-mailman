@@ -4,6 +4,11 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.3.3 (2016-06-09)
+-------------------------------------------------
+- Upgraded validator and builder packages.
+- Transfer complete environment by default to executed script.
+
 Version 1.3.2 (2016-06-07)
 -------------------------------------------------
 - Allow env and cwd settings for execution.
