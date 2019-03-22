@@ -100,6 +100,7 @@ processMails = (box, cb) ->
           , command, setup, (err) ->
             return cb err if err
             count--
+            return cb() unless count
 #        attrs = null
         msg.on 'body', (stream) ->
           stream.on 'data', (chunk) ->
