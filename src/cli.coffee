@@ -112,7 +112,9 @@ mail.setup (err) ->
       else
         console.log "Run once..."
         mailman.run (err) ->
+          console.log 6666666
           alinex.exit err if err
+          alinex.exit 0
 
 daemon = ->
   setTimeout daemon, config.get '/mailman/daemon/interval'

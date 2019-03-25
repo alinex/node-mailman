@@ -100,7 +100,6 @@ processMails = (box, cb) ->
           , command, setup, (err) ->
             return cb err if err
             count--
-            return cb() unless count
 #        attrs = null
         msg.on 'body', (stream) ->
           stream.on 'data', (chunk) ->
@@ -204,7 +203,7 @@ execute = (meta, command, conf, cb) ->
     setup =
       remote: conf.exec.remote
       cmd: conf.exec.cmd
-      args: conf.exec.args.map (e) -> e variables
+      args: conf.exec.args?.map (e) -> e variables
       env: if conf.exec.env?
         util.extend
           LOGO: process.env.LOGO
